@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 const CardDistribution = () => {
   const cardsRef = useRef([]);
   const containerRef = useRef(null);
-  const [cardsPerRow, setCardsPerRow] = useState(5); // Valeur par défaut
+  const [cardsPerRow, setCardsPerRow] = useState(5);
 
   useEffect(() => {
     // Met à jour le nombre de cartes par ligne selon la largeur du conteneur

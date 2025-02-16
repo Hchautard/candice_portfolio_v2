@@ -1,9 +1,14 @@
-import Button from "../components/Button"
 import "../styles/Home.css"
+import { motion } from "framer-motion";
 
 function Home() {
   return (
-    <div className="Home">
+    <motion.div 
+      className="Home bg-red-500"
+      initial={{ width: 0 }}
+      animate={{ width: "100%" }}
+      exit={{ x: window.innerWidth }}
+    >
       {/* <img src="https://images.unsplash.com/photo-1521308452854-e037c0062a1e?q=80&w=1933&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" class="absolute inset-0 -z-10 size-full object-cover object-right md:object-center"></img> */}
 
       <div className="mx-auto mx-20">
@@ -31,7 +36,7 @@ function Home() {
 
       
 
-    </div>
+    </motion.div>
   );
 }
 
