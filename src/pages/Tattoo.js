@@ -1,8 +1,10 @@
-
+import CardDistribution from "./CardDistribution";
 function Tattoo() {
     return (
       <div className="Tattoo">
-          <h1>Tattoo</h1>
+          <div className="container-tattoo">
+            <CardDistribution />
+          </div>
       </div>
     );
   }
