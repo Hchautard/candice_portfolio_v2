@@ -100,8 +100,14 @@ export const CardItem = ({
   const handleAnimations = () => {
     if (!ref.current) return;
     if (isMouseEntered) {
+      // Remove the hidden class
+      ref.current.classList.remove("hidden");
       ref.current.style.transform = `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
     } else {
+      // Add the hidden class if the child is not an image
+      if (ref.current && ref.current.children.length == 0) {
+        ref.current.classList.add("hidden");
+      }
       ref.current.style.transform = `translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`;
     }
   };
