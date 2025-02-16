@@ -7,6 +7,12 @@ export default function Header() {
             <nav className="navbar navbar-expand-lg">
                 <div className="flex justify-center items-center gap-x-4 text-align-center">
                     <a
+                        href="/"
+                        className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                    >
+                        Accueil
+                    </a>
+                    <a
                         href="/contact"
                         className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                     >
