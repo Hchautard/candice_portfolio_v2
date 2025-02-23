@@ -5,13 +5,17 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/material": "^6.4.4",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@mui/icons-material": "^6.4.5",
+    "@mui/material": "^6.4.5",
     "clsx": "^2.1.1",
     "cra-template": "1.2.0",
+    "font-awesome": "^4.7.0",
     "gsap": "^3.12.7",
     "motion": "^12.4.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
     "react-scripts": "^5.0.1",
     "tailwind-merge": "^3.0.1"
   },
