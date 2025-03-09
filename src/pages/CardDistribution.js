@@ -35,6 +35,25 @@ const CardDistribution = () => {
     });
   }, [cardsPerRow]); // Met à jour l'animation si le nombre de cartes par ligne change
 
+  const flipCard = (index) => {
+
+    if (cardsRef.current[index].flipped) {
+      gsap.to(cardsRef.current[index], {
+        rotationY: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    } else {
+      gsap.to(cardsRef.current[index], {
+        rotationY: 180,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    }
+
+    cardsRef.current[index].flipped = !cardsRef.current[index].flipped;
+  }
+
   return (
     <div ref={containerRef} className="relative w-full h-auto p-4">
       {[...Array(20)].map((_, i) => (
@@ -42,6 +61,8 @@ const CardDistribution = () => {
           key={i}
           ref={(el) => (cardsRef.current[i] = el)}
           className="absolute w-64 h-80 bg-red-500 rounded-lg shadow-lg"
+          onClick={() => flipCard(i)}
+          flipped = {false}
         />
       ))}
     </div>
