@@ -1,4 +1,4 @@
-import { ThreeDCardDemo } from "../components/ThreeDCard";
+import { CardGrid } from "../components/CardGrid";
 import { motion } from "framer-motion";
 
 function Makeup() {
@@ -21,59 +21,7 @@ function Makeup() {
           </div>
 
           <div className="mx-auto  h-auto">
-            <div className="grid grid-cols-3 gap-2 ">
-
-              {/* 1 row */}
-              <div className="h-70">
-                <ThreeDCardDemo />
-              </div>
-              <div className="h-70 ">
-                <ThreeDCardDemo width="10" />
-              </div>
-              <div className="h-70 ">
-                <ThreeDCardDemo />
-              </div>
-
-              {/* 2 row */}
-              <div className="h-70 col-span-2 ">
-                <ThreeDCardDemo />
-              </div>
-              <div className="h-70 ">
-                {/* <ThreeDCardDemo /> */}
-              </div>
-
-              {/* 3 row */}
-              <div className="h-70 ">
-                <ThreeDCardDemo />
-              </div>
-              <div className="h-70 ">
-                <ThreeDCardDemo />
-              </div>
-              <div className="h-70 ">
-                <ThreeDCardDemo />
-              </div>
-
-              {/* 4 row */}
-              <div className="h-70 ">
-                <ThreeDCardDemo />
-              </div>
-              <div className="h-70 col-span-2 ">
-                {/* <ThreeDCardDemo /> */}
-              </div>
-
-              {/* 5 row */}
-              <div className="h-70 ">
-                <ThreeDCardDemo />
-              </div>
-              <div className="h-70 ">
-                <ThreeDCardDemo />
-              </div>
-              <div className="h-70 ">
-                <ThreeDCardDemo />
-              </div>
-              
-            
-            </div>
+            <CardGrid />
           </div>
         
           <div className="mt-20">
