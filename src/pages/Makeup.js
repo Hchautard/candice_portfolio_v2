@@ -23,10 +23,7 @@ function Makeup() {
           <div className="mx-auto  h-auto">
             <CardGrid />
           </div>
-        
-          <div className="mt-20">
-            FOOTER
-          </div>
+      
         </div>
       </motion.div>
     );

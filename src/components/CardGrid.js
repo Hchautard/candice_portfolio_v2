@@ -28,7 +28,24 @@ export function CardGrid() {
         <ThreeDCardDemo />
         <ThreeDCardDemo />
         <ThreeDCardDemo />
+      </div> 
+
+      {/* Fourd row -  1 card in the first column, 1 card spanning 2 column */}
+      <div className="grid grid-cols-3 gap-4 mb-4">
+        <div className="col-span-1">
+          <ThreeDCardDemo  />
+        </div>
+        <div className="col-span-2">
+          <ThreeDCardDemo width="full"/>
+        </div>
       </div>
+
+      {/* Fifth row - 3 equal cards */}
+      <div className="grid grid-cols-3 gap-4">
+        <ThreeDCardDemo />
+        <ThreeDCardDemo />
+        <ThreeDCardDemo />
+      </div> 
     </div>
   );
 }
