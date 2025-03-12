@@ -1,8 +1,65 @@
+body {
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 .Home {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Animation de préchargement pour l'effet d'encre */
+@keyframes inkReveal {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.Home::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/images/bg_tattoo.avif);
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+    
+    /* Appliquer le masque avec animation */
+    mask-image: url(../assets/images/ink_lv2.gif);
+    mask-size: cover;
+    mask-position: center;
+    animation: inkReveal 0.8s ease-in-out;
+}
+
+.banner {
     display: flex;
     flex-direction: column;
-    align-items: left;
     justify-content: center;
-    height: 95vh;
-    background-image: url('https://images.unsplash.com/photo-1521308452854-e037c0062a1e?q=80&w=1933&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.content-container {
+    width: 100%;
+    z-index: 1;
+}
+
+header, nav {
+    position: relative;
+    z-index: 1;
 }

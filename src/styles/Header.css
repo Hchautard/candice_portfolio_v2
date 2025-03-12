@@ -4,3 +4,14 @@
     left: 0;
     right: 0;
 }
+
+a {
+    color: #f0f0f0;
+    text-decoration: none;
+    transition: 0.5s;
+}
+
+a:hover {
+    color: #f0f0f0;
+    transition: 0.5s;
+}
