@@ -1,4 +1,6 @@
+import "../styles/Tattoo.css"
 import CardDistribution from "./CardDistribution";
+
 function Tattoo() {
     return (
       <div className="Tattoo">

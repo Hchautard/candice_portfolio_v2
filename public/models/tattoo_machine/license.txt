@@ -1,0 +1,11 @@
+Model Information:
+* title:	Tattoo machine
+* source:	https://sketchfab.com/3d-models/tattoo-machine-1a9ea4720b114946a8660d55d8bd1584
+* author:	sayshong (https://sketchfab.com/sayshong)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Tattoo machine" (https://sketchfab.com/3d-models/tattoo-machine-1a9ea4720b114946a8660d55d8bd1584) by sayshong (https://sketchfab.com/sayshong) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

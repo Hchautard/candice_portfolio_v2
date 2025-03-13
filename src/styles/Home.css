@@ -1,5 +1,5 @@
 body {
-    background-color: #000;
+    /* background-color: #000; */
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -12,7 +12,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Animation de préchargement pour l'effet d'encre */
 @keyframes inkReveal {
     0% {
         opacity: 0;
@@ -31,12 +30,11 @@ body {
     bottom: 0;
     width: 100%;
     height: 100%;
-    background-image: url(../assets/images/bg_tattoo.avif);
+    background-image: url(../assets/images/tattoo_mockup.jpg);
     background-size: cover;
     background-position: center;
     z-index: -2;
     
-    /* Appliquer le masque avec animation */
     mask-image: url(../assets/images/ink_lv2.gif);
     mask-size: cover;
     mask-position: center;
@@ -57,9 +55,29 @@ body {
 .content-container {
     width: 100%;
     z-index: 1;
+    display: flex;
+    justify-content: flex-start; /* Aligne le contenu à gauche */
+}
+
+.text-container {
+    max-width: 800px;
+    margin-left: 5%; /* Ajoute une marge à gauche */
+    text-align: left; /* Assure que le texte est aligné à gauche */
+}
+
+h2, p {
+    text-align: left;
 }
 
 header, nav {
+    position: relative;
+    z-index: 1;
+}
+
+.model-container {
+    width: 100%;
+    height: 70vh;
+    margin-bottom: 100px;
     position: relative;
     z-index: 1;
 }

@@ -1,16 +1,45 @@
-import "../styles/Home.css"
+import "../styles/Home.css";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
+
+function TattooMachineModel() {
+  const modelRef = useRef();
+  const { scene } = useGLTF("/models/tattoo_machine/scene.gltf");
+  
+  // Animation for floating effect with 45-degree angle
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    
+    // Subtle vertical movement
+    modelRef.current.position.y = Math.sin(t * 0.4) * 0.1 + 1;
+    
+    // Subtle rotation around the angled axis
+    const wobbleAmount = 0.05;
+    // modelRef.current.rotation.y = Math.PI/4 + Math.sin(t * 0.3) * wobbleAmount;
+    modelRef.current.rotation.x = Math.sin(t * 0.1) * wobbleAmount;
+  });
+
+  // Initial position with 45-degree rotation on z-axis (PI/4 radians)
+  return (
+    <primitive 
+      ref={modelRef} 
+      object={scene} 
+      scale={0.5} 
+      position={[0, 0, 0]} 
+      rotation={[0, Math.PI/4, Math.PI/2]} 
+    />
+  );
+}
 
 function Home() {
   const [contentLoaded, setContentLoaded] = useState(false);
 
-  // Simuler le temps de chargement de l'effet d'encre
   useEffect(() => {
-    // Attendre que l'effet d'encre soit chargé avant d'afficher le contenu
     const timer = setTimeout(() => {
       setContentLoaded(true);
-    }, 800); // Ajuster ce délai selon le temps nécessaire pour que l'effet d'encre apparaisse
+    }, 800);
     
     return () => clearTimeout(timer);
   }, []);
@@ -29,25 +58,45 @@ function Home() {
             className="content-container"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 5 }}
+            transition={{ duration: 0.5, delay: 0 }}
           >
-            <div className="mx-auto max-w-5xl w-full">
-              <h2 className="text-5xl font-semibold tracking-tight sm:text-7xl">Bienvenue chez l'anomalie</h2>
-            
-              <p className="mt-8 font-medium text-pretty sm:text-xl/8">
-                Anim aute id magna aliqua ad ad non deserunt sunt. 
-                Qui irure qui lorem cupidatat commodo. 
-                Elit sunt amet fugiat veniam occaecat fugiat.
-                Anim aute id magna aliqua ad ad non deserunt sunt. 
-                Qui irure qui lorem cupidatat commodo. 
-                Elit sunt amet fugiat veniam occaecat fugiat.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-10 mt-8 mx-auto max-w-5xl w-full">
-              <a href="/tattoo" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tattoo</a>
-              <a href="/makeup" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Makeup</a>
-              <a href="/contact" className="font-bold py-2 px-4 rounded">Contact<span aria-hidden="true">&rarr;</span></a>
+            <div className="flex flex-col md:flex-row items-center">
+              <div className="text-container md:w-1/2 pr-8">
+                <h2 className="text-5xl font-semibold tracking-tight sm:text-7xl">Bienvenue chez l'anomalie</h2>
+              
+                <p className="mt-8 font-medium text-pretty sm:text-xl/8">
+                  Anim aute id magna aliqua ad ad non deserunt sunt. 
+                  Qui irure qui lorem cupidatat commodo. 
+                  Elit sunt amet fugiat veniam occaecat fugiat.
+                  Anim aute id magna aliqua ad ad non deserunt sunt. 
+                  Qui irure qui lorem cupidatat commodo. 
+                  Elit sunt amet fugiat veniam occaecat fugiat.
+                </p>
+                
+                <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-10 mt-8">
+                  <a href="/tattoo" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tattoo</a>
+                  <a href="/makeup" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Makeup</a>
+                  <a href="/contact" className="font-bold py-2 px-4 rounded">Contact<span aria-hidden="true">&rarr;</span></a>
+                </div>
+              </div>
+              
+              <div className="model-container md:w-1/2">
+                <Canvas camera={{ position: [5, 0, 5], fov: 50 }}>
+                  <ambientLight intensity={0.6} />
+                  <spotLight position={[5, 5, 5]} angle={0.15} penumbra={1} intensity={1} />
+                  <pointLight position={[-5, -5, -5]} intensity={0.5} />
+                  <Suspense fallback={null}>
+                    <TattooMachineModel />
+                    <Environment preset="studio" />
+                    <OrbitControls 
+                      enableZoom={false} 
+                      enablePan={false}
+                      enableRotate={true}
+                      autoRotate={false}
+                    />
+                  </Suspense>
+                </Canvas>
+              </div>
             </div>
           </motion.div>
         )}
