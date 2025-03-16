@@ -8,8 +8,8 @@ function ContactForm() {
         animate={{ width: "100%" }}
         exit={{ x: window.innerWidth }}
     >
-    <section className="bg-white dark:bg-gray-900 py-16 lg:py-24">
-        <div className="flex flex-row py-8 lg:py-16 px-4 mx-auto max-w-7xl">
+    <section className="dark:bg-gray-900 h-auto">
+        <div className="flex flex-row lg:py-16 px-4 mx-auto max-w-7xl">
 
             <div className="flex flex-col justify-start w-full lg:w-1/2"> 
                 <div className="flex flex-col justify-start"> 
