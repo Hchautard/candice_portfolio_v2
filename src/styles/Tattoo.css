@@ -1,8 +1,5 @@
-.Tattoo {
-    /* background-image: url(../assets/images/poker_desk_texture.jpg);
+body.tattoo-page {
+    background-image: url('../assets/images/cards.jpg');
     background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    min-height: 100vh; */
+    min-height: 100vh;
 }

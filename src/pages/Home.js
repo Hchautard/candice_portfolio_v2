@@ -58,11 +58,11 @@ function Home() {
             className="content-container"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0 }}
+            transition={{ duration: 0.5, delay: 5 }}
           >
             <div className="flex flex-col md:flex-row items-center">
-              <div className="text-container md:w-1/2 pr-8">
-                <h2 className="text-5xl font-semibold tracking-tight sm:text-7xl">Bienvenue chez l'anomalie</h2>
+              <div className="text-container ">
+                <h2 className="tracking-tight">Bienvenue chez l'anomalie</h2>
               
                 <p className="mt-8 font-medium text-pretty sm:text-xl/8">
                   Anim aute id magna aliqua ad ad non deserunt sunt. 
@@ -97,6 +97,7 @@ function Home() {
                   </Suspense>
                 </Canvas>
               </div>
+              
             </div>
           </motion.div>
         )}

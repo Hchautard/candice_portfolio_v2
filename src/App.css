@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+* {
+  font-family: Coolvetica_Regular;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Style for your header/navigation */
+.header, nav {
+  position: relative; /* Ensure it's above the Tattoo background */
+  z-index: 10;
+  width: 100%;
+  background: transparent; /* Make header background transparent */
+}
+
+@font-face {
+  font-family: 'Alice_Wonderland';
+  src: url('../src/assets/fonts/alice_in_wonderland/Alice_in_Wonderland_3.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Alice_Wonderland_2';
+  src: url('../src/assets/fonts/alice_in_wonderland_2/Alice_in_Wonderland.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Coolvetica_Regular';
+  src: url('../src/assets/fonts/coolvetica/Coolvetica_Rg.otf') format('opentype');
+}

@@ -5,6 +5,7 @@ const CardDistribution = () => {
   const cardsRef = useRef([]);
   const containerRef = useRef(null);
   const [cardsPerRow, setCardsPerRow] = useState(5);
+  const [containerHeight, setContainerHeight] = useState(0);
 
   useEffect(() => {
     // Met à jour le nombre de cartes par ligne selon la largeur du conteneur
@@ -21,6 +22,8 @@ const CardDistribution = () => {
   }, []);
 
   useEffect(() => {
+    let maxHeight = 0;
+    
     cardsRef.current.forEach((card, index) => {
       const row = Math.floor(index / cardsPerRow);
       const col = index % cardsPerRow;
@@ -32,11 +35,20 @@ const CardDistribution = () => {
         duration: 0.5 + index * 0.05,
         ease: "power2.out",
       });
+      
+      // Calculate the maximum height needed for the container
+      const cardBottom = (row + 1) * 340 + 80; // Add card height (80px) to position
+      if (cardBottom > maxHeight) {
+        maxHeight = cardBottom;
+      }
     });
+    
+    // Update container height
+    setContainerHeight(maxHeight);
+    
   }, [cardsPerRow]); // Met à jour l'animation si le nombre de cartes par ligne change
 
   const flipCard = (index) => {
-
     if (cardsRef.current[index].flipped) {
       gsap.to(cardsRef.current[index], {
         rotationY: 0,
@@ -55,14 +67,18 @@ const CardDistribution = () => {
   }
 
   return (
-    <div ref={containerRef} className="relative w-full h-auto p-4">
+    <div 
+      ref={containerRef} 
+      className="relative w-full p-4"
+      style={{ height: `${containerHeight}px` }}
+    >
       {[...Array(20)].map((_, i) => (
         <div
           key={i}
           ref={(el) => (cardsRef.current[i] = el)}
-          className="absolute w-64 h-80 bg-red-500 rounded-lg shadow-lg"
+          className="absolute w-64 h-80 bg-red-500 rounded-lg shadow-lg cursor-pointer"
           onClick={() => flipCard(i)}
-          flipped = {false}
+          flipped={false}
         />
       ))}
     </div>

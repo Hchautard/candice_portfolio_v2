@@ -1,15 +1,19 @@
-body {
-    /* background-color: #000; */
+/* body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-}
+} */
 
 .Home {
     position: relative;
     min-height: 100vh;
     width: 100%;
     overflow-x: hidden;
+}
+
+h2 {
+    font-size: 5rem;
+    font-family: "Alice_Wonderland_2";
 }
 
 @keyframes inkReveal {
@@ -60,7 +64,7 @@ body {
 }
 
 .text-container {
-    max-width: 800px;
+    max-width: 45%;
     margin-left: 5%; /* Ajoute une marge à gauche */
     text-align: left; /* Assure que le texte est aligné à gauche */
 }
@@ -69,13 +73,13 @@ h2, p {
     text-align: left;
 }
 
-header, nav {
+/* header, nav {
     position: relative;
     z-index: 1;
-}
+} */
 
 .model-container {
-    width: 100%;
+    width: 55%;
     height: 70vh;
     margin-bottom: 100px;
     position: relative;
