@@ -64,7 +64,7 @@ function Home() {
               <div className="text-container ">
                 <h2 className="tracking-tight">Bienvenue chez l'anomalie</h2>
               
-                <p className="mt-8 font-medium text-pretty sm:text-xl/8">
+                <p className="text mt-8 font-medium text-pretty sm:text-xl/8">
                   Anim aute id magna aliqua ad ad non deserunt sunt. 
                   Qui irure qui lorem cupidatat commodo. 
                   Elit sunt amet fugiat veniam occaecat fugiat.
@@ -74,9 +74,9 @@ function Home() {
                 </p>
                 
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-10 mt-8">
-                  <a href="/tattoo" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Tattoo</a>
-                  <a href="/makeup" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Makeup</a>
-                  <a href="/contact" className="font-bold py-2 px-4 rounded">Contact<span aria-hidden="true">&rarr;</span></a>
+                  <a href="/tattoo" className="button text-white py-2 px-4 rounded">Tattoo</a>
+                  <a href="/makeup" className="button text-white py-2 px-4 rounded">Makeup</a>
+                  <a href="/contact" className="button-light font-bold py-2 px-4 rounded">Contact<span aria-hidden="true">&rarr;</span></a>
                 </div>
               </div>
               

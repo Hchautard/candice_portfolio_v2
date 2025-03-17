@@ -8,6 +8,15 @@ code {
   font-family: 'Helvetica Neue', sans-serif;
 }
 
+/* Define var colours */
+:root {
+  --primary: #f1e2ba;
+  --secondary: #080808;
+  --accent: #790e09;
+  --accent-secondary: #27265e;
+  --accent-light: #bb9c85;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

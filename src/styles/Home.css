@@ -6,7 +6,6 @@
 
 .Home {
     position: relative;
-    min-height: 100vh;
     width: 100%;
     overflow-x: hidden;
 }
@@ -37,6 +36,7 @@ h2 {
     background-image: url(../assets/images/tattoo_mockup.jpg);
     background-size: cover;
     background-position: center;
+    transform: scaleX(-1);
     z-index: -2;
     
     mask-image: url(../assets/images/ink_lv2.gif);
@@ -49,7 +49,7 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 95vh;
     width: 100%;
     position: relative;
     padding: 0 20px;
@@ -61,12 +61,43 @@ h2 {
     z-index: 1;
     display: flex;
     justify-content: flex-start; /* Aligne le contenu à gauche */
+
+    h2 {
+        color: var(--secondary);
+    }
+
+    .button {
+        background-color: var(--accent);
+        color: var(--primary);
+        font-weight: lighter;
+
+        &:hover {
+            background-color: var(--accent-secondary);
+        }
+    }
+
+    .button-light {
+        color: var(--secondary);
+        font-weight: lighter;
+
+        &:hover {
+            color: var(--accent);
+        }
+    }
+    
+}
+
+.text {
+    margin-bottom: 20px;
+    max-width: 80%;
 }
 
 .text-container {
     max-width: 45%;
-    margin-left: 5%; /* Ajoute une marge à gauche */
-    text-align: left; /* Assure que le texte est aligné à gauche */
+    margin-left: 5%; 
+    text-align: left; 
+
+    
 }
 
 h2, p {

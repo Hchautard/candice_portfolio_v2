@@ -6,12 +6,13 @@
 }
 
 a {
-    color: #f0f0f0;
+    color: var(--secondary);
     text-decoration: none;
+    font-weight: lighter;
     transition: 0.5s;
 }
 
 a:hover {
-    color: #f0f0f0;
+    color: var(--accent);
     transition: 0.5s;
 }
