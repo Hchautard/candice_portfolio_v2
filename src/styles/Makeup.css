@@ -1,0 +1,14 @@
+.Makeup {
+    background-color: var(--primary);
+    margin-top: -60px; 
+    padding-top: 60px; 
+    width: 100%;
+    min-height: 100vh;
+}
+
+nav {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    background: transparent;
+}
