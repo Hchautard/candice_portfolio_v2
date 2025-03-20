@@ -1,0 +1,59 @@
+h2 {
+    color: var(--secondary);
+    font-size: var(--xlarge);
+}
+
+p {
+    color: var(--secondary);
+    font-size: var(--large-medium);
+}
+
+label {
+    color: var(--secondary);
+    font-size: var(--large-medium);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.container-contact {
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-content {
+    width: 40%;
+}
+
+.container-form {
+    width: 60%;
+}
+
+input, textarea {
+    outline: none;
+
+    box-shadow: 0 0 5px var(--accent);
+
+    transform: scale(1);
+    transition: box-shadow 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
+
+    &:focus {
+        box-shadow: 0 0 10px var(--accent);
+        transition: box-shadow 0.5s ease-in-out;
+        transform: scale(1.05);
+        transition: transform 0.5s ease-in-out;
+    }
+}

@@ -60,27 +60,24 @@ function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 5 }}
           >
-            <div className="flex flex-col md:flex-row items-center">
+            <div className="flex flex-row items-center">
               <div className="text-container ">
-                <h2 className="tracking-tight">Bienvenue chez l'anomalie</h2>
+                <h2 className="tracking-tight">Bienvenue chez l'Anomalie</h2>
               
-                <p className="text mt-8 font-medium text-pretty sm:text-xl/8">
-                  Anim aute id magna aliqua ad ad non deserunt sunt. 
-                  Qui irure qui lorem cupidatat commodo. 
-                  Elit sunt amet fugiat veniam occaecat fugiat.
-                  Anim aute id magna aliqua ad ad non deserunt sunt. 
-                  Qui irure qui lorem cupidatat commodo. 
-                  Elit sunt amet fugiat veniam occaecat fugiat.
+                <p className="text mt-8 font-medium text-pretty">
+                Plongez dans un univers où l’encre devient rituel. Inspirée par le cyber sigilism et le dark fantasy, 
+                L'Anomalie crée des tatouages mystiques et intemporels, entre symboles occultes et visions futuristes. 
+                Chaque tracé est une porte vers l’invisible.
                 </p>
                 
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-10 mt-8">
-                  <a href="/tattoo" className="button text-white py-2 px-4 rounded">Tattoo</a>
-                  <a href="/makeup" className="button text-white py-2 px-4 rounded">Makeup</a>
-                  <a href="/contact" className="button-light font-bold py-2 px-4 rounded">Contact<span aria-hidden="true">&rarr;</span></a>
+                  <a href="/tattoo" className="button rounded">Tattoo</a>
+                  <a href="/makeup" className="button rounded">Makeup</a>
+                  <a href="/contact" className="button-light rounded">Contact<span aria-hidden="true">&rarr;</span></a>
                 </div>
               </div>
               
-              <div className="model-container md:w-1/2">
+              <div className="model-container">
                 <Canvas camera={{ position: [5, 0, 5], fov: 50 }}>
                   <ambientLight intensity={0.6} />
                   <spotLight position={[5, 5, 5]} angle={0.15} penumbra={1} intensity={1} />

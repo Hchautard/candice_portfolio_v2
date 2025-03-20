@@ -15,6 +15,17 @@ code {
   --accent: #790e09;
   --accent-secondary: #27265e;
   --accent-light: #bb9c85;
+
+  /* Define var font size */
+  --small: 8px;
+  --medium: 16px;
+  --medium-large: 20px;
+  --large: 28px;
+  --xlarge: 40px;
+  --xxlarge: 60px;
+  --xxxlarge: 100px;
+  --xxxxlarge: 160px;
+  --xxxxxlarge: 240px;
 }
 
 @tailwind base;
