@@ -2,8 +2,8 @@
 
 import React from "react";
 import { CardBody, CardContainer, CardItem } from "./Card";
+import '../styles/ThreeDCard.css';
 
-// Define cn function locally if utils.ts is not accessible
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -26,14 +26,14 @@ export function ThreeDCardDemo({
         )}
       >
         <CardItem translateY="50" translateZ="101"
-          className="text-xl font-bold text-red-600 title absolute">
+          className="title absolute">
           {title}
         </CardItem>
 
         <CardItem
           as="p"
           translateY="80" translateZ="101"
-          className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300 text absolute">
+          className="content absolute">
           {description}
         </CardItem>
 

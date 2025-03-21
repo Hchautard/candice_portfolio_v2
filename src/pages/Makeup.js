@@ -14,12 +14,12 @@ function Makeup() {
       <div className="flex flex-col items-center w-full">
         {/* Your content container with max-width */}
         <div className="flex flex-col mx-auto max-w-5xl justify-center items-center mb-20 mt-20">
-          <h2 className="text-3xl font-semibold tracking-tight sm:text-5xl">Mes Makeup</h2>
+          <h2 className="tracking-tight">Mes Makeup</h2>
           
           <p className="mt-8 font-medium text-pretty sm:text-xl/8">
-            Anim aute id magna aliqua ad ad non deserunt sunt. 
-            Qui irure qui lorem cupidatat commodo. 
-            Elit sunt amet fugiat veniam occaecat fugiat.
+          Ici, vous trouverez une galerie de créations allant du makeup artistique au beauty glam, en passant par des transformations audacieuses et des looks inspirés du fantastique. 
+          Chaque maquillage raconte une histoire, mêlant technique et créativité. 
+          Explorez, inspirez-vous et plongez dans cet univers où la beauté devient une œuvre d’art.
           </p>
         </div>
 

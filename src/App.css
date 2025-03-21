@@ -47,3 +47,8 @@ body, html {
   font-family: 'Coolvetica_Regular';
   src: url('../src/assets/fonts/coolvetica/Coolvetica_Rg.otf') format('opentype');
 }
+
+@font-face {
+  font-family: 'Coolvetica_Regular_Italic';
+  src: url('../src/assets/fonts/coolvetica/Coolvetica_Rg_It.otf') format('opentype');
+}

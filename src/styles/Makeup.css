@@ -12,3 +12,8 @@ nav {
     width: 100%;
     background: transparent;
 }
+
+h2 {
+    color: var(--secondary);
+    font-size: var(--xxlarge);
+}

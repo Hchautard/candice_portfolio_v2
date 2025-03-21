@@ -1,0 +1,10 @@
+.title {
+    font-size: var(--xlarge);
+    padding-left: var(--large);
+    font-family: Alice_Wonderland_2;
+}
+
+.content {
+    font-size: var(--medium-large);
+    padding: var(--large);
+}
