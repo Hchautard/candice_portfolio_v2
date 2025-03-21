@@ -14,20 +14,20 @@ function ContactForm() {
 
             <div className="flex flex-col text-content"> 
                 <div className="flex flex-col"> 
-                    <h2 className="mb-4 tracking-tight font-extrabold">Un projet ? Un flash ? Contactez moi !</h2>
-                    <p className="mb-8 lg:mb-16 font-light text-left">
+                    <h2 className="tracking-tight font-extrabold">Un projet ? Un flash ? Contactez moi !</h2>
+                    <p className="mb-8 text-left">
                         Got a technical issue? Want to send feedback about a beta feature? Need details about our Business plan? Let us know.
                     </p>
                 </div>
 
                 <div className="flex flex-col justify-start"> 
-                    <h2 className="mb-4 tracking-tight font-extrabold text-left">Informations</h2>
-                    <p className="mb-8 lg:mb-16 font-light text-left">
+                    <h2 className="tracking-tight font-extrabold text-left">Informations</h2>
+                    <p className="mb-8 text-left">
                     
-                        7b Avenue du 19 mars 1962, 13210 Saint-Rémy-de-Provence, France <br />
+                        7b Avenue du 19 mars 1962, 13210 Saint-Rémy-de-Provence <br />
                         Du mardi au samedi de <strong>9h</strong> à <strong>18h</strong>
                         
-                        <span className="block mt-4 text-red-500 dark:text-red-400">
+                        <span className="block mt-4">
                             Attention, si vous souhaitez passer au tattoo shop, merci de me contacter au préalable.
                         </span>
                     </p> 
@@ -38,7 +38,7 @@ function ContactForm() {
             <form action="#" className="container-form grid grid-cols-2">
                 <div>
                     <label for="name" className="block mb-2">Votre nom</label>
-                    <input type="name" id="name" className="w-96" 
+                    <input type="name" id="name" className=""
                     placeholder="Patati Patata" required />
                 </div>
                 <div>

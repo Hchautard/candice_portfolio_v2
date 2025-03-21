@@ -14,7 +14,7 @@ function Makeup() {
       <div className="flex flex-col items-center w-full">
         {/* Your content container with max-width */}
         <div className="flex flex-col mx-auto max-w-5xl justify-center items-center mb-20 mt-20">
-          <h2 className="tracking-tight">Mes Makeup</h2>
+          <h2 className="title-makeup tracking-tight">Mes Makeup</h2>
           
           <p className="mt-8 font-medium text-pretty sm:text-xl/8">
           Ici, vous trouverez une galerie de créations allant du makeup artistique au beauty glam, en passant par des transformations audacieuses et des looks inspirés du fantastique. 

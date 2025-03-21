@@ -13,7 +13,7 @@ nav {
     background: transparent;
 }
 
-h2 {
+.title-makeup {
     color: var(--secondary);
     font-size: var(--xxlarge);
 }
