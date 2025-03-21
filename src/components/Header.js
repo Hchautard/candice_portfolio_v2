@@ -8,17 +8,17 @@ export default function Header() {
                 <div className="flex justify-center items-center gap-x-4 text-align-center">
                     <a
                         href="/"
-                        className="block rounded-lg px-3 py-2 text-base"
+                        className="block header-link rounded-lg px-3 py-2 text-base"
                     >
                         Accueil
                     </a>
                     <a
                         href="/contact"
-                        className="block rounded-lg px-3 py-2 text-base"
+                        className="block header-link rounded-lg px-3 py-2 text-base"
                     >
                         Contact
                     </a>
-                    <a href="/" className="p-1.5">
+                    <a href="/" className="p-1.5 header-link">
                         <span className="sr-only">Your Company</span>
                         <img
                             alt=""
@@ -28,13 +28,13 @@ export default function Header() {
                     </a>
                     <a
                         href="/tattoo"
-                        className="block rounded-lg px-3 py-2 text-base"
+                        className="block header-link rounded-lg px-3 py-2 text-base"
                     >
                         Tattoo
                     </a>
                     <a
                         href="/makeup"
-                        className="block rounded-lg px-3 py-2 text-base"
+                        className="block header-link rounded-lg px-3 py-2 text-base"
                     >
                         Makeup
                     </a>

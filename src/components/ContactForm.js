@@ -37,17 +37,17 @@ function ContactForm() {
 
             <form action="#" className="container-form grid grid-cols-2">
                 <div>
-                    <label for="name" className="block mb-2">Votre nom</label>
+                    <label for="name" className="block">Votre nom</label>
                     <input type="name" id="name" className=""
                     placeholder="Patati Patata" required />
                 </div>
                 <div>
-                    <label for="email" className="block mb-2">Votre e-mail</label>
+                    <label for="email" className="block">Votre e-mail</label>
                     <input type="email" id="email" className="" 
                     placeholder="patati@patata.com" required />
                 </div>
-                <div className="sm:col-span-2">
-                    <label for="subject" className="block mb-2">Objet</label>
+                <div className="sm:col-span-2 mt-4">
+                    <label for="subject" className="block">Objet</label>
                     <input 
                     type="text" 
                     id="subject" 
@@ -55,7 +55,7 @@ function ContactForm() {
                     placeholder="Projet, flash, détails..." required />
                 </div>
                 <div className="sm:col-span-2">
-                    <label for="message" className="block mb-2">Votre message</label>
+                    <label for="message" className="block">Votre message</label>
                     <textarea id="message" rows="7" className="block p-2.5 w-full" 
                     placeholder="Laisser un commentaire..."></textarea>
                 </div>
