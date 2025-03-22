@@ -1,5 +1,9 @@
 "use client";
 
+import flora1 from "../assets/images/flora_1.png";
+import flora2 from "../assets/images/flora_2.png";
+import mira1 from "../assets/images/mira_1.png";
+
 import React from "react";
 import { ThreeDCardDemo } from "./ThreeDCard";
 
@@ -11,7 +15,7 @@ export function CardGrid() {
         <ThreeDCardDemo 
           title="Natural Beauty" 
           description="Discover our collection of organic makeup products" 
-          imageUrl="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=2560&auto=format&fit=crop" 
+          imageUrl={flora1}
         />
         <ThreeDCardDemo 
           title="Bold Colors" 
@@ -32,7 +36,7 @@ export function CardGrid() {
             width="full" 
             title="Limited Edition Collection" 
             description="Explore our exclusive seasonal palette with unique textures and finishes" 
-            imageUrl="https://images.unsplash.com/photo-1599733589046-833caccbf3d6?q=80&w=2560&auto=format&fit=crop" 
+            imageUrl={mira1}
           />
         </div>
         <div className="col-span-1">

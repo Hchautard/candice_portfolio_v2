@@ -24,7 +24,7 @@ function TattooMachineModel() {
   // Initial position with 45-degree rotation on z-axis (PI/4 radians)
   return (
     <primitive 
-      ref={modelRef} 
+      ref={modelRef}
       object={scene} 
       scale={0.5} 
       position={[0, 0, 0]} 

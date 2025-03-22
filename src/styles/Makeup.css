@@ -1,10 +1,24 @@
 .Makeup {
     background-color: var(--primary);
+    background-image: url('../assets/images/trees.jpg');
+    background-size: cover;
+    background-position: center;
     margin-top: -60px; 
     padding-top: 60px; 
     width: 100%;
     min-height: 100vh;
 }
+
+.container-makeup {
+    /* Glassmorphism effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 50px;
+}
+
+
 
 nav {
     position: relative;

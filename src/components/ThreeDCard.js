@@ -16,7 +16,7 @@ export function ThreeDCardDemo({
   imageUrl = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
 }) {
   return (
-    <CardContainer className={cn('h-64', width === 'full' ? 'w-full' : 'w-lg')}>
+    <CardContainer className={cn('h-64', width === 'full' ? 'w-full' : 'w-lg') + ' card-container'}>
       <CardBody
         className={cn(
           "bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1]",
