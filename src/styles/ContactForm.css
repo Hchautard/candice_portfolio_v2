@@ -77,7 +77,6 @@
         box-shadow: 0 0 5px var(--accent);
         color: var(--accent);
         font-size: var(--large);
-        /* font-weight: bold; */
         font-family: 'Alice_Wonderland_2';
         background: none;
         transition: background 0.5s ease-in-out;

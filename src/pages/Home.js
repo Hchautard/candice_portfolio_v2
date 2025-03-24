@@ -66,7 +66,7 @@ function Home() {
               
                 <p className="text mt-8 font-medium text-pretty">
                 Plongez dans un univers où l’encre devient rituel. Inspirée par le cyber sigilism et le dark fantasy, 
-                L'Anomalie crée des tatouages mystiques et intemporels, entre symboles occultes et visions futuristes. 
+                <span> l'Anomalie</span> crée des tatouages mystiques et intemporels, entre symboles occultes et visions futuristes. 
                 Chaque tracé est une porte vers l’invisible.
                 </p>
                 
