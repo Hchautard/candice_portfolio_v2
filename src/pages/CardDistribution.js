@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import '../styles/CardDistribution.css';
 
-const CardDistribution = () => {
+const CardDistribution = ({ cards = [] }) => {
   const cardsRef = useRef([]);
   const containerRef = useRef(null);
   const [cardsPerRow, setCardsPerRow] = useState(5);
@@ -25,6 +26,8 @@ const CardDistribution = () => {
     let maxHeight = 0;
     
     cardsRef.current.forEach((card, index) => {
+      if (!card) return;
+      
       const row = Math.floor(index / cardsPerRow);
       const col = index % cardsPerRow;
 
@@ -46,9 +49,11 @@ const CardDistribution = () => {
     // Update container height
     setContainerHeight(maxHeight);
     
-  }, [cardsPerRow]); // Met à jour l'animation si le nombre de cartes par ligne change
+  }, [cardsPerRow, cards.length]); // Met à jour l'animation si le nombre de cartes par ligne ou le nombre de cartes change
 
   const flipCard = (index) => {
+    if (!cardsRef.current[index]) return;
+    
     if (cardsRef.current[index].flipped) {
       gsap.to(cardsRef.current[index], {
         rotationY: 0,
@@ -66,20 +71,51 @@ const CardDistribution = () => {
     cardsRef.current[index].flipped = !cardsRef.current[index].flipped;
   }
 
+  // Utiliser les cartes fournies ou générer des cartes vides si aucune n'est fournie
+  const cardItems = cards.length > 0 ? cards : [...Array(20)].map((_, i) => ({ id: i }));
+
   return (
     <div 
       ref={containerRef} 
       className="relative w-full p-4"
       style={{ height: `${containerHeight}px` }}
     >
-      {[...Array(20)].map((_, i) => (
+      {cardItems.map((card, i) => (
         <div
-          key={i}
+          key={card.id || i}
           ref={(el) => (cardsRef.current[i] = el)}
-          className="absolute w-64 h-80 bg-red-500 rounded-lg shadow-lg cursor-pointer"
+          className="absolute w-80 h-96 rounded-lg shadow-lg cursor-pointer perspective-500 transform-style-preserve-3d"
           onClick={() => flipCard(i)}
           flipped={false}
-        />
+        >
+          {/* Face avant de la carte */}
+          <div className="absolute w-full h-full rounded-lg backface-hidden">
+            {card.image ? (
+              <img 
+                src={card.image} 
+                alt={card.alt || `Card ${i}`} 
+                className="w-full h-full object-cover rounded-lg"
+              />
+            ) : (
+              <div className="w-full h-full bg-red-500 rounded-lg"></div>
+            )}
+          </div>
+          
+          {/* Face arrière de la carte */}
+          <div className="absolute w-full h-full bg-blue-500 rounded-lg backface-hidden rotate-y-180">
+            {card.backImage ? (
+              <img 
+                src={card.backImage} 
+                alt={`Back of card ${i}`} 
+                className="w-full h-full object-cover rounded-lg"
+              />
+            ) : (
+              <div className="w-full h-full rounded-lg flex items-center justify-center">
+                {card.backContent || ""}
+              </div>
+            )}
+          </div>
+        </div>
       ))}
     </div>
   );

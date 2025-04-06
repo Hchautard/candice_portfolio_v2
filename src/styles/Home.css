@@ -36,7 +36,7 @@ h2 {
     mask-image: url(../assets/images/ink_lv2.gif);
     mask-size: cover;
     mask-position: center;
-    animation: inkReveal 0.8s ease-in-out;
+    animation: inkReveal 0.3s ease-in-out;
 }
 
 .banner {
@@ -63,25 +63,28 @@ h2 {
 
     span {
         font-family: "Alice_Wonderland_2";
+        color: var(--secondary);
+        transition: color 0.3s ease-in-out;
+
+        &:hover {
+            color: var(--accent);
+            transition: color 0.3s ease-in-out;
+        }
     }
 
     .button {
         font-size: var(--large);
         padding: var(--medium-large) var(--xlarge);
-        /* background with a weak opacity */
-        background: #08080830;
-        color: var(--accent);
+        background: var(--accent);
+        color: var(--primary);
         font-weight: lighter;
         font-family: "Alice_Wonderland_2";
         box-shadow: 0 0 5px var(--accent);
-        transition: background 0.5s ease-in-out;
-        transition: color 0.3s ease-in-out;
+        transition: box-shadow 0.5s ease-in-out;
 
         &:hover {
-            background: var(--accent);
-            color: var(--primary);
-            transition: background 0.5s ease-in-out;
-            transition: color 0.3s ease-in-out;
+            box-shadow: 0 0 15px var(--accent);
+            transition: box-shadow 0.5s ease-in-out;
         }
     }
 

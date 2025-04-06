@@ -11,14 +11,14 @@ function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <AnimatePresence>
+    // <AnimatePresence>
         <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
             <Route path="tattoo" element={<Tattoo />} />
             <Route path="contact" element={<Contact />} />
             <Route path="makeup" element={<Makeup />} />
         </Routes>
-    </AnimatePresence>
+    // </AnimatePresence>
   );
 }
 

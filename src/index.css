@@ -16,6 +16,8 @@ code {
   --accent-secondary: #27265e;
   --accent-light: #bb9c85;
 
+  --primary-rgba: 241, 226, 186;
+
   /* Define var font size */
   --small: 8px;
   --medium: 16px;

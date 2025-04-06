@@ -1,8 +1,12 @@
 "use client";
 
-import flora1 from "../assets/images/flora_1.png";
-import flora2 from "../assets/images/flora_2.png";
-import mira1 from "../assets/images/mira_1.png";
+import flora1 from "../assets/images/makeup/flora_1.png";
+import flora2 from "../assets/images/makeup/flora_2.png";
+import mira1 from "../assets/images/makeup/mira_1.png";
+import karole1 from "../assets/images/makeup/karole_1.png";
+import karole2 from "../assets/images/makeup/karole_2.png";
+import alice1 from "../assets/images/makeup/alice_1.png";
+import song1 from "../assets/images/makeup/song_1.png";
 
 import React from "react";
 import { ThreeDCardDemo } from "./ThreeDCard";
@@ -20,12 +24,12 @@ export function CardGrid() {
         <ThreeDCardDemo 
           title="Bold Colors" 
           description="Express yourself with vibrant, long-lasting pigments" 
-          imageUrl="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=2560&auto=format&fit=crop" 
+          imageUrl={alice1}
         />
         <ThreeDCardDemo 
           title="Skin First" 
           description="Makeup that nourishes your skin while enhancing your beauty" 
-          imageUrl="https://images.unsplash.com/photo-1619451334792-150fd785ee74?q=80&w=2560&auto=format&fit=crop" 
+          imageUrl={karole1} 
         />
       </div>
       
@@ -43,7 +47,7 @@ export function CardGrid() {
           <ThreeDCardDemo 
             title="Eco-Friendly" 
             description="Sustainable beauty products in recyclable packaging" 
-            imageUrl="https://images.unsplash.com/photo-1586495777744-4413f21062fa?q=80&w=2560&auto=format&fit=crop" 
+            imageUrl={karole2} 
           />
         </div>
       </div>
@@ -53,12 +57,12 @@ export function CardGrid() {
         <ThreeDCardDemo 
           title="For Every Skin Tone" 
           description="Inclusive shade ranges for all complexions" 
-          imageUrl="https://images.unsplash.com/photo-1576426863848-c21f53c60b19?q=80&w=2560&auto=format&fit=crop" 
+          imageUrl={song1}
         />
         <ThreeDCardDemo 
           title="Pro Tools" 
           description="Professional-grade brushes and applicators" 
-          imageUrl="https://images.unsplash.com/photo-1596224584716-5e16d933c1ac?q=80&w=2560&auto=format&fit=crop" 
+          imageUrl={flora2}
         />
         <ThreeDCardDemo 
           title="Clean Beauty" 
