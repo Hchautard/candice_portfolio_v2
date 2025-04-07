@@ -7,6 +7,12 @@ import karole1 from "../assets/images/makeup/karole_1.png";
 import karole2 from "../assets/images/makeup/karole_2.png";
 import alice1 from "../assets/images/makeup/alice_1.png";
 import song1 from "../assets/images/makeup/song_1.png";
+import candice1 from "../assets/images/makeup/candice_1.jpg";
+import karole3 from "../assets/images/makeup/karole_3.png";
+import perles1 from "../assets/images/makeup/perles_1.png";
+import carte1 from "../assets/images/makeup/carte_1.png";
+import ziggy1 from "../assets/images/makeup/ziggy_1.png";
+import hematome1 from "../assets/images/makeup/hematome_1.png";
 
 import React from "react";
 import { ThreeDCardDemo } from "./ThreeDCard";
@@ -67,7 +73,7 @@ export function CardGrid() {
         <ThreeDCardDemo 
           title="Clean Beauty" 
           description="Free from harmful ingredients, gentle on sensitive skin" 
-          imageUrl="https://images.unsplash.com/photo-1571781565036-d3f759be73e4?q=80&w=2560&auto=format&fit=crop" 
+          imageUrl={perles1}
         />
       </div> 
 
@@ -77,7 +83,7 @@ export function CardGrid() {
           <ThreeDCardDemo  
             title="New Arrivals" 
             description="Just launched products to elevate your makeup routine" 
-            imageUrl="https://images.unsplash.com/photo-1631730359585-43c8f93a51ed?q=80&w=2560&auto=format&fit=crop" 
+            imageUrl={karole3}
           />
         </div>
         <div className="col-span-2">
@@ -85,7 +91,7 @@ export function CardGrid() {
             width="full" 
             title="Makeup Masterclass" 
             description="Learn techniques from our expert makeup artists" 
-            imageUrl="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=2560&auto=format&fit=crop" 
+            imageUrl={candice1}
           />
         </div>
       </div>
@@ -95,17 +101,17 @@ export function CardGrid() {
         <ThreeDCardDemo 
           title="Vegan Formulas" 
           description="Cruelty-free beauty products with plant-based ingredients" 
-          imageUrl="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=2560&auto=format&fit=crop" 
+          imageUrl={carte1}
         />
         <ThreeDCardDemo 
           title="Bestsellers" 
           description="Our most loved products that customers can't get enough of" 
-          imageUrl="https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=2560&auto=format&fit=crop" 
+          imageUrl={ziggy1}
         />
         <ThreeDCardDemo 
           title="Gift Sets" 
           description="Perfect combinations for gifting or trying something new" 
-          imageUrl="https://images.unsplash.com/photo-1627384113743-6bd5a479fffd?q=80&w=2560&auto=format&fit=crop" 
+          imageUrl={hematome1}
         />
       </div> 
     </div>
