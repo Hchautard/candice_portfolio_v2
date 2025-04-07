@@ -13,7 +13,7 @@ const CardDistribution = ({ cards = [] }) => {
     const updateCardsPerRow = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        setCardsPerRow(Math.floor(containerWidth / 280)); // largeur estimée d'une carte + marge
+        setCardsPerRow(Math.floor(containerWidth / 330)); // largeur estimée d'une carte + marge
       }
     };
 
@@ -32,8 +32,8 @@ const CardDistribution = ({ cards = [] }) => {
       const col = index % cardsPerRow;
 
       gsap.to(card, {
-        x: col * 320, // Écartement horizontal
-        y: row * 340, // Écartement vertical
+        x: col * 380, // Écartement horizontal
+        y: row * 420, // Écartement vertical
         rotation: Math.random() * 10 - 5, // Légère rotation aléatoire
         duration: 0.5 + index * 0.05,
         ease: "power2.out",
