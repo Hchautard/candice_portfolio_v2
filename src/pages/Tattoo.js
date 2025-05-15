@@ -15,14 +15,14 @@ function Tattoo() {
   const [showComponent, setShowComponent] = useState(false);
 
   const myCards = [
-    { id: 1, image: image1, backContent: "Information carte 1" },
-    { id: 2, image: image2, backContent: "Information carte 2" },
-    { id: 3, image: image3, backContent: "Information carte 3" },
-    { id: 4, image: image4, backContent: "Information carte 4" },
-    { id: 5, image: image5, backContent: "Information carte 5" },
-    { id: 6, image: image6, backContent: "Information carte 6" },
-    { id: 7, image: image7, backContent: "Information carte 7" },
-    { id: 8, image: image8, backContent: "Information carte 8" },
+    { id: 1, image: image1, backContent: "Disponible !" },
+    { id: 2, image: image2, backContent: "Disponible !" },
+    { id: 3, image: image3, backContent: "Disponible !" },
+    { id: 4, image: image4, backContent: "Disponible !" },
+    { id: 5, image: image5, backContent: "Disponible !" },
+    { id: 6, image: image6, backContent: "Disponible !" },
+    { id: 7, image: image7, backContent: "Disponible !" },
+    { id: 8, image: image8, backContent: "Disponible !" },
     // ... autres cartes
   ];
 

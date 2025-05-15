@@ -102,7 +102,7 @@ const CardDistribution = ({ cards = [] }) => {
           </div>
           
           {/* Face arrière de la carte */}
-          <div className="absolute w-full h-full bg-blue-500 rounded-lg backface-hidden rotate-y-180">
+          <div className="absolute w-full h-full rounded-lg backface-hidden rotate-y-180 odd-face">
             {card.backImage ? (
               <img 
                 src={card.backImage} 
@@ -110,7 +110,7 @@ const CardDistribution = ({ cards = [] }) => {
                 className="w-full h-full object-cover rounded-lg"
               />
             ) : (
-              <div className="w-full h-full rounded-lg flex items-center justify-center">
+              <div className="w-full h-full rounded-lg flex items-center justify-center odd-face-content">
                 {card.backContent || ""}
               </div>
             )}
