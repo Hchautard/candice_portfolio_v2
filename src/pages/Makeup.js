@@ -13,7 +13,7 @@ function Makeup() {
       {/* This outer div should be full width */}
       <div className="flex flex-col items-center w-full">
         {/* Your content container with max-width */}
-        <div className="container-makeup flex flex-col mx-auto max-w-5xl justify-center items-center mb-20 mt-20">
+        {/* <div className="container-makeup flex flex-col mx-auto max-w-5xl justify-center items-center mb-20 mt-20">
           <h2 className="title-makeup tracking-tight">Mes Makeup</h2>
           
           <p className="mt-8 font-medium text-pretty sm:text-xl/8">
@@ -21,7 +21,7 @@ function Makeup() {
           Chaque maquillage raconte une histoire, mêlant technique et créativité. 
           Explorez, inspirez-vous et plongez dans cet univers où la beauté devient une œuvre d’art.
           </p>
-        </div>
+        </div> */}
 
         <div className="mx-auto h-auto card-grid-container">
           <CardGrid />
