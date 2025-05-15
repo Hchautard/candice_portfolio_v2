@@ -25,17 +25,17 @@ export function ThreeDCardDemo({
           width === 'full' ? 'w-full' : 'w-auto sm:w-[30rem]'
         )}
       >
-        <CardItem translateY="50" translateZ="101"
+        <CardItem translateY="20" translateZ="101"
           className="title absolute">
           {title}
         </CardItem>
 
-        <CardItem
+        {/* <CardItem
           as="p"
           translateY="80" translateZ="101"
           className="content absolute">
           {description}
-        </CardItem>
+        </CardItem> */}
 
         <CardItem translateZ="100" className="w-full">
           <img
