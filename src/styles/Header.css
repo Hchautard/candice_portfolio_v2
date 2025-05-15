@@ -1,15 +1,29 @@
 .Header {
     height: 5vh;
-    top: 0;
-    left: 0;
+    top: 10px;
+    display: flex;
     right: 0;
     z-index: 100;
     position: relative;
+    width: 20%;
+    margin: 0 auto;
+
+    /* Glassmorphism effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .header-link {
     color: var(--secondary);
-    font-weight: bold;
+    text-decoration: none;
     font-size: var(--medium-large);
     font-family: Alice_Wonderland_2;
     transition: 0.5s;

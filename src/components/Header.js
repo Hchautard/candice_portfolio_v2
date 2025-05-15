@@ -1,5 +1,6 @@
 import { Divider } from '@mui/material';
 import '../styles/Header.css';
+import logo from '../assets/images/logo_anomalie_new.png';
 
 export default function Header() {
     return (
@@ -13,20 +14,6 @@ export default function Header() {
                         Accueil
                     </a>
                     <a
-                        href="/contact"
-                        className="block header-link rounded-lg px-3 py-2 text-base"
-                    >
-                        Contact
-                    </a>
-                    <a href="/" className="p-1.5 header-link">
-                        <span className="sr-only">Your Company</span>
-                        <img
-                            alt=""
-                            src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                            className="h-8 w-auto"
-                        />
-                    </a>
-                    <a
                         href="/tattoo"
                         className="block header-link rounded-lg px-3 py-2 text-base"
                     >
@@ -38,9 +25,22 @@ export default function Header() {
                     >
                         Makeup
                     </a>
+                    <a
+                        href="/contact"
+                        className="block header-link rounded-lg px-3 py-2 text-base"
+                    >
+                        Contact
+                    </a>
+                    {/* <a href="/" className="p-1.5 header-link">
+                        <img
+                            alt=""
+                            src={logo}
+                            className="h-8 w-auto"
+                        />
+                    </a> */}
                 </div>
             </nav>
-            <Divider variant='middle' />
+            {/* <Divider variant='middle' /> */}
         </div>
     );
 }

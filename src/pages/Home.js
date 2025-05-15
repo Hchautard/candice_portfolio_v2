@@ -61,10 +61,10 @@ function Home() {
             transition={{ duration: 0.5, delay: 0.5 }}
           >
             <div className="flex flex-row items-center">
-              <div className="text-container ">
+              <div className="text-container">
                 <h2 className="tracking-tight">Bienvenue chez l'Anomalie</h2>
               
-                <p className="text mt-8 font-medium text-pretty">
+                <p className="text font-medium text-pretty">
                 Plongez dans un univers où l’encre devient rituel. Inspirée par le cyber sigilism et le dark fantasy, 
                 <span> l'Anomalie</span> crée des tatouages mystiques et intemporels, entre symboles occultes et visions futuristes. 
                 Chaque tracé est une porte vers l’invisible.
