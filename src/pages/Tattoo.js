@@ -33,7 +33,7 @@ function Tattoo() {
       // Set timeout to load CardDistribution after 2 seconds
       const timer = setTimeout(() => {
           setShowComponent(true);
-      }, 2000);
+      }, 1000);
       
       // Remove class and clear timeout when component unmounts
       return () => {
