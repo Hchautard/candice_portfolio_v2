@@ -62,12 +62,6 @@ function ContactForm() {
   };
 
   return ( 
-    <motion.div 
-        className="ContactForm"
-        initial={{ width: 0 }}
-        animate={{ width: "100%" }}
-        exit={{ x: window.innerWidth }}
-    >
     <section>
         <div className="flex flex-row px-4 mx-auto container-contact">
 
@@ -166,7 +160,6 @@ function ContactForm() {
             </form>
         </div>
     </section>
-    </motion.div>
     );
 }
 
