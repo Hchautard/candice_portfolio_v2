@@ -1,12 +1,8 @@
+/* ===== BASE STYLES ===== */
 .Home {
     position: relative;
     width: 100%;
     overflow-x: hidden;
-}
-
-h2 {
-    font-size: 5rem;
-    font-family: "Alice_Wonderland_2";
 }
 
 .Home::before {
@@ -22,9 +18,22 @@ h2 {
     background-size: cover;
     background-position: center;
     z-index: -2;
-    
 }
 
+/* ===== TYPOGRAPHY ===== */
+h2 {
+    font-size: 5rem;
+    font-family: "Alice_Wonderland_2";
+    color: var(--secondary);
+    font-size: calc(var(--xxxlarge) - 10px);
+    text-align: left;
+}
+
+p {
+    text-align: left;
+}
+
+/* ===== LAYOUT CONTAINERS ===== */
 .banner {
     display: flex;
     flex-direction: column;
@@ -39,54 +48,18 @@ h2 {
 .content-container {
     z-index: 1;
     display: flex;
-    justify-content: flex-start; /* Aligne le contenu à gauche */
+    justify-content: flex-start;
+}
 
-    h2 {
-        color: var(--secondary);
-        font-size: calc(var(--xxxlarge) - 10px);
-    }
-
-    span {
-        font-family: "Alice_Wonderland_2";
-        color: var(--secondary);
-        transition: color 0.3s ease-in-out;
-
-        &:hover {
-            color: var(--accent);
-            transition: color 0.3s ease-in-out;
-        }
-    }
-
-    .button {
-        font-size: var(--large);
-        padding: var(--medium-large) var(--xlarge);
-        background: var(--accent);
-        color: var(--primary);
-        font-weight: lighter;
-        font-family: "Alice_Wonderland_2";
-        box-shadow: 0 0 5px var(--accent);
-        transition: box-shadow 0.5s ease-in-out;
-
-        &:hover {
-            box-shadow: 0 0 15px var(--accent);
-            transition: box-shadow 0.5s ease-in-out;
-        }
-    }
-
-    .button-light {
-        font-size: var(--large);
-        color: var(--secondary);
-        padding: var(--medium-large) var(--xlarge);
-        font-weight: lighter;
-        font-family: "Alice_Wonderland_2";
-        transition: color 0.3s ease-in-out;
-
-        &:hover {
-            color: var(--accent);
-            transition: color 0.3s ease-in-out;
-        }
-    }
-    
+.text-container {
+    margin-left: 10%; 
+    text-align: left; 
+    width: 50.5%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 50px;
 }
 
 .text {
@@ -95,28 +68,138 @@ h2 {
     font-size: var(--large);
 }
 
-.text-container {
-    margin-left: 10%; 
-    text-align: left; 
-    width: 50.5%;
-
-    
-    /* Glassmorphism effect */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    padding: 50px;
-}
-
-h2, p {
-    text-align: left;
-}
-
 .model-container {
     width: 30%;
     height: 70vh;
     margin-bottom: 100px;
     position: relative;
     z-index: 1;
+}
+
+/* ===== INTERACTIVE ELEMENTS ===== */
+.content-container span {
+    font-family: "Alice_Wonderland_2";
+    color: var(--secondary);
+    transition: color 0.3s ease-in-out;
+}
+
+.content-container span:hover {
+    color: var(--accent);
+    transition: color 0.3s ease-in-out;
+}
+
+.content-container .button {
+    font-size: var(--large);
+    padding: var(--medium-large) var(--xlarge);
+    background: var(--accent);
+    color: var(--primary);
+    font-weight: lighter;
+    font-family: "Alice_Wonderland_2";
+    box-shadow: 0 0 5px var(--accent);
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+.content-container .button:hover {
+    box-shadow: 0 0 15px var(--accent);
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+.content-container .button-light {
+    font-size: var(--large);
+    color: var(--secondary);
+    padding: var(--medium-large) var(--xlarge);
+    font-weight: lighter;
+    font-family: "Alice_Wonderland_2";
+    transition: color 0.3s ease-in-out;
+}
+
+.content-container .button-light:hover {
+    color: var(--accent);
+    transition: color 0.3s ease-in-out;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+    /* Typography mobile */
+    h2 {
+        font-size: 2.5rem;
+        text-align: center;
+    }
+    
+    p {
+        text-align: center;
+        font-size: var(--medium);
+    }
+    
+    /* Layout mobile */
+    .banner {
+        min-height: 100vh;
+        padding: 0 15px;
+        justify-content: center;
+    }
+
+    .banner-content {
+        flex-direction: column;
+    }
+    
+    .content-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .text-container {
+        margin-left: 0;
+        width: 95%;
+        max-width: 400px;
+        padding: 30px 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .text {
+        max-width: 100%;
+        margin-bottom: 15px;
+        font-size: var(--medium);
+    }
+    
+    .model-container {
+        width: 80%;
+        height: 40vh;
+        max-width: 300px;
+        margin-bottom: 50px;
+    }
+
+    .cta-buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 90%;
+    }
+
+    .button {
+        font-size: var(--medium) !important;
+        padding: var(--small) var(--large) !important;
+        width: 50%;
+        max-width: 200px;
+        text-align: center;
+        margin: 10px 0;
+    }
+    
+    /* Buttons mobile */
+    /* .content-container .button,
+    .content-container .button-light {
+        font-size: var(--medium);
+        padding: var(--medium) var(--large);
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+        margin: 10px 0;
+    } */
+    
+    /* Background mobile optimization */
+    .Home::before {
+        background-attachment: scroll;
+        background-position: center top;
+    }
 }

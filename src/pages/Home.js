@@ -60,7 +60,7 @@ function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center banner-content">
               <div className="text-container">
                 <h2 className="tracking-tight">Bienvenue chez l'Anomalie</h2>
               
@@ -70,7 +70,7 @@ function Home() {
                 Chaque tracé est une porte vers l’invisible.
                 </p>
                 
-                <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-10 mt-8">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-10 mt-8 cta-buttons">
                   <a href="/tattoo" className="button rounded">Tattoo</a>
                   <a href="/makeup" className="button rounded">Makeup</a>
                   <a href="/contact" className="button-light rounded">Contact<span aria-hidden="true">&rarr;</span></a>
