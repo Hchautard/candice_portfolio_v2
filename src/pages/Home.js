@@ -6,10 +6,21 @@ import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
 
 function TattooMachineModel() {
   const modelRef = useRef();
-  const { scene } = useGLTF("./models/tattoo_machine/scene.gltf");
+  
+  // ✅ Correction du chemin - ajout de process.env.PUBLIC_URL
+  const { scene, error } = useGLTF(process.env.PUBLIC_URL + "/models/tattoo_machine/scene.gltf");
+  
+  // ✅ Gestion d'erreur
+  useEffect(() => {
+    if (error) {
+      console.error("Erreur de chargement du modèle:", error);
+    }
+  }, [error]);
   
   // Animation for floating effect with 45-degree angle
   useFrame((state) => {
+    if (!modelRef.current) return; // ✅ Vérification de sécurité
+    
     const t = state.clock.getElapsedTime();
     
     // Subtle vertical movement
@@ -17,9 +28,13 @@ function TattooMachineModel() {
     
     // Subtle rotation around the angled axis
     const wobbleAmount = 0.05;
-    // modelRef.current.rotation.y = Math.PI/4 + Math.sin(t * 0.3) * wobbleAmount;
     modelRef.current.rotation.x = Math.sin(t * 0.1) * wobbleAmount;
   });
+
+  // ✅ Gestion du cas où le modèle n'est pas encore chargé
+  if (!scene) {
+    return null;
+  }
 
   // Initial position with 45-degree rotation on z-axis (PI/4 radians)
   return (
@@ -30,6 +45,19 @@ function TattooMachineModel() {
       position={[0, 0, 0]} 
       rotation={[0, Math.PI/4, Math.PI/2]} 
     />
+  );
+}
+
+// ✅ Composant de fallback pour le chargement (THREE.js compatible)
+function LoadingFallback() {
+  return (
+    <group>
+      {/* Optionnel: vous pouvez ajouter une géométrie simple pendant le chargement */}
+      <mesh position={[0, 0, 0]}>
+        <boxGeometry args={[0.1, 0.1, 0.1]} />
+        <meshBasicMaterial color="gray" opacity={0.3} transparent />
+      </mesh>
+    </group>
   );
 }
 
@@ -65,9 +93,9 @@ function Home() {
                 <h2 className="tracking-tight">Bienvenue chez l'Anomalie</h2>
               
                 <p className="text font-medium text-pretty">
-                Plongez dans un univers où l’encre devient rituel. Inspirée par le cyber sigilism et le dark fantasy, 
+                Plongez dans un univers où l'encre devient rituel. Inspirée par le cyber sigilism et le dark fantasy, 
                 <span> l'Anomalie</span> crée des tatouages mystiques et intemporels, entre symboles occultes et visions futuristes. 
-                Chaque tracé est une porte vers l’invisible.
+                Chaque tracé est une porte vers l'invisible.
                 </p>
                 
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-10 mt-8 cta-buttons">
@@ -78,11 +106,17 @@ function Home() {
               </div>
               
               <div className="model-container">
-                <Canvas camera={{ position: [5, 0, 5], fov: 50 }}>
+                <Canvas 
+                  camera={{ position: [5, 0, 5], fov: 50 }}
+                  onCreated={({ gl }) => {
+                    // ✅ Configuration pour la compatibilité
+                    gl.physicallyCorrectLights = false;
+                  }}
+                >
                   <ambientLight intensity={0.6} />
                   <spotLight position={[5, 5, 5]} angle={0.15} penumbra={1} intensity={1} />
                   <pointLight position={[-5, -5, -5]} intensity={0.5} />
-                  <Suspense fallback={null}>
+                  <Suspense fallback={<LoadingFallback />}>
                     <TattooMachineModel />
                     <Environment preset="studio" />
                     <OrbitControls 
