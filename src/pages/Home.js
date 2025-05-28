@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect, Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
+import { Link } from "react-router-dom"; // ✅ Import ajouté
 
 function TattooMachineModel() {
   const modelRef = useRef();
@@ -99,9 +100,9 @@ function Home() {
                 </p>
                 
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-10 mt-8 cta-buttons">
-                  <a href="/tattoo" className="button rounded">Tattoo</a>
-                  <a href="/makeup" className="button rounded">Makeup</a>
-                  <a href="/contact" className="button-light rounded">Contact<span aria-hidden="true">&rarr;</span></a>
+                  <Link to="/tattoo" className="button rounded">Tattoo</Link>
+                  <Link to="/makeup" className="button rounded">Makeup</Link>
+                  <Link to="/contact" className="button-light rounded">Contact<span aria-hidden="true">&rarr;</span></Link>
                 </div>
               </div>
               

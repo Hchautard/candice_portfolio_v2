@@ -7,42 +7,54 @@ import Home from './pages/Home';
 import Makeup from './pages/Makeup';
 import Tattoo from './pages/Tattoo';
 import Header from './components/Header';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+
+// ✅ Layout component pour inclure le Header
+function Layout() {
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
+}
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <Layout />, // ✅ Layout comme élément parent
     errorElement: <div>Page not found</div>,
-  },
-  {
-    path: '/contact',
-    element: <Contact />,
-  },
-  {
-    path: '/home',
-    element: <Home />,
-  },
-  {
-    path: '/makeup',
-    element: <Makeup />,
-  },
-  {
-    path: '/tattoo',
-    element: <Tattoo />,
+    children: [
+      {
+        index: true, // ✅ Route par défaut pour "/"
+        element: <Home />,
+      },
+      {
+        path: 'contact',
+        element: <Contact />,
+      },
+      {
+        path: 'home',
+        element: <Home />,
+      },
+      {
+        path: 'makeup',
+        element: <Makeup />,
+      },
+      {
+        path: 'tattoo',
+        element: <Tattoo />,
+      },
+    ],
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Header />
     <RouterProvider router={router} />
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

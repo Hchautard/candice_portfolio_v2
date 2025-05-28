@@ -1,4 +1,5 @@
 import { Divider } from '@mui/material';
+import { Link } from 'react-router-dom'; 
 import '../styles/Header.css';
 import logo from '../assets/images/logo_anomalie_new.png';
 
@@ -7,37 +8,30 @@ export default function Header() {
         <div className="Header">
             <nav className="navbar navbar-expand-lg">
                 <div className="flex justify-center items-center gap-x-4 text-align-center">
-                    <a
-                        href="/"
+                    <Link
+                        to="/"
                         className="block header-link rounded-lg px-3 py-2 text-base"
                     >
                         Accueil
-                    </a>
-                    <a
-                        href="/tattoo"
+                    </Link>
+                    <Link
+                        to="/tattoo"
                         className="block header-link rounded-lg px-3 py-2 text-base"
                     >
                         Tattoo
-                    </a>
-                    <a
-                        href="/makeup"
+                    </Link>
+                    <Link
+                        to="/makeup"
                         className="block header-link rounded-lg px-3 py-2 text-base"
                     >
                         Makeup
-                    </a>
-                    <a
-                        href="/contact"
+                    </Link>
+                    <Link
+                        to="/contact"
                         className="block header-link rounded-lg px-3 py-2 text-base"
                     >
                         Contact
-                    </a>
-                    {/* <a href="/" className="p-1.5 header-link">
-                        <img
-                            alt=""
-                            src={logo}
-                            className="h-8 w-auto"
-                        />
-                    </a> */}
+                    </Link>
                 </div>
             </nav>
             {/* <Divider variant='middle' /> */}

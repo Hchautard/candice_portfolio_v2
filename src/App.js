@@ -1,14 +1,20 @@
-import { BrowserRouter } from "react-router-dom";
-import './App.css';
-
-import Header from "./components/Header";
-import AnimatedRoutes from "./components/AnimatedRoutes";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Home from './pages/Home';
+import Tattoo from './pages/Tattoo';
+import Makeup from './pages/Makeup';
+import Contact from './pages/Contact';
+import './App.css'; 
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
-      <AnimatedRoutes />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tattoo" element={<Tattoo />} />
+        <Route path="/makeup" element={<Makeup />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </BrowserRouter>
   );
 }
