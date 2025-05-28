@@ -6,7 +6,7 @@ import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
 
 function TattooMachineModel() {
   const modelRef = useRef();
-  const { scene } = useGLTF("/models/tattoo_machine/scene.gltf");
+  const { scene } = useGLTF("./models/tattoo_machine/scene.gltf");
   
   // Animation for floating effect with 45-degree angle
   useFrame((state) => {
