@@ -43,12 +43,7 @@ p {
     position: relative;
     padding: 0 20px;
     box-sizing: border-box;
-}
 
-.content-container {
-    z-index: 1;
-    display: flex;
-    justify-content: flex-start;
 }
 
 .text-container {
@@ -122,20 +117,21 @@ p {
 @media (max-width: 768px) {
     /* Typography mobile */
     h2 {
-        font-size: 2.5rem;
+        font-size: 2.0rem;
         text-align: center;
     }
     
     p {
-        text-align: center;
+        text-align: justify;
         font-size: var(--medium);
     }
     
     /* Layout mobile */
     .banner {
-        min-height: 100vh;
+        margin-top: 1rem;
+        min-height: 90vh;
         padding: 0 15px;
-        justify-content: center;
+        justify-content: end;
     }
 
     .banner-content {
@@ -154,7 +150,7 @@ p {
         max-width: 400px;
         padding: 30px 20px;
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: none;
     }
     
     .text {
@@ -164,8 +160,8 @@ p {
     }
     
     .model-container {
-        width: 80%;
-        height: 40vh;
+        width: 40%;
+        height: 30vh;
         max-width: 300px;
         margin-bottom: 50px;
     }
@@ -178,24 +174,27 @@ p {
     }
 
     .button {
-        font-size: var(--medium) !important;
+        /* font-size: var(--medium) !important;
         padding: var(--small) var(--large) !important;
-        width: 50%;
-        max-width: 200px;
+        width: 40%;
+        max-width: 100px;
         text-align: center;
-        margin: 10px 0;
+        margin: 10px 0; */
+
+        display: none;
     }
     
     /* Buttons mobile */
-    /* .content-container .button,
     .content-container .button-light {
         font-size: var(--medium);
         padding: var(--medium) var(--large);
         width: 100%;
         max-width: 200px;
         text-align: center;
-        margin: 10px 0;
-    } */
+        margin: 0px 0;
+
+        display: none;
+    }
     
     /* Background mobile optimization */
     .Home::before {
