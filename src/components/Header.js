@@ -19,13 +19,19 @@ export default function Header() {
     useEffect(() => {
         if (isMenuOpen) {
             document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
         } else {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
         }
 
         // Cleanup
         return () => {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
         };
     }, [isMenuOpen]);
 
