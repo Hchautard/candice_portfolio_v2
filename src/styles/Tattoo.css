@@ -3,3 +3,10 @@ body.tattoo-page {
     background-size: cover;
     min-height: 100vh;
 }
+
+@media (max-width: 768px) {
+    .container-tattoo {
+        width: 100%;
+        padding: 10%;
+    }
+}

@@ -31,7 +31,7 @@
         font-size: var(--xlarge);
 
         @media (max-width: 768px) {
-            font-size: calc(var(--large) - 4px);
+            font-size: calc(var(--large) - 5px);
             margin-bottom: 16px;
         }
     }
@@ -43,9 +43,9 @@
         line-height: 1.5rem;
 
         @media (max-width: 768px) {
-            font-size: calc(var(--medium) - 2px);
+            font-size: var(--medium);
             width: 100%;
-            text-align: left;
+            text-align: justify;
             margin-bottom: 16px;
         }
 

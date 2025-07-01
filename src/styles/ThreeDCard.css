@@ -1,7 +1,15 @@
 .title {
-    font-size: var(--xlarge);
+    font-size: var(--large);
     padding-left: var(--large);
     font-family: Alice_Wonderland_2;
+    text-shadow: 2px 2px 4px rgba(var(--primary-rgba), 1);
+
+    @media (max-width: 768px) {
+        font-size: var(--medium-large);
+        padding-left: var(--small);
+        padding-right: var(--small);
+        text-align: center;
+    }
 }
 
 .content {

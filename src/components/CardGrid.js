@@ -91,19 +91,19 @@ export function CardGrid() {
         ) : (
           <>
             <ThreeDCardDemo 
-              title="Natural Beauty" 
+              title="Magic Garden : La princesse"
               description="Discover our collection of organic makeup products" 
               imageUrl={flora1}
               loading="eager"
             />
             <ThreeDCardDemo 
-              title="Bold Colors" 
+              title="Allo Docteur Love : l'enivrante"
               description="Express yourself with vibrant, long-lasting pigments" 
               imageUrl={alice1}
               loading="eager"
             />
             <ThreeDCardDemo 
-              title="Skin First" 
+              title="Magic Garden : La sirène" 
               description="Makeup that nourishes your skin while enhancing your beauty" 
               imageUrl={karole1}
               loading="eager"
@@ -124,7 +124,7 @@ export function CardGrid() {
             <div className="col-span-2">
               <ThreeDCardDemo 
                 width="full" 
-                title="Limited Edition Collection" 
+                title="Magic Garden : L'elfe"
                 description="Explore our exclusive seasonal palette with unique textures and finishes" 
                 imageUrl={mira1}
                 loading="eager"
@@ -132,7 +132,7 @@ export function CardGrid() {
             </div>
             <div className="col-span-1">
               <ThreeDCardDemo 
-                title="Eco-Friendly" 
+                title="Portal" 
                 description="Sustainable beauty products in recyclable packaging" 
                 imageUrl={karole2}
                 loading="eager"
@@ -145,19 +145,19 @@ export function CardGrid() {
       {/* Third row - 3 equal cards */}
       <div className="grid grid-cols-3 gap-4 mb-4">
         <ThreeDCardDemo 
-          title="For Every Skin Tone" 
+          title="Allo Docteur Love : la briseuse de coeur"
           description="Inclusive shade ranges for all complexions" 
           imageUrl={song1}
           loading="lazy"
         />
         <ThreeDCardDemo 
-          title="Pro Tools" 
+          title="Magic Garden : La princesse"
           description="Professional-grade brushes and applicators" 
           imageUrl={flora2}
           loading="lazy"
         />
         <ThreeDCardDemo 
-          title="Clean Beauty" 
+          title="Glam" 
           description="Free from harmful ingredients, gentle on sensitive skin" 
           imageUrl={perles1}
           loading="lazy"
@@ -168,7 +168,7 @@ export function CardGrid() {
       <div className="grid grid-cols-3 gap-4 mb-4">
         <div className="col-span-1">
           <ThreeDCardDemo  
-            title="New Arrivals" 
+            title="Portal défilé POZ"
             description="Just launched products to elevate your makeup routine" 
             imageUrl={karole3}
             loading="lazy"
@@ -177,7 +177,7 @@ export function CardGrid() {
         <div className="col-span-2">
           <ThreeDCardDemo 
             width="full" 
-            title="Makeup Masterclass" 
+            title="Ice look"
             description="Learn techniques from our expert makeup artists" 
             imageUrl={candice1}
             loading="lazy"
@@ -188,19 +188,19 @@ export function CardGrid() {
       {/* Fifth row - 3 equal cards */}
       <div className="grid grid-cols-3 gap-4">
         <ThreeDCardDemo 
-          title="Vegan Formulas" 
+          title="La reine de coeur"
           description="Cruelty-free beauty products with plant-based ingredients" 
           imageUrl={carte1}
           loading="lazy"
         />
         <ThreeDCardDemo 
-          title="Bestsellers" 
+          title="Look David Bowie"
           description="Our most loved products that customers can't get enough of" 
           imageUrl={ziggy1}
           loading="lazy"
         />
         <ThreeDCardDemo 
-          title="Gift Sets" 
+          title="Hématome"
           description="Perfect combinations for gifting or trying something new" 
           imageUrl={hematome1}
           loading="lazy"

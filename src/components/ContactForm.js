@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import '../styles/ContactForm.css';
-import { motion } from "framer-motion";
 import emailjs from 'emailjs-com';
 
 function ContactForm() {
@@ -31,11 +30,11 @@ function ContactForm() {
     try {
       
         const result = await emailjs.send(
-        'service_w9h8cka',
-        'template_xhsw6ad',
-        formData,
-        'W-irZvg8Zk7ukz9Pt'
-      );
+          process.env.REACT_APP_EMAILJS_SERVICE_ID,
+          process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+          formData,
+          process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+        );
       
       if (result.status === 200) {
         setStatus({

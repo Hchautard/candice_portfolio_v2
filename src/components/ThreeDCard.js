@@ -54,7 +54,7 @@ export function ThreeDCardDemo({
       >
         <CardBody
           className={cn(
-            "bg-gray-50 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1]",
+            "relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1]",
             "dark:bg-black dark:border-white/[0.2] border-black/[0.1]",
             "h-auto rounded-xl border",
             width === 'full' ? 'w-full' : 'w-auto sm:w-[30rem]',
@@ -90,14 +90,6 @@ export function ThreeDCardDemo({
               </div>
             )}
             
-            {/* Indicateur de clic */}
-            {/* {imageLoaded && !imageError && (
-              <div className="absolute bottom-2 right-2 bg-black/50 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                  <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                </svg>
-              </div>
-            )} */}
           </CardItem>
         </CardBody>
       </CardContainer>
