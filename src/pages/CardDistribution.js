@@ -88,11 +88,12 @@ const CardDistribution = ({ cards = [] }) => {
   return (
     <div 
       ref={containerRef} 
-      className="relative p-4 overflow-visible align-items-center justify-center flex flex-wrap"
+      className="relative p-4 overflow-visible"
       style={{ 
         height: `${containerHeight}px`,
         minHeight: '100vh' // Assure une hauteur minimale
       }}
+      id="card-distribution-container"
     >
       {cardItems.map((card, i) => (
         <div

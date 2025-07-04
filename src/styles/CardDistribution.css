@@ -24,3 +24,14 @@
   font-weight: bold;
 }
 
+@media (max-width: 768px) {
+  #card-distribution-container {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
