@@ -1,12 +1,31 @@
 body.tattoo-page {
     background-image: url('../assets/images/cards.jpg');
     background-size: cover;
+    background-attachment: fixed;
     min-height: 100vh;
+    /* Assure que le scroll fonctionne correctement */
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.container-tattoo {
+    width: 100%;
+    padding: 2rem;
+    /* Assure que le conteneur peut s'étendre verticalement */
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
+    body.tattoo-page {
+        /* Sur mobile, on évite background-attachment: fixed qui peut causer des problèmes */
+        background-attachment: scroll;
+    }
+    
     .container-tattoo {
         width: 100%;
-        padding: 10%;
+        padding: 1rem;
+        /* Assure un padding approprié sur mobile */
+        min-height: 100vh;
     }
 }

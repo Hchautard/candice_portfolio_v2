@@ -6,14 +6,16 @@ const CardDistribution = ({ cards = [] }) => {
   const cardsRef = useRef([]);
   const containerRef = useRef(null);
   const [cardsPerRow, setCardsPerRow] = useState(5);
-  const [containerHeight, setContainerHeight] = useState(0);
+  const [containerHeight, setContainerHeight] = useState('auto');
 
   useEffect(() => {
     // Met à jour le nombre de cartes par ligne selon la largeur du conteneur
     const updateCardsPerRow = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        setCardsPerRow(Math.floor(containerWidth / 330)); // largeur estimée d'une carte + marge
+        const cardWidth = window.innerWidth <= 768 ? 280 : 330; // Cartes plus petites sur mobile
+        const newCardsPerRow = Math.max(1, Math.floor(containerWidth / cardWidth));
+        setCardsPerRow(newCardsPerRow);
       }
     };
 
@@ -24,6 +26,15 @@ const CardDistribution = ({ cards = [] }) => {
 
   useEffect(() => {
     let maxHeight = 0;
+    const isMobile = window.innerWidth <= 768;
+    const cardSpacingX = isMobile ? 380 : 380; // Espacement horizontal réduit sur mobile
+    const cardSpacingY = isMobile ? 420 : 420; // Espacement vertical réduit sur mobile
+    const cardHeight = isMobile ? 340 : 340; // Hauteur de carte réduite sur mobile
+    
+    // Calcul de la largeur totale pour centrer les cartes
+    const totalWidth = cardsPerRow * cardSpacingX;
+    const containerWidth = containerRef.current?.offsetWidth || 0;
+    const offsetX = Math.max(0, (containerWidth - totalWidth) / 2);
     
     cardsRef.current.forEach((card, index) => {
       if (!card) return;
@@ -32,24 +43,24 @@ const CardDistribution = ({ cards = [] }) => {
       const col = index % cardsPerRow;
 
       gsap.to(card, {
-        x: col * 380, // Écartement horizontal
-        y: row * 420, // Écartement vertical
-        rotation: Math.random() * 10 - 5, // Légère rotation aléatoire
+        x: offsetX + col * cardSpacingX,
+        y: row * cardSpacingY,
+        rotation: Math.random() * 10 - 5,
         duration: 0.5 + index * 0.05,
         ease: "power2.out",
       });
       
-      // Calculate the maximum height needed for the container
-      const cardBottom = (row + 1) * 340 + 80; // Add card height (80px) to position
+      // Calcul de la hauteur maximale nécessaire
+      const cardBottom = (row + 1) * cardSpacingY + cardHeight;
       if (cardBottom > maxHeight) {
         maxHeight = cardBottom;
       }
     });
     
-    // Update container height
-    setContainerHeight(maxHeight);
+    // Met à jour la hauteur du conteneur
+    setContainerHeight(maxHeight + 50); // Ajoute un peu d'espace en bas
     
-  }, [cardsPerRow, cards.length]); // Met à jour l'animation si le nombre de cartes par ligne ou le nombre de cartes change
+  }, [cardsPerRow, cards.length]);
 
   const flipCard = (index) => {
     if (!cardsRef.current[index]) return;
@@ -77,14 +88,20 @@ const CardDistribution = ({ cards = [] }) => {
   return (
     <div 
       ref={containerRef} 
-      className="relative w-full p-4"
-      style={{ height: `${containerHeight}px` }}
+      className="relative p-4 overflow-visible align-items-center justify-center flex flex-wrap"
+      style={{ 
+        height: `${containerHeight}px`,
+        minHeight: '100vh' // Assure une hauteur minimale
+      }}
     >
       {cardItems.map((card, i) => (
         <div
           key={card.id || i}
           ref={(el) => (cardsRef.current[i] = el)}
-          className="absolute w-80 h-96 rounded-lg shadow-lg cursor-pointer perspective-500 transform-style-preserve-3d"
+          className="absolute rounded-lg shadow-lg cursor-pointer perspective-500 transform-style-preserve-3d
+                     w-80 h-96 
+                     md:w-80 md:h-96 
+                     sm:w-64 sm:h-80"
           onClick={() => flipCard(i)}
           flipped={false}
         >
