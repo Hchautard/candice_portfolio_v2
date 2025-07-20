@@ -1,5 +1,4 @@
 body {
-  margin: 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -17,6 +16,7 @@ code {
   --accent-light: #bb9c85;
 
   --primary-rgba: 241, 226, 186;
+  --secondary-rgba: 8, 8, 8;
   --accent-rgba: 121, 14, 9;
 
   /* Define var font size */

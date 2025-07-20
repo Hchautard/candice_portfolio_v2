@@ -2,14 +2,12 @@
 
 import React, { useState } from "react";
 import { CardBody, CardContainer, CardItem } from "./Card";
-import { ImageModal } from "./ImageModal";
 import '../styles/ThreeDCard.css';
 
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-// Composant placeholder pendant le chargement
 const ImagePlaceholder = () => (
   <div className="w-full h-60 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse flex items-center justify-center">
     <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -18,17 +16,16 @@ const ImagePlaceholder = () => (
   </div>
 );
 
-export function ThreeDCardDemo({ 
-  height = 70, 
-  width = 'auto', 
-  title = "Make things float in air", 
+export function ThreeDCardDemo({
+  height = 70,
+  width = '',
+  title = "",
   description = "Hover over this card to unleash the power of CSS perspective",
-  imageUrl = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  imageUrl = "",
   loading = "lazy"
 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -39,17 +36,10 @@ export function ThreeDCardDemo({
     setImageLoaded(true); // Pour arrêter l'animation de chargement
   };
 
-  const handleCardClick = () => {
-    if (imageLoaded && !imageError) {
-      setIsModalOpen(true);
-    }
-  };
-
   return (
     <>
-      <CardContainer 
+      <CardContainer
         className={cn('h-64', width === 'full' ? 'w-full' : 'w-lg') + ' card-container'}
-        onClick={handleCardClick}
         style={{ cursor: imageLoaded && !imageError ? 'pointer' : 'default' }}
       >
         <CardBody
@@ -68,7 +58,7 @@ export function ThreeDCardDemo({
 
           <CardItem translateZ="100" className="w-full">
             {!imageLoaded && !imageError && <ImagePlaceholder />}
-            
+
             <img
               src={imageUrl}
               height="1000"
@@ -81,25 +71,18 @@ export function ThreeDCardDemo({
               loading={loading}
               onLoad={handleImageLoad}
               onError={handleImageError}
-              style={{ display: imageLoaded || imageError ? 'block' : 'none' }}
+              style={{ display: imageLoaded || imageError ? 'block' : 'img-makeup' }}
             />
-            
+
             {imageError && (
               <div className="w-full h-60 bg-gray-200 dark:bg-gray-700 rounded-xl flex items-center justify-center">
                 <p className="text-gray-500">Image non disponible</p>
               </div>
             )}
-            
+
           </CardItem>
         </CardBody>
       </CardContainer>
-
-      <ImageModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        imageSrc={imageUrl}
-        imageAlt={title}
-      />
     </>
   );
 }
