@@ -8,10 +8,8 @@ import { Link } from "react-router-dom"; // ✅ Import ajouté
 function TattooMachineModel() {
   const modelRef = useRef();
   
-  // ✅ Correction du chemin - ajout de process.env.PUBLIC_URL
   const { scene, error } = useGLTF(process.env.PUBLIC_URL + "/models/tattoo_machine/scene.gltf");
   
-  // ✅ Gestion d'erreur
   useEffect(() => {
     if (error) {
       console.error("Erreur de chargement du modèle:", error);
@@ -49,7 +47,6 @@ function TattooMachineModel() {
   );
 }
 
-// ✅ Composant de fallback pour le chargement (THREE.js compatible)
 function LoadingFallback() {
   return (
     <group>
@@ -93,7 +90,7 @@ function Home() {
               <div className="text-container">
                 <h2 className="tracking-tight">Bienvenue chez l'Anomalie</h2>
               
-                <p className="text font-medium text-pretty">
+                <p className="text text-pretty">
                 Plongez dans un univers où l'encre devient rituel. Inspirée par le cyber sigilism et le dark fantasy, 
                 <span> l'Anomalie</span> crée des tatouages mystiques et intemporels, entre symboles occultes et visions futuristes. 
                 Chaque tracé est une porte vers l'invisible.
