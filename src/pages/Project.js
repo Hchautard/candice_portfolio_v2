@@ -24,7 +24,6 @@ function Project() {
         };
     }, [videoLoaded]);
 
-
     return (
         <div className="video-container">
             <Video src={vid_project} />

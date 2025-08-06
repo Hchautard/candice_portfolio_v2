@@ -1,14 +1,16 @@
 .Contact {
-    position: relative; /* Changé de fixed à relative */
-    min-height: 100vh;
+    position: relative;
+    //min-height: 100vh;
     width: 100%;
     padding-top: 8%;
+}
+
+body.contact-page {
     background-image: url(../assets/images/old_phone.jpg);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    overflow-y: auto; /* Permet le scroll vertical */
-    overflow-x: hidden; /* Cache le scroll horizontal */
+    min-height: 100vh;
 }
 
 /* Correction pour mobile */

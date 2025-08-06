@@ -17,14 +17,12 @@ body.tattoo-page {
 
 @media (max-width: 768px) {
     body.tattoo-page {
-        /* Sur mobile, on évite background-attachment: fixed qui peut causer des problèmes */
         background-attachment: scroll;
     }
     
     .container-tattoo {
         width: 100%;
         padding: 1rem;
-        /* Assure un padding approprié sur mobile */
         min-height: 100vh;
     }
 }

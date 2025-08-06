@@ -59,7 +59,7 @@ function Tattoo() {
         if (imagesLoaded) {
             const timer = setTimeout(() => {
                 setShowComponent(true);
-            }, 500); // Délai réduit car les images sont déjà chargées
+            }, 500);
 
             return () => clearTimeout(timer);
         }
