@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import Contact from "../pages/Contact";
 import Tattoo from "../pages/Tattoo";
 import Makeup from "../pages/Makeup";
+import Project from "../pages/Project";
 
 function AnimatedRoutes() {
     
@@ -14,6 +15,7 @@ function AnimatedRoutes() {
             <Route path="tattoo" element={<Tattoo />} />
             <Route path="contact" element={<Contact />} />
             <Route path="makeup" element={<Makeup />} />
+            <Route path="project" element={<Project />} />
         </Routes>
   );
 }

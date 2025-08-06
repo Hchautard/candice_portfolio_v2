@@ -1,0 +1,17 @@
+body.project-page {
+    background-image: url(../assets/images/cathedrale_goth.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.video-container {
+
+    display: flex;
+    justify-content: center;
+    margin-top: 5svh;
+
+    Video {
+        width: 20%;
+    }
+}

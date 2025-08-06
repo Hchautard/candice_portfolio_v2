@@ -9,6 +9,7 @@ import Tattoo from './pages/Tattoo';
 import Header from './components/Header';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+import Project from "./pages/Project";
 
 // ✅ Layout component pour inclure le Header
 function Layout() {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: 'tattoo',
         element: <Tattoo />,
+      },
+      {
+        path: 'project',
+        element: <Project />,
       },
     ],
   },

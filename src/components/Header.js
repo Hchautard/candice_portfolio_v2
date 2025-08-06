@@ -72,6 +72,13 @@ export default function Header() {
                         Accueil
                     </Link>
                     <Link
+                        to="/project"
+                        className="block header-link rounded-lg px-3 py-2 text-base"
+                        onClick={closeMenu}
+                    >
+                        Shop
+                    </Link>
+                    <Link
                         to="/tattoo"
                         className="block header-link rounded-lg px-3 py-2 text-base"
                         onClick={closeMenu}

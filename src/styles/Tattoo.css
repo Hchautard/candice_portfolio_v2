@@ -1,9 +1,8 @@
 body.tattoo-page {
-    background-image: url('../assets/images/cards.jpg');
+    background-image: url('../assets/images/armure.jpg');
     background-size: cover;
     background-attachment: fixed;
     min-height: 100vh;
-    /* Assure que le scroll fonctionne correctement */
     overflow-x: hidden;
     overflow-y: auto;
 }
