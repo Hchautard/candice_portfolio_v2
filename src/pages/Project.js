@@ -39,7 +39,7 @@ function Project() {
 
     return (
         <div className="project-container">
-            <div className="banner">
+            <div className="project-banner">
                 <div className="project-content-container">
                     <h2 className="tracking-tight">Bienvenue dans mon (futur) shop</h2>
                     <p className="project-text text-pretty">
