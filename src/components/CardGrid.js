@@ -62,7 +62,7 @@ export function CardGrid() {
           img.src = src;
         });
       });
-      
+
       try {
         await Promise.all(promises);
         setImagesLoaded(true);
@@ -71,13 +71,13 @@ export function CardGrid() {
         setImagesLoaded(true); // On affiche quand même
       }
     };
-    
+
     loadImages();
   }, []);
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Préchargement des autres images en arrière-plan */}
+
       <ImagePreloader images={allImages} />
       
       {/* First row - 3 equal cards */}
@@ -144,6 +144,14 @@ export function CardGrid() {
       
       {/* Third row - 3 equal cards */}
       <div className="grid grid-cols-3 gap-4 mb-4">
+          {!imagesLoaded ? (
+              <>
+                  <CardSkeleton />
+                  <CardSkeleton />
+                  <CardSkeleton />
+              </>
+          ) : (
+              <>
         <ThreeDCardDemo 
           title="Allo Docteur Love : la briseuse de coeur"
           description="Inclusive shade ranges for all complexions" 
@@ -162,10 +170,19 @@ export function CardGrid() {
           imageUrl={perles1}
           loading="lazy"
         />
+              </>
+          )}
       </div> 
 
       {/* Fourth row - 1 card in the first column, 1 card spanning 2 columns */}
       <div className="grid grid-cols-3 gap-4 mb-4">
+          {!imagesLoaded ? (
+              <>
+                  <CardSkeleton width="full" />
+                  <CardSkeleton />
+              </>
+          ) : (
+              <>
         <div className="col-span-1">
           <ThreeDCardDemo  
             title="Portal défilé POZ"
@@ -183,29 +200,33 @@ export function CardGrid() {
             loading="lazy"
           />
         </div>
+              </>
+          )}
       </div>
 
       {/* Fifth row - 3 equal cards */}
       <div className="grid grid-cols-3 gap-4">
-        <ThreeDCardDemo 
+
+        <ThreeDCardDemo
           title="La reine de coeur"
-          description="Cruelty-free beauty products with plant-based ingredients" 
+          description="Cruelty-free beauty products with plant-based ingredients"
           imageUrl={carte1}
           loading="lazy"
         />
-        <ThreeDCardDemo 
+        <ThreeDCardDemo
           title="Look David Bowie"
-          description="Our most loved products that customers can't get enough of" 
+          description="Our most loved products that customers can't get enough of"
           imageUrl={ziggy1}
           loading="lazy"
         />
-        <ThreeDCardDemo 
+        <ThreeDCardDemo
           title="Hématome"
-          description="Perfect combinations for gifting or trying something new" 
+          description="Perfect combinations for gifting or trying something new"
           imageUrl={hematome1}
           loading="lazy"
         />
-      </div> 
+
+        </div>
     </div>
   );
 }

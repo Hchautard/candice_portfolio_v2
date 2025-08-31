@@ -104,7 +104,7 @@ function ContactForm() {
                   </div>
                 )}
                 <div className="col-span-1">
-                    <label htmlFor="name" className="block">Votre nom</label>
+                    <label htmlFor="name" className="block">Votre nom & prénom</label>
                     <input 
                       type="text" 
                       id="name" 

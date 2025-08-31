@@ -52,6 +52,12 @@ function Tattoo() {
     }, []);
 
     useEffect(() => {
+
+        if (document.body.classList.contains('contact-page') || document.body.classList.contains('project-page')) {
+            document.body.classList.remove('contact-page');
+            document.body.classList.remove('project-page');
+        }
+
         // Add class to body when component mounts
         document.body.classList.add('tattoo-page');
 
