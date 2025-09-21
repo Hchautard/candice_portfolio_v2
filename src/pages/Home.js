@@ -1,9 +1,23 @@
 import "../styles/Home.css";
-import { motion } from "framer-motion";
-import { useState, useEffect, Suspense, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
-import { Link } from "react-router-dom"; // ✅ Import ajouté
+import {motion} from "framer-motion";
+import {Suspense, useEffect, useRef, useState} from "react";
+import {Canvas, useFrame} from "@react-three/fiber";
+import {Environment, OrbitControls, useGLTF} from "@react-three/drei";
+import {Link} from "react-router-dom";
+import {getGoogleReviews} from '../services/reviews';
+
+
+const handleGetReviews = async () => {
+  try {
+    return await getGoogleReviews({
+      sort: 'relevant',
+      nextpage: false
+    });
+
+  } catch (error) {
+    console.error('Erreur lors de la récupération des avis:', error.message);
+  }
+};
 
 function TattooMachineModel() {
   const modelRef = useRef();
@@ -61,6 +75,8 @@ function LoadingFallback() {
 
 function Home() {
   const [contentLoaded, setContentLoaded] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -69,6 +85,20 @@ function Home() {
     
     return () => clearTimeout(timer);
   }, []);
+
+  const activateReviews = () => {
+    const reviewsFetched = handleGetReviews();
+    if (reviewsFetched && reviewsFetched['reviews']) {
+      setReviews(reviewsFetched['reviews']);
+      setShowReviews(true);
+      setTimeout(() => {
+        const reviewsSection = document.getElementById('reviews');
+        reviewsSection.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+        console.error('No reviews found');
+    }
+  }
 
   return (
     <motion.div 
@@ -96,11 +126,14 @@ function Home() {
                 Chaque tracé est une porte vers l'invisible.
                 </p>
                 
-                <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-10 mt-8 cta-buttons">
+                <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-8 mt-8 cta-buttons">
                   <Link to="/project" className="button rounded">Le shop</Link>
                   <Link to="/tattoo" className="button rounded">Tattoo</Link>
                   <Link to="/makeup" className="button rounded">Makeup</Link>
-                  <Link to="/contact" className="button-light rounded">Contact<span aria-hidden="true">&rarr;</span></Link>
+                  <div className="flex flex-col justify-center items-center">
+                    <Link to="/contact" className="button-light rounded">Contact<span aria-hidden="true">&rarr;</span></Link>
+                    <a onClick={activateReviews} className="button-light rounded">Avis<span aria-hidden="true">&darr;</span></a>
+                  </div>
                 </div>
               </div>
               
@@ -108,7 +141,6 @@ function Home() {
                 <Canvas 
                   camera={{ position: [5, 0, 5], fov: 50 }}
                   onCreated={({ gl }) => {
-                    // ✅ Configuration pour la compatibilité
                     gl.physicallyCorrectLights = false;
                   }}
                 >
@@ -132,6 +164,31 @@ function Home() {
           </motion.div>
         )}
       </div>
+
+        {showReviews && reviews.length > 0 && (
+                <div id="reviews" className="reviews-section h-96">
+                <h3>Avis Google</h3>
+                <div className="reviews-container">
+                {reviews.map((review, index) => (
+                    <div key={index} className="review-card">
+                    <div className="review-header">
+                        <img src={review.profile_photo_url} alt={review.author_name} className="review-avatar" />
+                        <div>
+                        <h4 className="review-author">{review.author_name}</h4>
+                        <div className="review-rating">
+                            {Array.from({ length: 5 }, (_, i) => (
+                            <span key={i} className={i < review.rating ? 'star filled' : 'star'}>&#9733;</span>
+                            ))}
+                        </div>
+                        </div>
+                    </div>
+                    <p className="review-text">"{review.text}"</p>
+                    <p className="review-date">{new Date(review.time * 1000).toLocaleDateString()}</p>
+                    </div>
+                ))}
+                </div>
+            </div>
+            )}
     </motion.div>
   );
 }

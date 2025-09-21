@@ -20,6 +20,7 @@ code {
   --accent-rgba: 121, 14, 9;
 
   /* Define var font size */
+  --xsmall: 4px;
   --small: 8px;
   --medium: 16px;
   --medium-large: 20px;

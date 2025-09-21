@@ -111,7 +111,7 @@ p {
 .content-container .button-light {
     font-size: var(--large);
     color: var(--secondary);
-    padding: var(--medium-large) var(--xlarge);
+    padding: var(--xsmall) var(--large);
     font-weight: lighter;
     font-family: "Alice_Wonderland_2";
     transition: color 0.3s ease-in-out;
