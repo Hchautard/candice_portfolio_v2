@@ -12,6 +12,11 @@ import image7 from "../assets/images/tattoo/7.png";
 import image8 from "../assets/images/tattoo/8.png";
 
 function Tattoo() {
+    document.body.classList.add('tattoo-page');
+    document.body.classList.remove('project-page');
+    document.body.classList.remove('contact-page');
+    document.body.classList.remove('makeup-page');
+
     const [showComponent, setShowComponent] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState(false);
 

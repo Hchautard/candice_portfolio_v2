@@ -4,6 +4,12 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from 'react';
 
 function Makeup() {
+  document.body.classList.remove('tattoo-page');
+  document.body.classList.remove('project-page');
+  document.body.classList.remove('contact-page');
+  document.body.classList.add('makeup-page');
+
+
   const [contentLoaded, setContentLoaded] = useState(false);
 
   // Délai similaire à celui utilisé dans Home.js
