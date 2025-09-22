@@ -4,6 +4,11 @@ import Video from "../components/Video";
 import '../styles/Project.css';
 
 function Project() {
+    document.body.classList.remove('tattoo-page');
+    document.body.classList.remove('contact-page');
+    document.body.classList.remove('makeup-page');
+    document.body.classList.add('project-page');
+
     const [showComponent, setShowComponent] = useState(false);
 
     useEffect(() => {
