@@ -1,0 +1,192 @@
+.reviews-section {
+    padding: 4rem 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin: 2rem 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.reviews-scroll-container {
+    overflow: hidden;
+    width: 100%;
+    mask: linear-gradient(
+            90deg,
+            transparent 0%,
+            black 10%,
+            black 90%,
+            transparent 100%
+    );
+}
+
+.reviews-scroll-content {
+    display: flex;
+    gap: 2rem;
+    width: fit-content;
+}
+
+.review-scroll-card {
+    min-width: 350px;
+    max-width: 350px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.review-scroll-card:hover {
+    border-color: var(--secondary);
+    box-shadow: 0 0 25px var(--secondary);
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.review-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+
+.review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.review-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--secondary);
+    object-fit: cover;
+}
+
+.review-author {
+    font-size: var(--medium);
+    font-weight: 600;
+    font-family: "Alice_Wonderland_2";
+    color: var(--secondary);
+    margin-bottom: 0.3rem;
+}
+
+.review-rating {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.tattoo-style {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: var(--medium);
+    font-family: "Alice_Wonderland_2";
+    margin-bottom: 1rem;
+}
+
+.star {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: var(--medium);
+}
+
+.star.filled {
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent);
+}
+
+.review-text {
+    color: var(--text-light, rgba(255, 255, 255, 0.9));
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: var(--medium);
+    font-style: italic;
+    position: relative;
+}
+
+.review-text::before {
+    content: '"';
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: bold;
+    line-height: 0;
+    font-family: "Alice_Wonderland_2";
+}
+
+.review-text::after {
+    content: '"';
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: bold;
+    line-height: 0;
+    font-family: "Alice_Wonderland_2";
+}
+
+.review-date {
+    color: var(--text-muted, rgba(255, 255, 255, 0.6));
+    font-size: var(--medium);
+    text-align: right;
+}
+
+.review-footer {
+    margin-top: 1rem;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+    .review-scroll-card {
+        min-width: 280px;
+        max-width: 280px;
+        padding: 1rem;
+    }
+
+    .review-author {
+        font-size: var(--medium);
+    }
+
+    .review-text {
+        font-size: var(--small);
+    }
+}
+
+@media (max-width: 480px) {
+
+    .section-title {
+        font-size: var(--xlarge);
+    }
+
+    .review-scroll-card {
+        min-width: 250px;
+        max-width: 250px;
+        padding: 1rem;
+    }
+
+    .scrolling-reviews-section {
+        margin: 1rem 10px;
+    }
+}
