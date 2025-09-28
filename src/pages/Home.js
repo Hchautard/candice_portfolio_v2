@@ -3,7 +3,7 @@ import {motion} from "framer-motion";
 import {Suspense, useEffect, useRef, useState} from "react";
 import {Canvas, useFrame} from "@react-three/fiber";
 import {Environment, OrbitControls, useGLTF} from "@react-three/drei";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {getGoogleReviews} from '../services/reviews';
 import NewsSection from "../components/NewsSection";
 import ReviewsSection from "../components/ReviewsSection";

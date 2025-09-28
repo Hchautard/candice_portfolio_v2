@@ -1,38 +1,14 @@
-
-// Composant pour les news défilantes
 import {useNavigate} from "react-router-dom";
 import {motion} from "framer-motion";
+import newsData from '../data/news.json';
+import "../styles/News.css";
 
 export default function NewsSection() {
     const navigate = useNavigate();
 
-    // Données de news simulées - remplacez par vos vraies données
-    const newsItems = [
-        {
-            id: 1,
-            title: "Nouveaux flashs Cyber Sigilism disponibles",
-            description: "Venez vous découvrir mes derniers flashs",
-            date: "2024-12-15",
-            category: "Tatouage"
-        },
-        {
-            id: 2,
-            title: "Atelier Dark Fantasy - Places limitées",
-            description: "Réservez votre session pour un tatouage unique",
-            date: "2024-12-10",
-            category: "Événement"
-        },
-        {
-            id: 3,
-            title: "Collaboration avec des artistes locaux",
-            description: "Nouveaux partenariats pour des créations exclusives",
-            date: "2024-12-05",
-            category: "Partenariat"
-        }
-    ];
+    const newsItems = newsData.news;
 
     const handleNewsClick = (newsItem) => {
-        // Redirection vers la page shop avec l'ID de la news
         navigate(`/project?news=${newsItem.id}`);
     };
 
