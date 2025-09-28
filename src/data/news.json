@@ -1,0 +1,25 @@
+{
+  "news": [
+    {
+      "id": 1,
+      "title": "Nouveaux flashs Cyber Sigilism disponibles",
+      "description": "Venez vous découvrir mes derniers flashs",
+      "date": "2024-12-15",
+      "category": "Tatouage"
+    },
+    {
+      "id": 2,
+      "title": "Atelier Dark Fantasy - Places limitées",
+      "description": "Réservez votre session pour un tatouage unique",
+      "date": "2024-12-10",
+      "category": "Événement"
+    },
+    {
+      "id": 3,
+      "title": "Collaboration avec des artistes locaux",
+      "description": "Nouveaux partenariats pour des créations exclusives",
+      "date": "2024-12-05",
+      "category": "Partenariat"
+    }
+  ]
+}

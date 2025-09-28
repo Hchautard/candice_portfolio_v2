@@ -1,0 +1,36 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "clientName": "Marie L.",
+      "rating": 5,
+      "comment": "Travail exceptionnel ! Le tatouage Cyber Sigilism est parfaitement réalisé, très professionnel.",
+      "date": "2024-12-10",
+      "tattooStyle": "Cyber Sigilism"
+    },
+    {
+      "id": 2,
+      "clientName": "Thomas K.",
+      "rating": 5,
+      "comment": "Ambiance parfaite, hygiène irréprochable. Mon tatouage Dark Fantasy dépasse mes attentes !",
+      "date": "2024-12-05",
+      "tattooStyle": "Dark Fantasy"
+    },
+    {
+      "id": 3,
+      "clientName": "Sophie M.",
+      "rating": 4,
+      "comment": "Super expérience, très à l'écoute. Le rendu final est magnifique, je recommande vivement.",
+      "date": "2024-11-28",
+      "tattooStyle": "Minimaliste"
+    },
+    {
+      "id": 4,
+      "clientName": "Alexandre R.",
+      "rating": 5,
+      "comment": "Artiste incroyable ! La précision du trait et l'attention aux détails sont remarquables.",
+      "date": "2024-11-15",
+      "tattooStyle": "Géométrique"
+    }
+  ]
+}
