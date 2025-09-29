@@ -1,4 +1,184 @@
+/* ===== SECTION REVIEWS CAROUSEL ===== */
 .reviews-section {
+    padding: 4rem 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin: 2rem 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.container-carousel {
+    max-width: 100%;
+    padding: 0 2rem;
+}
+
+/* ===== CAROUSEL WRAPPER ===== */
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin: 2rem 0;
+    padding: 0 2rem; /* Ajouter du padding pour voir les cartes complètes */
+    mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            black 5%,
+            black 95%,
+            transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            black 5%,
+            black 95%,
+            transparent 100%
+    );
+}
+
+.carousel-track {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem 0;
+    will-change: transform;
+    transition: none;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.review-card-carousel {
+    min-width: 380px;
+    max-width: 380px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.review-card-carousel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--secondary));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.review-card-carousel:hover::before {
+    transform: scaleX(1);
+}
+
+.review-card-carousel:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px var(--accent);
+    background: rgba(255, 255, 255, 0.18);
+    transform: scale(1.05) translateY(-8px);
+    z-index: 10;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.client-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.client-name {
+    font-family: "Alice_Wonderland_2";
+    font-size: var(--large);
+    font-weight: 700;
+    color: var(--secondary);
+    margin: 0;
+}
+
+.rating {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.star {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: var(--medium);
+    transition: all 0.3s ease;
+}
+
+.star.filled {
+    color: var(--accent);
+    text-shadow: 0 0 10px var(--accent);
+}
+
+.tattoo-style {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--primary);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: var(--medium);
+    font-family: "Alice_Wonderland_2";
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ===== CAROUSEL HINT ===== */
+.carousel-hint {
+    text-align: center;
+    margin-top: 2rem;
+    opacity: 0.7;
+}
+
+.carousel-hint span {
+    color: var(--secondary);
+    font-size: var(--medium);
+    font-family: "Alice_Wonderland_2";
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+.review-comment {
+    color: whitesmoke;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: var(--medium-large);
+    font-style: italic;
+    position: relative;
+}
+
+.review-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.review-date {
+    color: whitesmoke;
+    font-size: var(--medium);
+    font-weight: 500;
+}
+
+/* ===== SECTION AVIS DEFILANTS ===== */
+.scrolling-reviews-section {
     padding: 4rem 0;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -14,6 +194,13 @@
     overflow: hidden;
     width: 100%;
     mask: linear-gradient(
+            90deg,
+            transparent 0%,
+            black 10%,
+            black 90%,
+            transparent 100%
+    );
+    -webkit-mask: linear-gradient(
             90deg,
             transparent 0%,
             black 10%,
@@ -47,36 +234,6 @@
     transform: translateY(-5px);
 }
 
-.reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
-
-.review-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    padding: 2rem;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    animation: fadeInUp 0.6s ease-out forwards;
-}
-
-
-.review-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
 .review-avatar {
     width: 50px;
     height: 50px;
@@ -93,34 +250,8 @@
     margin-bottom: 0.3rem;
 }
 
-.review-rating {
-    display: flex;
-    gap: 0.2rem;
-}
-
-.tattoo-style {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--primary);
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: var(--medium);
-    font-family: "Alice_Wonderland_2";
-    margin-bottom: 1rem;
-}
-
-.star {
-    color: rgba(255, 255, 255, 0.3);
-    font-size: var(--medium);
-}
-
-.star.filled {
-    color: var(--accent);
-    text-shadow: 0 0 10px var(--accent);
-}
-
 .review-text {
-    color: var(--text-light, rgba(255, 255, 255, 0.9));
+    color: whitesmoke;
     line-height: 1.6;
     margin-bottom: 1rem;
     font-size: var(--medium);
@@ -128,65 +259,78 @@
     position: relative;
 }
 
-.review-text::before {
-    content: '"';
-    font-size: 1.5rem;
-    color: var(--accent);
-    font-weight: bold;
-    line-height: 0;
-    font-family: "Alice_Wonderland_2";
-}
-
-.review-text::after {
-    content: '"';
-    font-size: 1.5rem;
-    color: var(--accent);
-    font-weight: bold;
-    line-height: 0;
-    font-family: "Alice_Wonderland_2";
-}
-
-.review-date {
-    color: var(--text-muted, rgba(255, 255, 255, 0.6));
-    font-size: var(--medium);
-    text-align: right;
-}
-
-.review-footer {
-    margin-top: 1rem;
-}
-
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
-
-    .review-scroll-card {
-        min-width: 280px;
-        max-width: 280px;
-        padding: 1rem;
+    .reviews-section {
+        margin: 1rem 15px;
+        padding: 2rem 0;
+        border-radius: 15px;
     }
 
-    .review-author {
+    .carousel-wrapper {
+        padding: 0 1rem;
+    }
+
+    .carousel-track {
+        gap: 1.2rem;
+    }
+
+    .review-card-carousel {
+        min-width: 300px;
+        max-width: 300px;
+        padding: 1.5rem;
+    }
+
+    .client-name {
+        font-size: var(--medium-large);
+    }
+
+    .review-comment {
         font-size: var(--medium);
     }
 
-    .review-text {
-        font-size: var(--small);
+    .carousel-hint span {
+        font-size: calc(var(--medium) - 2px);
     }
 }
 
 @media (max-width: 480px) {
+    .review-card-carousel {
+        min-width: 260px;
+        max-width: 260px;
+        padding: 1.2rem;
+    }
 
+    .reviews-section {
+        margin: 1rem 10px;
+        padding: 1.5rem 0;
+    }
+
+    .carousel-track {
+        gap: 1rem;
+    }
+}
+
+/* ===== SHARED STYLES ===== */
+.section-title {
+    font-family: "Alice_Wonderland_2";
+    font-size: calc(var(--xxlarge) + 0.5rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--secondary);
+    text-shadow: 0 0 30px rgba(233, 69, 96, 0.3);
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: calc(var(--xlarge) + 0.5rem);
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
     .section-title {
         font-size: var(--xlarge);
-    }
-
-    .review-scroll-card {
-        min-width: 250px;
-        max-width: 250px;
-        padding: 1rem;
-    }
-
-    .scrolling-reviews-section {
-        margin: 1rem 10px;
     }
 }

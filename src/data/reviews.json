@@ -31,6 +31,30 @@
       "comment": "Artiste incroyable ! La précision du trait et l'attention aux détails sont remarquables.",
       "date": "2024-11-15",
       "tattooStyle": "Géométrique"
+    },
+    {
+      "id": 5,
+      "clientName": "Emma D.",
+      "rating": 5,
+      "comment": "Mon premier tatouage et quelle réussite ! Mise en confiance parfaite, résultat au-delà de mes espérances.",
+      "date": "2024-11-10",
+      "tattooStyle": "Floral"
+    },
+    {
+      "id": 6,
+      "clientName": "Lucas B.",
+      "rating": 4,
+      "comment": "Excellent travail sur mon sleeve. Patience et créativité au rendez-vous. Très satisfait !",
+      "date": "2024-11-02",
+      "tattooStyle": "Neo-Traditionnel"
+    },
+    {
+      "id": 7,
+      "clientName": "Camille V.",
+      "rating": 5,
+      "comment": "Tatouage biomécanique époustouflant ! Technique parfaite et originalité garantie.",
+      "date": "2024-10-25",
+      "tattooStyle": "Biomécanique"
     }
   ]
 }
