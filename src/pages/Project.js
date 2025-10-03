@@ -48,7 +48,7 @@ function Project() {
                 <div className="project-content-container">
                     <h2 className="tracking-tight">Bienvenue dans mon univers</h2>
                     <p className="project-text text-pretty">
-                        Ce futur salon hybride, L’Anomalie, combinera salon de tatouage, café de spécialité et boutique
+                        Ce futur salon hybride, l’<span>Anomalie</span>, combinera salon de tatouage, café de spécialité et boutique
                         créative.
                         <br/>
                         <br/>
