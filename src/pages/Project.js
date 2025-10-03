@@ -46,10 +46,19 @@ function Project() {
         <div className="project-container">
             <div className="project-banner">
                 <div className="project-content-container">
-                    <h2 className="tracking-tight">Bienvenue dans mon (futur) shop</h2>
+                    <h2 className="tracking-tight">Bienvenue dans mon univers</h2>
                     <p className="project-text text-pretty">
-                        Entre deux gorgées de café artisanal, découvrez nos créations textile uniques ou offrez-vous le tatouage de vos rêves.
-                        Notre boutique hybride cultive l'art de l'étrange et du merveilleux, où chaque visite devient une aventure au pays des possibles.
+                        Ce futur salon hybride, L’Anomalie, combinera salon de tatouage, café de spécialité et boutique
+                        créative.
+                        <br/>
+                        <br/>
+                        J’y créerai des tatouages organiques adaptés à chaque corps, les créateurs résidents vous
+                        proposeront des pièces de mode uniques et des artistes indépendants locaux y exposeront leurs
+                        œuvres.
+                        <br/>
+                        <br/>
+                        Chaque visite sera l’occasion de découvrir un lieu vivant, à la fois artistique et convivial,
+                        pensé pour accueillir et inspirer.
                     </p>
                 </div>
             </div>

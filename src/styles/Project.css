@@ -36,6 +36,8 @@ body.project-page {
         margin-top: 20px;
         font-size: calc(var(--xlarge) - 5px);
         color: var(--secondary);
+        line-height: 1.0;
+        letter-spacing: -1px;
 
         @media (max-width: 768px) {
             font-size: calc(var(--medium-large) + 4px);
@@ -62,11 +64,11 @@ body.project-page {
 }
 
 .project-content-container {
-    width: 30svw;
+    width: 35svw;
 
     h2 {
         color: var(--secondary);
-        font-size: calc(var(--xxxlarge) - 7px);
+        font-size: calc(var(--xxlarge) + 4px);
         line-height: 1.0;
 
         @media (max-width: 768px) {

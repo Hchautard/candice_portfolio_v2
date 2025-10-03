@@ -19,7 +19,8 @@
 }
 
 .text-content {
-    width: 50%;
+    width: 48%;
+    line-height: 4rem;
 
     @media (max-width: 768px) {
         width: 100%;
@@ -40,7 +41,7 @@
         color: var(--secondary);
         font-size: calc(var(--medium) + 8px);
         width: 90%;
-        line-height: 1.5rem;
+        line-height: 1.8rem;
 
         @media (max-width: 768px) {
             font-size: var(--medium);
@@ -60,10 +61,6 @@
 
         strong {
             color: var(--accent);
-
-            &:hover {
-                color: var(--accent-secondary);
-            }
         }
     }
 }

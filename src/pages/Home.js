@@ -73,95 +73,6 @@ function LoadingFallback() {
   );
 }
 
-
-// Composant pour les avis défilants
-function ScrollingReviews({ reviews }) {
-  const scrollRef = useRef();
-
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer || reviews.length === 0) return;
-
-    let animationId;
-    let scrollPosition = 0;
-    const scrollSpeed = 0.5; // Vitesse de défilement
-
-    const scroll = () => {
-      scrollPosition += scrollSpeed;
-
-      // Reset quand on atteint la fin
-      if (scrollPosition >= scrollContainer.scrollWidth / 2) {
-        scrollPosition = 0;
-      }
-
-      scrollContainer.scrollLeft = scrollPosition;
-      animationId = requestAnimationFrame(scroll);
-    };
-
-    scroll();
-
-    return () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-      }
-    };
-  }, [reviews]);
-
-  if (reviews.length === 0) return null;
-
-  // Dupliquer les avis pour un défilement infini
-  const duplicatedReviews = [...reviews, ...reviews];
-
-  return (
-      <motion.section
-          className="scrolling-reviews-section"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          viewport={{ once: true }}
-      >
-        <div className="container mx-auto px-4">
-          <h3 className="section-title">Ce que disent nos clients</h3>
-          <div className="reviews-scroll-container" ref={scrollRef}>
-            <div className="reviews-scroll-content">
-              {duplicatedReviews.map((review, index) => (
-                  <div key={`${review.author_name}-${index}`} className="review-scroll-card">
-                    <div className="review-header">
-                      <img
-                          src={review.profile_photo_url}
-                          alt={review.author_name}
-                          className="review-avatar"
-                          onError={(e) => {
-                            e.target.src = '/default-avatar.png'; // Image par défaut
-                          }}
-                      />
-                      <div>
-                        <h4 className="review-author">{review.author_name}</h4>
-                        <div className="review-rating">
-                          {Array.from({ length: 5 }, (_, i) => (
-                              <span
-                                  key={i}
-                                  className={i < review.rating ? 'star filled' : 'star'}
-                              >
-                          ★
-                        </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <p className="review-text">"{review.text}"</p>
-                    <p className="review-date">
-                      {new Date(review.time * 1000).toLocaleDateString('fr-FR')}
-                    </p>
-                  </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </motion.section>
-  );
-}
-
 function Home() {
   document.body.classList.remove('tattoo-page');
   document.body.classList.remove('contact-page');
@@ -220,12 +131,12 @@ function Home() {
               >
                 <div className="flex flex-row items-center banner-content">
                   <div className="text-container">
-                    <h2 className="tracking-tight">Bienvenue chez l'Anomalie</h2>
+                    <h2 className="tracking-tight">Bienvenue chez l'<span>Anomalie</span></h2>
 
                     <p className="text text-pretty">
-                      Plongez dans un univers où l'encre devient rituel. Inspirée par le cyber sigilism et le dark fantasy,
-                      <span> l'Anomalie</span> crée des tatouages mystiques et intemporels, entre symboles occultes et visions futuristes.
-                      Chaque tracé est une porte vers l'invisible.
+                      Je suis Candice, jeune tatoueuse indépendante de 24 et je vous présente mon univers, mêlant influences cyber-sigilism, gothique et dark fantasy.
+                      <br />
+                      Mon style est organique et instinctif, je travaille aussi en freehand afin d’adapter chaque tatouage au maximum à votre morphologie et à votre univers.
                     </p>
 
                     <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-8 mt-8 cta-buttons">
@@ -268,11 +179,9 @@ function Home() {
         {/* Section News */}
         <NewsSection />
 
-        {/* Section Avis statiques */}
+        {/* Section Avis */}
         <ReviewsSection />
 
-        {/* Section Avis défilants */}
-        {reviewsLoaded && <ScrollingReviews reviews={reviews} />}
       </motion.div>
   );
 }
