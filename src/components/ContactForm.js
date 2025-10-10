@@ -1,6 +1,16 @@
 import { useState } from 'react';
 import '../styles/ContactForm.css';
 import emailjs from 'emailjs-com';
+import * as z from 'zod';
+import { ToastContainer, toast } from 'react-toastify';
+
+// Schéma de validation avec Zod
+const contactFormSchema = z.object({
+    name: z.string().min(2, "Le nom doit contenir au moins 2 caractères."),
+    email: z.string().email("Adresse e-mail invalide."),
+    subject: z.string().min(5, "L'objet doit contenir au moins 5 caractères."),
+    message: z.string().min(10, "Le message doit contenir au moins 10 caractères.")
+});
 
 function ContactForm() {
   const [formData, setFormData] = useState({
@@ -23,45 +33,63 @@ function ContactForm() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus(prevStatus => ({ ...prevStatus, submitting: true }));
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStatus(prevStatus => ({ ...prevStatus, submitting: true }));
 
-    try {
-      
-        const result = await emailjs.send(
-          process.env.REACT_APP_EMAILJS_SERVICE_ID,
-          process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-          formData,
-          process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-        );
-      
-      if (result.status === 200) {
-        setStatus({
-          submitted: true,
-          submitting: false,
-          info: { error: false, msg: "Message envoyé avec succès!" }
-        });
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: ''
-        });
-      } else {
-        throw new Error("Une erreur s'est produite lors de l'envoi du message.");
-      }
-    } catch (error) {
-      setStatus({
-        submitted: false,
-        submitting: false,
-        info: { error: true, msg: error.message }
-      });
-    }
-  };
+        try {
+
+            contactFormSchema.parse(formData);
+
+            // const result = await emailjs.send(
+            //     process.env.REACT_APP_EMAILJS_SERVICE_ID,
+            //     process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+            //     formData,
+            //     process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+            // );
+
+            const result = { status: 200 };
+
+            if (result.status === 200) {
+                setStatus({
+                    submitted: true,
+                    submitting: false,
+                    info: { error: false, msg: "Message envoyé avec succès!" }
+                });
+
+                setFormData({
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: ''
+                });
+            } else {
+                throw new Error("Une erreur s'est produite lors de l'envoi du message.");
+            }
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+
+                const firstError = error.issues[0];
+                setStatus({
+                    submitted: false,
+                    submitting: false,
+                    info: { error: true, msg: firstError.message }
+                });
+
+            } else {
+
+                setStatus({
+                    submitted: false,
+                    submitting: false,
+                    info: { error: true, msg: error.message }
+                });
+            }
+        }
+    };
 
   return ( 
     <section>
+        <ToastContainer />
         <div className="flex flex-col md:flex-row px-4 mx-auto container-contact">
 
             <div className="flex flex-col text-content"> 
@@ -97,7 +125,7 @@ function ContactForm() {
             <form onSubmit={handleSubmit} className="container-form grid grid-cols-1 md:grid-cols-2 gap-4">
                 {status.info.error && (
                   <div className="col-span-1 md:col-span-2 text-red-500 mb-4 text-center p-3 rounded">
-                    Error: {status.info.msg}
+                    {status.info.msg}
                   </div>
                 )}
                 {status.submitted && !status.info.error && (
@@ -124,7 +152,7 @@ function ContactForm() {
                       id="email" 
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full" 
+                      className="w-full"
                       placeholder="patati@patata.com" 
                       required 
                     />
@@ -135,8 +163,8 @@ function ContactForm() {
                       type="text" 
                       id="subject"
                       value={formData.subject}
-                      onChange={handleChange} 
-                      className="block p-3 w-full" 
+                      onChange={handleChange}
+                      className="block p-3 w-full"
                       placeholder="Projet, flash, détails..." 
                       required 
                     />
@@ -148,7 +176,7 @@ function ContactForm() {
                       rows="7" 
                       value={formData.message}
                       onChange={handleChange}
-                      className="block p-2.5 w-full" 
+                      className="block p-2.5 w-full"
                       placeholder="Laisser un commentaire..."
                       required
                     ></textarea>
@@ -157,7 +185,7 @@ function ContactForm() {
                     <button 
                       type="submit" 
                       className="px-5 rounded w-full md:w-auto"
-                      disabled={status.submitting}
+                      // disabled={status.submitting}
                     >
                         {status.submitting ? 'Envoi en cours...' : 'Envoyer'}
                     </button>
