@@ -3,13 +3,24 @@ import '../styles/ContactForm.css';
 import emailjs from 'emailjs-com';
 import * as z from 'zod';
 import { ToastContainer, toast } from 'react-toastify';
+import InfoIcon from '@mui/icons-material/Info';
 
 // Schéma de validation avec Zod
 const contactFormSchema = z.object({
     name: z.string().min(2, "Le nom doit contenir au moins 2 caractères."),
     email: z.string().email("Adresse e-mail invalide."),
     subject: z.string().min(5, "L'objet doit contenir au moins 5 caractères."),
-    message: z.string().min(10, "Le message doit contenir au moins 10 caractères.")
+    message: z.string().min(10, "Le message doit contenir au moins 10 caractères."),
+    phone: z.string().min(10, "Le numéro de téléphone doit contenir au moins 10 caractères.").optional()
+});
+
+const contactFormTattooSchema = z.object({
+    contactFormSchema,
+    oneOrManyTattoos: z.boolean(),
+    isForACoverage: z.boolean(),
+    size: z.string().min(1, "La taille doit être spécifiée."),
+    placement: z.string().min(1, "Le placement doit être spécifié."),
+    details: z.string().min(10, "Les détails doivent contenir au moins 10 caractères.").optional()
 });
 
 function ContactForm() {
@@ -25,6 +36,13 @@ function ContactForm() {
     info: { error: false, msg: null }
   });
 
+  const [activeTab, setActiveTab] = useState('default');
+
+    const changeTab = (e, tab) => {
+        e.preventDefault();
+        setActiveTab(tab);
+    }
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({
@@ -36,19 +54,19 @@ function ContactForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus(prevStatus => ({ ...prevStatus, submitting: true }));
+        // console.log(contactFormSchema, contactFormTattooSchema);
+        // return true
 
         try {
 
             contactFormSchema.parse(formData);
 
-            // const result = await emailjs.send(
-            //     process.env.REACT_APP_EMAILJS_SERVICE_ID,
-            //     process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-            //     formData,
-            //     process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-            // );
-
-            const result = { status: 200 };
+            const result = await emailjs.send(
+                process.env.REACT_APP_EMAILJS_SERVICE_ID,
+                process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+                formData,
+                process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+            );
 
             if (result.status === 200) {
                 setStatus({
@@ -121,76 +139,108 @@ function ContactForm() {
                 </div>
             </div>
 
+            <div className="container-form">
 
-            <form onSubmit={handleSubmit} className="container-form grid grid-cols-1 md:grid-cols-2 gap-4">
-                {status.info.error && (
-                  <div className="col-span-1 md:col-span-2 text-red-500 mb-4 text-center p-3 rounded">
-                    {status.info.msg}
-                  </div>
-                )}
-                {status.submitted && !status.info.error && (
-                  <div className="col-span-1 md:col-span-2 text-green-500 mb-4 text-center p-3 rounded">
-                    {status.info.msg}
-                  </div>
-                )}
-                <div className="col-span-1">
-                    <label htmlFor="name" className="block">Votre nom & prénom</label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full"
-                      placeholder="Patati Patata" 
-                      required 
-                    />
-                </div>
-                <div className="col-span-1">
-                    <label htmlFor="email" className="block">Votre e-mail</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full"
-                      placeholder="patati@patata.com" 
-                      required 
-                    />
-                </div>
-                <div className="col-span-1 md:col-span-2 mt-2 md:mt-4">
-                    <label htmlFor="subject" className="block">Objet</label>
-                    <input 
-                      type="text" 
-                      id="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      className="block p-3 w-full"
-                      placeholder="Projet, flash, détails..." 
-                      required 
-                    />
-                </div>
-                <div className="col-span-1 md:col-span-2">
-                    <label htmlFor="message" className="block">Votre message</label>
-                    <textarea 
-                      id="message" 
-                      rows="7" 
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="block p-2.5 w-full"
-                      placeholder="Laisser un commentaire..."
-                      required
-                    ></textarea>
-                </div>
-                <div className="w-full flex justify-center md:justify-end col-span-1 md:col-span-2">
-                    <button 
-                      type="submit" 
-                      className="px-5 rounded w-full md:w-auto"
-                      // disabled={status.submitting}
+                {/* Tab buttons */}
+                <div className="flex justify-start w-full gap-4">
+                    <div className="icon-info mb-4">
+                        <InfoIcon/>
+                        <div className="info-text">
+                            Choisissez le type de formulaire adapté à votre demande.
+                        </div>
+                    </div>
+
+                    <a
+                        href="#"
+                        onClick={(e) => changeTab(e, 'default')}
+                        className={`tab ${activeTab === 'default' ? 'active' : ''}`}
                     >
-                        {status.submitting ? 'Envoi en cours...' : 'Envoyer'}
-                    </button>
+                        Défaut
+                    </a>
+                    <a
+                        href="#"
+                        onClick={(e) => changeTab(e, 'tattoo')}
+                        className={`tab ${activeTab === 'tattoo' ? 'active' : ''}`}
+                    >
+                        Tatouage
+                    </a>
+
                 </div>
-            </form>
+
+
+                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 form">
+
+                    {status.info.error && (
+                        <div className="col-span-1 md:col-span-2 text-red-500 mb-4 text-center p-3 rounded">
+                            {status.info.msg}
+                        </div>
+                    )}
+                    {status.submitted && !status.info.error && (
+                      <div className="col-span-1 md:col-span-2 text-green-500 mb-4 text-center p-3 rounded">
+                        {status.info.msg}
+                      </div>
+                    )}
+                    <div className="col-span-1">
+                        <label htmlFor="name" className="block">Votre nom & prénom</label>
+                        <input
+                          type="text"
+                          id="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          className="w-full"
+                          placeholder="Patati Patata"
+                          required
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <label htmlFor="email" className="block">Votre e-mail</label>
+                        <input
+                          type="email"
+                          id="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="w-full"
+                          placeholder="patati@patata.com"
+                          required
+                        />
+                    </div>
+                    <div className="col-span-1 md:col-span-2 mt-2 md:mt-4">
+                        <label htmlFor="subject" className="block">Objet</label>
+                        <input
+                          type="text"
+                          id="subject"
+                          value={formData.subject}
+                          onChange={handleChange}
+                          className="block p-3 w-full"
+                          placeholder="Projet, flash, détails..."
+                          required
+                        />
+                    </div>
+                    <div className="col-span-1 md:col-span-2">
+                        <label htmlFor="message" className="block">Votre message</label>
+                        <textarea
+                          id="message"
+                          rows="7"
+                          value={formData.message}
+                          onChange={handleChange}
+                          className="block p-2.5 w-full"
+                          placeholder="Laisser un commentaire..."
+                          required
+                        ></textarea>
+                    </div>
+                    <div className="w-full flex justify-center md:justify-end col-span-1 md:col-span-2">
+                        <button
+                          type="submit"
+                          className="px-5 rounded w-full md:w-auto"
+                          // disabled={status.submitting}
+                        >
+                            {status.submitting ? 'Envoi en cours...' : 'Envoyer'}
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
         </div>
     </section>
     );
