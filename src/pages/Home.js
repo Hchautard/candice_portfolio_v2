@@ -134,7 +134,7 @@ function Home() {
                     <h2 className="tracking-tight">Bienvenue chez l'<span>Anomalie</span></h2>
 
                     <p className="text text-pretty">
-                      Je suis Candice, jeune tatoueuse indépendante de 24 et je vous présente mon univers, mêlant influences cyber-sigilism, gothique et dark fantasy.
+                      Je suis Candice, jeune tatoueuse indépendante de 24 ans et je vous présente mon univers, mêlant influences cyber-sigilism, gothique et dark fantasy.
                       <br />
                       Mon style est organique et instinctif, je travaille aussi en freehand afin d’adapter chaque tatouage au maximum à votre morphologie et à votre univers.
                     </p>
