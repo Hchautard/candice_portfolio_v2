@@ -64,12 +64,77 @@ function ContactForm() {
         });
     };
 
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
         const files = Array.from(e.target.files);
+
+        // Vérifier le nombre de fichiers
+        if (files.length > 5) {
+            setStatus({
+                submitted: false,
+                submitting: false,
+                info: { error: true, msg: "Vous ne pouvez télécharger que 5 fichiers maximum." }
+            });
+            e.target.value = '';
+            return;
+        }
+
+        // Vérifier la taille totale (max 10MB par fichier)
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        const oversizedFiles = files.filter(file => file.size > maxSize);
+        if (oversizedFiles.length > 0) {
+            setStatus({
+                submitted: false,
+                submitting: false,
+                info: { error: true, msg: "Chaque fichier doit faire moins de 10MB." }
+            });
+            e.target.value = '';
+            return;
+        }
+
         setFormData({
             ...formData,
             files: files
         });
+    };
+
+    const uploadFilesToCloudinary = async (files) => {
+        if (!files || files.length === 0) return [];
+
+        const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`;
+        const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
+        const uploadPromises = files.map(async (file) => {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', uploadPreset);
+            formData.append('folder', 'tattoo_requests');
+
+            try {
+                const response = await fetch(cloudinaryUrl, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    return {
+                        name: file.name,
+                        url: data.secure_url,
+                        thumbnail: data.thumbnail_url || data.secure_url,
+                        publicId: data.public_id
+                    };
+                } else {
+                    throw new Error('Upload failed');
+                }
+            } catch (error) {
+                console.error(`Erreur upload ${file.name}:`, error);
+                return null;
+            }
+        });
+
+        const results = await Promise.all(uploadPromises);
+        return results.filter(result => result !== null);
     };
 
     const handleSubmit = async (e) => {
@@ -81,6 +146,45 @@ function ContactForm() {
             const schema = activeTab === 'default' ? contactFormDefaultSchema : contactFormTattooSchema;
             schema.parse(formData);
 
+            // Préparer les données pour EmailJS
+            let emailData = { ...formData };
+
+            // Uploader les fichiers sur Cloudinary pour le formulaire tatouage
+            if (activeTab === 'tattoo' && formData.files && formData.files.length > 0) {
+
+                setStatus(prevStatus => ({
+                    ...prevStatus,
+                    info: { error: false, msg: "Upload des images en cours..." }
+                }));
+
+                const uploadedFiles = await uploadFilesToCloudinary(formData.files);
+
+                if (uploadedFiles.length === 0) {
+                    throw new Error("Échec de l'upload des images. Veuillez réessayer.");
+                }
+
+                // Créer des listes formatées pour l'email
+                emailData.imageUrls = uploadedFiles.map(f => f.url).join('\n');
+                emailData.imagesList = uploadedFiles.map((f, i) =>
+                    `${i + 1}. ${f.name}\n   ${f.url}`
+                ).join('\n\n');
+
+                // Pour affichage dans l'email HTML
+                emailData.imagesData = uploadedFiles;
+            }
+
+            // Formater les valeurs booléennes pour l'email
+            if (activeTab === 'tattoo') {
+                emailData.oneOrManyTattoosText = formData.oneOrManyTattoos ? 'Plusieurs tatouages' : 'Un seul tatouage';
+                emailData.isForACoverageText = formData.isForACoverage ? 'Oui - Recouvrement' : 'Non';
+            }
+
+            // Remettre le message normal
+            setStatus(prevStatus => ({
+                ...prevStatus,
+                info: { error: false, msg: "Envoi du message..." }
+            }));
+
             // Choisir le bon template EmailJS selon le formulaire
             const templateId = activeTab === 'default'
                 ? process.env.REACT_APP_EMAILJS_DEFAULT_TEMPLATE_ID
@@ -89,7 +193,7 @@ function ContactForm() {
             const result = await emailjs.send(
                 process.env.REACT_APP_EMAILJS_SERVICE_ID,
                 templateId,
-                formData,
+                emailData,
                 process.env.REACT_APP_EMAILJS_PUBLIC_KEY
             );
 
@@ -102,6 +206,10 @@ function ContactForm() {
 
                 // Réinitialiser avec le bon formulaire
                 setFormData(activeTab === 'default' ? initialDefaultFormData : initialTattooFormData);
+
+                // Réinitialiser l'input file
+                const fileInput = document.getElementById('files');
+                if (fileInput) fileInput.value = '';
             } else {
                 throw new Error("Une erreur s'est produite lors de l'envoi du message.");
             }
@@ -349,6 +457,20 @@ function ContactForm() {
                                         multiple
                                         accept="image/*"
                                     />
+                                    {formData.files && formData.files.length > 0 && (
+                                        <div className="file-preview">
+                                            <p className="file-count">
+                                                📎 {formData.files.length} fichier{formData.files.length > 1 ? 's' : ''} sélectionné{formData.files.length > 1 ? 's' : ''}
+                                            </p>
+                                            <ul className="file-list">
+                                                {Array.from(formData.files).map((file, index) => (
+                                                    <li key={index}>
+                                                        {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="col-span-1 md:col-span-2 form-field">
@@ -356,7 +478,8 @@ function ContactForm() {
                                         <div className="icon-info">
                                             <InfoIcon/>
                                             <div className="info-text">
-                                                Merci de m'indiquer tes souhaits pour venir te faire tatouer en m'indiquant :
+                                                Merci de m'indiquer tes souhaits pour venir te faire tatouer en
+                                                m'indiquant :
                                                 <ul className="list-disc list-inside">
                                                     <li>le mois où tu voudrais le réaliser</li>
                                                     <li>les jours où tu es disponible (au moins deux)</li>
