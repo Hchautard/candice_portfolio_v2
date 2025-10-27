@@ -2,39 +2,40 @@ import "../styles/Tattoo.css"
 import CardDistribution from "./CardDistribution";
 import { useEffect, useState } from "react";
 
-import image1 from "../assets/images/tattoo/1.png";
-import image2 from "../assets/images/tattoo/2.png";
-import image3 from "../assets/images/tattoo/3.png";
-import image4 from "../assets/images/tattoo/4.png";
-import image5 from "../assets/images/tattoo/5.png";
-import image6 from "../assets/images/tattoo/6.png";
-import image7 from "../assets/images/tattoo/7.png";
-import image8 from "../assets/images/tattoo/8.png";
+function getImages() {
+    const images = require.context('../assets/images/tattoo', false, /\.png$/);
+    const imagePaths = images.keys().map(images);
+    return imagePaths;
+}
 
-function Tattoo() {
+function formatImageForCards(imageSrc) {
+    let formatedImages = [];
+    for (let i = 0; i < imageSrc.length; i++) {
+        formatedImages.push({ id: i + 1, imageSrc: imageSrc[i], backContent: "Disponible !" });
+    }
+
+    return formatedImages;
+
+}
+
+function setupCss(){
     document.body.classList.add('tattoo-page');
     document.body.classList.remove('project-page');
     document.body.classList.remove('contact-page');
     document.body.classList.remove('makeup-page');
+}
 
+function Tattoo() {
     const [showComponent, setShowComponent] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState(false);
 
-    // Lazy loading des images
-    const myCards = [
-        { id: 1, imageSrc: image1, backContent: "Disponible !" },
-        { id: 2, imageSrc: image2, backContent: "Disponible !" },
-        { id: 3, imageSrc: image3, backContent: "Disponible !" },
-        { id: 4, imageSrc: image4, backContent: "Disponible !" },
-        { id: 5, imageSrc: image5, backContent: "Disponible !" },
-        { id: 6, imageSrc: image6, backContent: "Disponible !" },
-        { id: 7, imageSrc: image7, backContent: "Disponible !" },
-        { id: 8, imageSrc: image8, backContent: "Disponible !" },
-    ];
+    setupCss();
+
+    const formattedImages = formatImageForCards(getImages());
 
     useEffect(() => {
         const preloadImages = async () => {
-            const imagePromises = myCards.map((card) => {
+            const imagePromises = formattedImages.map((card) => {
                 return new Promise((resolve, reject) => {
                     const img = new Image();
                     img.onload = resolve;
@@ -48,7 +49,6 @@ function Tattoo() {
                 setImagesLoaded(true);
             } catch (error) {
                 console.error("Erreur lors du chargement des images:", error);
-                // Afficher quand même le composant même si certaines images échouent
                 setImagesLoaded(true);
             }
         };
@@ -90,7 +90,7 @@ function Tattoo() {
                     </div>
                 )}
                 {showComponent && imagesLoaded ? (
-                    <CardDistribution cards={myCards} />
+                    <CardDistribution cards={formattedImages} />
                 ) : null}
             </div>
         </div>
