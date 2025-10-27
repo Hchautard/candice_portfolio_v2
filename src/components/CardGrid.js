@@ -3,63 +3,245 @@
 import React, { useState, useEffect } from "react";
 import { ThreeDCardDemo } from "./ThreeDCard";
 
-// Import des images
-import flora1 from "../assets/images/makeup/flora_1.png";
-import flora2 from "../assets/images/makeup/flora_2.png";
-import mira1 from "../assets/images/makeup/mira_1.png";
-import karole1 from "../assets/images/makeup/karole_1.png";
-import karole2 from "../assets/images/makeup/karole_2.png";
-import alice1 from "../assets/images/makeup/alice_1.png";
-import song1 from "../assets/images/makeup/song_1.png";
-import candice1 from "../assets/images/makeup/candice_1.jpg";
-import karole3 from "../assets/images/makeup/karole_3.png";
-import perles1 from "../assets/images/makeup/perles_1.png";
-import carte1 from "../assets/images/makeup/carte_1.png";
-import ziggy1 from "../assets/images/makeup/ziggy_1.png";
-import hematome1 from "../assets/images/makeup/hematome_1.png";
+function getImages() {
+  const images = require.context('../assets/images/makeup', false, /\.(png|jpg|jpeg)$/i);
+  const imagePaths = images.keys().map(key => ({
+    path: images(key),
+    filename: key.replace('./', '')
+  }));
+  return imagePaths;
+}
+
+function formatImageForCards(imageSrc) {
+  const imageData = {
+    'flora_1.png': {
+      title: "Magic Garden : La princesse",
+      description: "Discover our collection of organic makeup products"
+    },
+    'flora_2.png': {
+      title: "Magic Garden : La princesse",
+      description: "Professional-grade brushes and applicators"
+    },
+    'alice_1.png': {
+      title: "Allo Docteur Love : l'enivrante",
+      description: "Express yourself with vibrant, long-lasting pigments"
+    },
+    'karole_1.png': {
+      title: "Magic Garden : La sirène",
+      description: "Makeup that nourishes your skin while enhancing your beauty"
+    },
+    'mira_1.png': {
+      title: "Magic Garden : L'elfe",
+      description: "Explore our exclusive seasonal palette with unique textures and finishes"
+    },
+    'karole_2.png': {
+      title: "Portal",
+      description: "Sustainable beauty products in recyclable packaging"
+    },
+    'song_1.png': {
+      title: "Allo Docteur Love : la briseuse de coeur",
+      description: "Inclusive shade ranges for all complexions"
+    },
+    'perles_1.png': {
+      title: "Glam",
+      description: "Free from harmful ingredients, gentle on sensitive skin"
+    },
+    'karole_3.png': {
+      title: "Portal défilé POZ",
+      description: "Just launched products to elevate your makeup routine"
+    },
+    'candice_1.jpg': {
+      title: "Ice look",
+      description: "Learn techniques from our expert makeup artists"
+    },
+    'carte_1.png': {
+      title: "La reine de coeur",
+      description: "Cruelty-free beauty products with plant-based ingredients"
+    },
+    'ziggy_1.png': {
+      title: "Look David Bowie",
+      description: "Our most loved products that customers can't get enough of"
+    },
+    'hematome_1.png': {
+      title: "Hématome",
+      description: "Perfect combinations for gifting or trying something new"
+    },
+    'Clown.PNG': {
+      title: "Clown",
+      description: "Bold and creative clown makeup artistry"
+    },
+    'Pink_spider.PNG': {
+      title: "Pink Spider",
+      description: "Mystical spider-inspired pink makeup"
+    },
+    'Bloody_Mary.jpeg': {
+      title: "Bloody Mary",
+      description: "Dramatic horror-inspired makeup look"
+    },
+    'fleau.PNG': {
+      title: "Fléau",
+      description: "Dark and haunting makeup creation"
+    },
+    'Zombie.PNG': {
+      title: "Zombie",
+      description: "Realistic zombie makeup effects"
+    },
+    'Blue2.PNG': {
+      title: "Blue Avatar",
+      description: "Fantasy blue character makeup"
+    },
+    'Goth.JPG': {
+      title: "Gothic",
+      description: "Classic gothic makeup style"
+    },
+    'Operetta.JPG': {
+      title: "Operetta",
+      description: "Theatrical operetta-inspired look"
+    },
+    'Freddy.JPG': {
+      title: "Freddy",
+      description: "Horror movie character makeup"
+    },
+    'Pearl.JPEG': {
+      title: "Pearl",
+      description: "Elegant pearl-inspired makeup"
+    },
+    'Pearl2.JPEG': {
+      title: "Pearl 2",
+      description: "Another pearl-inspired variation"
+    },
+    'Blue.jpeg': {
+      title: "Blue Dreams",
+      description: "Dreamy blue makeup artistry"
+    },
+    'Chrome.JPEG': {
+      title: "Chrome",
+      description: "Futuristic chrome makeup effect"
+    },
+  };
+
+  const displayOrder = [
+    // Anciennes images
+    'flora_1.png',
+    'alice_1.png',
+    'karole_1.png',
+    'mira_1.png',
+    'karole_2.png',
+    'song_1.png',
+    'flora_2.png',
+    'perles_1.png',
+    'karole_3.png',
+    'candice_1.jpg',
+    'carte_1.png',
+    'ziggy_1.png',
+    'hematome_1.png',
+    'Clown.PNG',
+    'Pink_spider.PNG',
+    'Bloody_Mary.jpeg',
+    'fleau.PNG',
+    'Zombie.PNG',
+    'Blue2.PNG',
+    'Goth.JPG',
+    'Operetta.JPG',
+    'Freddy.JPG',
+    'Pearl.JPEG',
+    'Pearl2.JPEG',
+    'Blue.jpeg',
+    'Chrome.JPEG'
+  ];
+
+  const sortedImages = displayOrder
+      .map(filename => {
+        const image = imageSrc.find(img =>
+            img.filename.toLowerCase() === filename.toLowerCase()
+        );
+        if (image && imageData[filename]) {
+          return {
+            id: displayOrder.indexOf(filename) + 1,
+            imageSrc: image.path,
+            title: imageData[filename].title,
+            description: imageData[filename].description
+          };
+        }
+        return null;
+      })
+      .filter(img => img !== null);
+
+  return sortedImages;
+}
+
+function getGridLayout(totalImages) {
+  const patterns = [
+    [1, 1, 1],
+    [2, 1],
+    [1, 1, 1],
+    [1, 2],
+    [1, 1, 1],
+  ];
+
+  let layout = [];
+  let imageIndex = 0;
+
+  while (imageIndex < totalImages) {
+    const pattern = patterns[layout.length % patterns.length];
+    const row = [];
+
+    for (let span of pattern) {
+      if (imageIndex < totalImages) {
+        row.push({
+          imageIndex: imageIndex,
+          span: span
+        });
+        imageIndex++;
+      }
+    }
+
+    if (row.length > 0) {
+      layout.push(row);
+    }
+  }
+
+  return layout;
+}
 
 // Composant pour précharger les images
 const ImagePreloader = ({ images }) => {
   useEffect(() => {
-    images.forEach((src) => {
+    images.forEach((card) => {
       const img = new Image();
-      img.src = src;
+      img.src = card.imageSrc;
     });
   }, [images]);
-  
+
   return null;
 };
 
 // Composant Skeleton pour le chargement
-const CardSkeleton = ({ width = 'auto' }) => {
+const CardSkeleton = ({ span = 1 }) => {
   return (
-    <div className={`animate-pulse ${width === 'full' ? 'col-span-2' : ''}`}>
-      <div className="h-64 bg-gray-300 dark:bg-gray-700 rounded-xl"></div>
-    </div>
+      <div className={`animate-pulse ${span === 2 ? 'col-span-2' : 'col-span-1'}`}>
+        <div className="h-64 bg-gray-300 dark:bg-gray-700 rounded-xl"></div>
+      </div>
   );
 };
 
 export function CardGrid() {
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  
-  // Liste de toutes les images
-  const allImages = [
-    flora1, flora2, mira1, karole1, karole2, alice1, 
-    song1, candice1, karole3, perles1, carte1, ziggy1, hematome1
-  ];
 
-  // Précharger les images prioritaires (visible dans la première vue)
-  const priorityImages = [flora1, alice1, karole1, mira1, karole2];
-  
+  const formattedImages = formatImageForCards(getImages());
+  const gridLayout = getGridLayout(formattedImages.length);
+
+  const priorityImages = formattedImages.slice(0, 5);
+
   useEffect(() => {
     // Précharger les images prioritaires
     const loadImages = async () => {
-      const promises = priorityImages.map(src => {
+      const promises = priorityImages.map(card => {
         return new Promise((resolve, reject) => {
           const img = new Image();
           img.onload = resolve;
           img.onerror = reject;
-          img.src = src;
+          img.src = card.imageSrc;
         });
       });
 
@@ -68,7 +250,7 @@ export function CardGrid() {
         setImagesLoaded(true);
       } catch (error) {
         console.error("Erreur lors du chargement des images:", error);
-        setImagesLoaded(true); // On affiche quand même
+        setImagesLoaded(true);
       }
     };
 
@@ -76,157 +258,36 @@ export function CardGrid() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
+        <ImagePreloader images={formattedImages} />
 
-      <ImagePreloader images={allImages} />
-      
-      {/* First row - 3 equal cards */}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        {!imagesLoaded ? (
-          <>
-            <CardSkeleton />
-            <CardSkeleton />
-            <CardSkeleton />
-          </>
-        ) : (
-          <>
-            <ThreeDCardDemo 
-              title="Magic Garden : La princesse"
-              description="Discover our collection of organic makeup products" 
-              imageUrl={flora1}
-              loading="eager"
-            />
-            <ThreeDCardDemo 
-              title="Allo Docteur Love : l'enivrante"
-              description="Express yourself with vibrant, long-lasting pigments" 
-              imageUrl={alice1}
-              loading="eager"
-            />
-            <ThreeDCardDemo 
-              title="Magic Garden : La sirène" 
-              description="Makeup that nourishes your skin while enhancing your beauty" 
-              imageUrl={karole1}
-              loading="eager"
-            />
-          </>
-        )}
-      </div>
-      
-      {/* Second row - 1 card spanning 2 columns, 1 card in the last column */}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        {!imagesLoaded ? (
-          <>
-            <CardSkeleton width="full" />
-            <CardSkeleton />
-          </>
-        ) : (
-          <>
-            <div className="col-span-2">
-              <ThreeDCardDemo 
-                width="full" 
-                title="Magic Garden : L'elfe"
-                description="Explore our exclusive seasonal palette with unique textures and finishes" 
-                imageUrl={mira1}
-                loading="eager"
-              />
+        {gridLayout.map((row, rowIndex) => (
+            <div key={rowIndex} className="grid grid-cols-3 gap-4 mb-4">
+              {!imagesLoaded ? (
+                  // Afficher les skeletons
+                  row.map((cell, cellIndex) => (
+                      <CardSkeleton key={cellIndex} span={cell.span} />
+                  ))
+              ) : (
+                  row.map((cell, cellIndex) => {
+                    const card = formattedImages[cell.imageIndex];
+                    if (!card) return null;
+
+                    return (
+                        <div key={cellIndex} className={cell.span === 2 ? 'col-span-2' : 'col-span-1'}>
+                          <ThreeDCardDemo
+                              width={cell.span === 2 ? 'full' : 'auto'}
+                              title={card.title}
+                              description={card.description}
+                              imageUrl={card.imageSrc}
+                              loading={cell.imageIndex < 5 ? "eager" : "lazy"}
+                          />
+                        </div>
+                    );
+                  })
+              )}
             </div>
-            <div className="col-span-1">
-              <ThreeDCardDemo 
-                title="Portal" 
-                description="Sustainable beauty products in recyclable packaging" 
-                imageUrl={karole2}
-                loading="eager"
-              />
-            </div>
-          </>
-        )}
+        ))}
       </div>
-      
-      {/* Third row - 3 equal cards */}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-          {!imagesLoaded ? (
-              <>
-                  <CardSkeleton />
-                  <CardSkeleton />
-                  <CardSkeleton />
-              </>
-          ) : (
-              <>
-        <ThreeDCardDemo 
-          title="Allo Docteur Love : la briseuse de coeur"
-          description="Inclusive shade ranges for all complexions" 
-          imageUrl={song1}
-          loading="lazy"
-        />
-        <ThreeDCardDemo 
-          title="Magic Garden : La princesse"
-          description="Professional-grade brushes and applicators" 
-          imageUrl={flora2}
-          loading="lazy"
-        />
-        <ThreeDCardDemo 
-          title="Glam" 
-          description="Free from harmful ingredients, gentle on sensitive skin" 
-          imageUrl={perles1}
-          loading="lazy"
-        />
-              </>
-          )}
-      </div> 
-
-      {/* Fourth row - 1 card in the first column, 1 card spanning 2 columns */}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-          {!imagesLoaded ? (
-              <>
-                  <CardSkeleton width="full" />
-                  <CardSkeleton />
-              </>
-          ) : (
-              <>
-        <div className="col-span-1">
-          <ThreeDCardDemo  
-            title="Portal défilé POZ"
-            description="Just launched products to elevate your makeup routine" 
-            imageUrl={karole3}
-            loading="lazy"
-          />
-        </div>
-        <div className="col-span-2">
-          <ThreeDCardDemo 
-            width="full" 
-            title="Ice look"
-            description="Learn techniques from our expert makeup artists" 
-            imageUrl={candice1}
-            loading="lazy"
-          />
-        </div>
-              </>
-          )}
-      </div>
-
-      {/* Fifth row - 3 equal cards */}
-      <div className="grid grid-cols-3 gap-4">
-
-        <ThreeDCardDemo
-          title="La reine de coeur"
-          description="Cruelty-free beauty products with plant-based ingredients"
-          imageUrl={carte1}
-          loading="lazy"
-        />
-        <ThreeDCardDemo
-          title="Look David Bowie"
-          description="Our most loved products that customers can't get enough of"
-          imageUrl={ziggy1}
-          loading="lazy"
-        />
-        <ThreeDCardDemo
-          title="Hématome"
-          description="Perfect combinations for gifting or trying something new"
-          imageUrl={hematome1}
-          loading="lazy"
-        />
-
-        </div>
-    </div>
   );
 }

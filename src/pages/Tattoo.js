@@ -15,7 +15,6 @@ function formatImageForCards(imageSrc) {
     }
 
     return formatedImages;
-
 }
 
 function setupCss(){

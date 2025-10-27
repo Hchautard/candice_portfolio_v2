@@ -3,14 +3,18 @@ import { CardGrid } from "../components/CardGrid";
 import { motion } from "framer-motion";
 import { useState, useEffect } from 'react';
 
-function Makeup() {
+function setupCss(){
   document.body.classList.remove('tattoo-page');
   document.body.classList.remove('project-page');
   document.body.classList.remove('contact-page');
   document.body.classList.add('makeup-page');
+}
 
+function Makeup() {
 
   const [contentLoaded, setContentLoaded] = useState(false);
+
+  setupCss();
 
   // Délai similaire à celui utilisé dans Home.js
   useEffect(() => {
