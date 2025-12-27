@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../styles/ContactForm.css';
 import emailjs from 'emailjs-com';
 import * as z from 'zod';
-import { ToastContainer } from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import InfoIcon from '@mui/icons-material/Info';
 import { contactFormDefaultSchema } from "./ContactFormDefaultSchema";
 import { contactFormTattooSchema } from "./ContactFormTattooSchema";
@@ -142,7 +142,6 @@ function ContactForm() {
         setStatus(prevStatus => ({ ...prevStatus, submitting: true }));
 
         try {
-            // Valider avec le bon schéma selon l'onglet actif
             const schema = activeTab === 'default' ? contactFormDefaultSchema : contactFormTattooSchema;
             schema.parse(formData);
 
@@ -157,23 +156,23 @@ function ContactForm() {
                     info: { error: false, msg: "Upload des images en cours..." }
                 }));
 
+                toast.info("Upload des images en cours...");
+
                 const uploadedFiles = await uploadFilesToCloudinary(formData.files);
 
                 if (uploadedFiles.length === 0) {
+                    toast.error("Échec de l'upload des images. Veuillez réessayer.");
                     throw new Error("Échec de l'upload des images. Veuillez réessayer.");
                 }
 
-                // Créer des listes formatées pour l'email
                 emailData.imageUrls = uploadedFiles.map(f => f.url).join('\n');
                 emailData.imagesList = uploadedFiles.map((f, i) =>
                     `${i + 1}. ${f.name}\n   ${f.url}`
                 ).join('\n\n');
 
-                // Pour affichage dans l'email HTML
                 emailData.imagesData = uploadedFiles;
             }
 
-            // Formater les valeurs booléennes pour l'email
             if (activeTab === 'tattoo') {
                 emailData.oneOrManyTattoosText = formData.oneOrManyTattoos ? 'Plusieurs tatouages' : 'Un seul tatouage';
                 emailData.isForACoverageText = formData.isForACoverage ? 'Oui - Recouvrement' : 'Non';
@@ -198,16 +197,15 @@ function ContactForm() {
             );
 
             if (result.status === 200) {
+                toast.success("Votre message a été envoyé avec succès !");
                 setStatus({
                     submitted: true,
                     submitting: false,
                     info: { error: false, msg: "Message envoyé avec succès!" }
                 });
 
-                // Réinitialiser avec le bon formulaire
                 setFormData(activeTab === 'default' ? initialDefaultFormData : initialTattooFormData);
 
-                // Réinitialiser l'input file
                 const fileInput = document.getElementById('files');
                 if (fileInput) fileInput.value = '';
             } else {
@@ -233,7 +231,18 @@ function ContactForm() {
 
     return (
         <section>
-            <ToastContainer />
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className="flex flex-col md:flex-row px-4 mx-auto container-contact">
                 <div className="flex flex-col text-content">
                     <div className="flex flex-col mb-6 md:mb-0">
