@@ -10,7 +10,7 @@ import ReviewsSection from "../components/ReviewsSection";
 function TattooMachineModel() {
   const modelRef = useRef();
 
-  const { scene, error } = useGLTF(process.env.PUBLIC_URL + "/models/tattoo_machine/scene.gltf");
+  const { scene, error } = useGLTF(process.env.PUBLIC_URL + "/models/tattoo_machine/scene-v2.glb");
 
   useEffect(() => {
     if (error) {

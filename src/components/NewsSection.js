@@ -6,10 +6,9 @@ import { useData } from '../contexts/DataContext';
 export default function NewsSection() {
     const { news, loading, error } = useData();
 
+    const newsList = news;
     const navigate = useNavigate();
 
-    const newsList = news;
-    console.log(news)
     const handleNewsClick = (newsItem) => {
         navigate(`/project?news=${newsItem.id}`);
     };
