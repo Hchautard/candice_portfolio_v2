@@ -12,7 +12,7 @@
 }
 
 .section-title {
-    font-family: "Alice_Wonderland_2";
+    font-family: "Alice_Wonderland_2", cursive;
     font-size: calc(var(--xxlarge) + 0.5rem);
     font-weight: 700;
     text-align: center;
@@ -31,7 +31,7 @@
 }
 
 .news-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(8px);
     padding: 2rem;
     border-radius: 15px;
@@ -94,12 +94,12 @@
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
     font-size: var(--medium);
-    font-family: "Alice_Wonderland_2";
+    font-family: "Alice_Wonderland_2", cursive;
     margin-bottom: 1rem;
 }
 
 .news-title {
-    font-family: "Alice_Wonderland_2";
+    font-family: "Alice_Wonderland_2", cursive;
     font-size: var(--large);
     font-weight: 700;
     color: var(--secondary);
@@ -108,7 +108,7 @@
 }
 
 .news-description {
-    color: var(--text-light, rgba(255, 255, 255, 0.8));
+    color: var(--primary, rgba(255, 255, 255, 0.8));
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-size: var(--medium-large);
@@ -121,7 +121,7 @@
 }
 
 .news-date {
-    color: var(--text-muted, rgba(255, 255, 255, 0.6));
+    color: var(--primary, rgba(255, 255, 255, 0.6));
     font-size: var(--medium);
     font-weight: 500;
 }
@@ -131,7 +131,7 @@
     font-size: var(--large);
     font-weight: bold;
     transition: transform 0.3s ease;
-    font-family: "Alice_Wonderland_2";
+    font-family: "Alice_Wonderland_2", cursive;
 }
 
 .news-card:hover .news-arrow {

@@ -1,16 +1,21 @@
 import {useNavigate} from "react-router-dom";
 import {motion} from "framer-motion";
-import newsData from '../data/news.json';
 import "../styles/News.css";
+import { useData } from '../contexts/DataContext';
 
 export default function NewsSection() {
+    const { news, loading, error } = useData();
+
     const navigate = useNavigate();
 
-    const newsItems = newsData.news;
-
+    const newsList = news;
+    console.log(news)
     const handleNewsClick = (newsItem) => {
         navigate(`/project?news=${newsItem.id}`);
     };
+
+    if (loading) return <div>Loading news...</div>;
+    if (error) return <div>Error loading news: {error.message}</div>;
 
     return (
         <motion.section
@@ -23,7 +28,7 @@ export default function NewsSection() {
             <div className="container mx-auto px-4">
                 <h3 className="section-title">Actualités</h3>
                 <div className="news-grid">
-                    {newsItems.map((news, index) => (
+                    {newsList.map((news, index) => (
                         <motion.div
                             key={news.id}
                             className="news-card"
@@ -39,7 +44,7 @@ export default function NewsSection() {
                             <h4 className="news-title">{news.title}</h4>
                             <p className="news-description">{news.description}</p>
                             <div className="news-footer">
-                                <span className="news-date">{new Date(news.date).toLocaleDateString('fr-FR')}</span>
+                                <span className="news-date">{new Date(news.date_event).toLocaleDateString('fr-FR')}</span>
                                 <span className="news-arrow">→</span>
                             </div>
                         </motion.div>
