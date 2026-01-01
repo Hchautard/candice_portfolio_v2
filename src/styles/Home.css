@@ -21,7 +21,7 @@
 
 /* ===== TYPOGRAPHY ===== */
 h2 {
-    font-family: "Alice_Wonderland_2";
+    font-family: "Alice_Wonderland_2", serif;
     color: var(--secondary);
     font-size: calc(var(--xxxlarge) - 10px);
     text-align: left;

@@ -1,34 +1,34 @@
+// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import Contact from './pages/Contact';
 import Home from './pages/Home';
+import Contact from './pages/Contact';
 import Makeup from './pages/Makeup';
 import Tattoo from './pages/Tattoo';
+import Project from './pages/Project';
 import Header from './components/Header';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { DataProvider } from './contexts/DataContext';
 import reportWebVitals from './reportWebVitals';
-import Project from "./pages/Project";
 
-// ✅ Layout component pour inclure le Header
 function Layout() {
   return (
-    <>
-      <Header />
-      <Outlet />
-    </>
+      <>
+        <Header />
+        <Outlet />
+      </>
   );
 }
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />, // ✅ Layout comme élément parent
+    element: <Layout />,
     errorElement: <div>Page not found</div>,
     children: [
       {
-        index: true, // ✅ Route par défaut pour "/"
+        index: true,
         element: <Home />,
       },
       {
@@ -57,9 +57,11 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+    <React.StrictMode>
+      <DataProvider>
+        <RouterProvider router={router} />
+      </DataProvider>
+    </React.StrictMode>
 );
 
 reportWebVitals();

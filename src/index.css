@@ -7,6 +7,10 @@ code {
   font-family: 'Helvetica Neue', sans-serif;
 }
 
+* {
+  font-family: Coolvetica_Regular;
+}
+
 /* Define var colours */
 :root {
   --primary: #f1e2ba;
@@ -30,6 +34,30 @@ code {
   --xxxlarge: 100px;
   --xxxxlarge: 160px;
   --xxxxxlarge: 240px;
+}
+
+/* Define font faces */
+@font-face {
+  font-family: 'Alice_Wonderland';
+  src: url('../src/assets/fonts/alice_in_wonderland/Alice_in_Wonderland_3.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Alice_Wonderland_2';
+  src: url('../src/assets/fonts/alice_in_wonderland_2/Alice_in_Wonderland.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coolvetica_Regular';
+  src: url('../src/assets/fonts/coolvetica/Coolvetica_Rg.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Coolvetica_Regular_Italic';
+  src: url('../src/assets/fonts/coolvetica/Coolvetica_Rg_It.otf') format('opentype');
 }
 
 @tailwind base;

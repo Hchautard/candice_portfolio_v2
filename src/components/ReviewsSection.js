@@ -1,14 +1,17 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import reviewsData from '../data/reviews.json';
 import "../styles/Reviews.css";
+import { useData } from '../contexts/DataContext';
 
 export default function ReviewsSection() {
+    const { reviews, loading, error } = useData();
+
+    const reviewsData = { reviews };
     const reviewItems = reviewsData.reviews;
     const [isPaused, setIsPaused] = useState(false);
     const scrollRef = useRef(null);
     const animationRef = useRef(null);
-    const scrollPositionRef = useRef(0);
+    const scrollPositionRef = useRef(0);;
 
     const renderStars = (rating) => {
         return Array.from({ length: 5 }, (_, i) => (
@@ -25,7 +28,7 @@ export default function ReviewsSection() {
         if (!scrollContainer) return;
 
         const scrollSpeed = 0.5;
-        const cardWidth = 380 + 32; // largeur de carte + gap (2rem = 32px)
+        const cardWidth = 380 + 32;
         const resetPoint = reviewItems.length * cardWidth;
 
         const scroll = () => {
@@ -50,6 +53,9 @@ export default function ReviewsSection() {
             }
         };
     }, [isPaused, reviewItems.length]);
+
+    if (loading) return <div>Loading reviews...</div>;
+    if (error) return <div>Error loading reviews: {error.message}</div>;
 
     return (
         <motion.section
@@ -76,17 +82,17 @@ export default function ReviewsSection() {
                             >
                                 <div className="review-header">
                                     <div className="client-info">
-                                        <h4 className="client-name">{review.clientName}</h4>
+                                        <h4 className="client-name">{review.author}</h4>
                                         <div className="rating">
                                             {renderStars(review.rating)}
                                         </div>
                                     </div>
-                                    <div className="tattoo-style">{review.tattooStyle}</div>
+                                    <div className="tattoo-style">{review.tattoo_style}</div>
                                 </div>
                                 <p className="review-comment">{review.comment}</p>
                                 <div className="review-footer">
                                     <span className="review-date">
-                                        {new Date(review.date).toLocaleDateString('fr-FR')}
+                                        {new Date(review.created_at).toLocaleDateString('fr-FR')}
                                     </span>
                                 </div>
                             </div>

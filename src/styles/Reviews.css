@@ -20,9 +20,9 @@
 .carousel-wrapper {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
     margin: 2rem 0;
-    padding: 0 2rem; /* Ajouter du padding pour voir les cartes complètes */
+    padding: 2rem 2rem;
     mask-image: linear-gradient(
             to right,
             transparent 0%,
@@ -132,7 +132,7 @@
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
     font-size: var(--medium);
-    font-family: "Alice_Wonderland_2";
+    font-family: "Alice_Wonderland_2", serif;
     font-weight: 600;
     white-space: nowrap;
 }
@@ -147,7 +147,7 @@
 .carousel-hint span {
     color: var(--secondary);
     font-size: var(--medium);
-    font-family: "Alice_Wonderland_2";
+    font-family: "Alice_Wonderland_2", serif;
     animation: pulse 2s ease-in-out infinite;
 }
 

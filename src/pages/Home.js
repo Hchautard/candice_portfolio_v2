@@ -4,21 +4,8 @@ import {Suspense, useEffect, useRef, useState} from "react";
 import {Canvas, useFrame} from "@react-three/fiber";
 import {Environment, OrbitControls, useGLTF} from "@react-three/drei";
 import {Link} from "react-router-dom";
-import {getGoogleReviews} from '../services/reviews';
 import NewsSection from "../components/NewsSection";
 import ReviewsSection from "../components/ReviewsSection";
-
-// const handleGetReviews = async () => {
-//   try {
-//     return await getGoogleReviews({
-//       sort: 'relevant',
-//       nextpage: false
-//     });
-//
-//   } catch (error) {
-//     console.error('Erreur lors de la récupération des avis:', error.message);
-//   }
-// };
 
 function TattooMachineModel() {
   const modelRef = useRef();
@@ -45,7 +32,6 @@ function TattooMachineModel() {
     modelRef.current.rotation.x = Math.sin(t * 0.1) * wobbleAmount;
   });
 
-  // ✅ Gestion du cas où le modèle n'est pas encore chargé
   if (!scene) {
     return null;
   }
@@ -80,38 +66,6 @@ function Home() {
   document.body.classList.remove('project-page');
 
   const [contentLoaded, setContentLoaded] = useState(true);
-  // const [reviews, setReviews] = useState([]);
-  // const [reviewsLoaded, setReviewsLoaded] = useState(false);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setContentLoaded(true);
-  //   }, 100);
-
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  // Charger les avis automatiquement au chargement de la page
-  // useEffect(() => {
-  //   const loadReviews = async () => {
-  //     try {
-  //       const reviewsData = await handleGetReviews();
-  //       if (reviewsData && reviewsData['reviews']) {
-  //         setReviews(reviewsData['reviews']);
-  //         setReviewsLoaded(true);
-  //       }
-  //     } catch (error) {
-  //       console.error('Erreur lors du chargement des avis:', error);
-  //     }
-  //   };
-  //
-  //   // Charger les avis avec un léger délai après le contenu principal
-  //   const reviewsTimer = setTimeout(() => {
-  //     loadReviews();
-  //   }, 1500);
-  //
-  //   return () => clearTimeout(reviewsTimer);
-  // }, []);
 
   return (
       <motion.div
