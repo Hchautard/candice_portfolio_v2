@@ -1,0 +1,144 @@
+/* Bento Slider Styles */
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Optimisations GPU */
+.bento-slider-container .slick-slider,
+.bento-slider-container .slick-list,
+.bento-slider-container .slick-track {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+.bento-slider-container .slick-track {
+    display: flex;
+    will-change: transform;
+}
+
+.bento-slider-container .slick-slide {
+    height: auto;
+    transform: translateZ(0);
+}
+
+.bento-slider-container .slick-slide > div {
+    height: 100%;
+}
+
+.bento-cell {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cards dans le bento */
+.bento-cell .card-container {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.bento-cell .card-container > div {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Positionnement des dots */
+.bento-slider-container .slick-dots {
+    z-index: 100;
+}
+
+.bento-slider-container .slick-dots li button:before {
+    color: white;
+    opacity: 0.5;
+    font-size: 12px;
+}
+
+.bento-slider-container .slick-dots li.slick-active button:before {
+    color: white;
+    opacity: 1;
+}
+
+/* Flèches de navigation */
+.bento-slider-container .slick-prev,
+.bento-slider-container .slick-next {
+    z-index: 100;
+    width: 50px;
+    height: 50px;
+}
+
+.bento-slider-container .slick-prev {
+    left: 25px;
+}
+
+.bento-slider-container .slick-next {
+    right: 25px;
+}
+
+.bento-slider-container .slick-prev:before,
+.bento-slider-container .slick-next:before {
+    font-size: 40px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.bento-slider-container .slick-prev:hover:before,
+.bento-slider-container .slick-next:hover:before {
+    opacity: 1;
+}
+
+/* Animation d'entrée pour les cellules */
+.bento-cell {
+    animation: fadeInScale 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+.bento-cell:nth-child(1) { animation-delay: 0.1s; }
+.bento-cell:nth-child(2) { animation-delay: 0.2s; }
+.bento-cell:nth-child(3) { animation-delay: 0.3s; }
+.bento-cell:nth-child(4) { animation-delay: 0.4s; }
+.bento-cell:nth-child(5) { animation-delay: 0.5s; }
+.bento-cell:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Hover effect sur les cellules */
+.bento-cell:hover {
+    z-index: 10;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .bento-grid {
+        gap: 8px !important;
+        padding: 10px !important;
+    }
+
+    .bento-slider-container .slick-prev,
+    .bento-slider-container .slick-next {
+        display: none !important;
+    }
+
+    .bento-slider-container .slick-dots {
+        bottom: 15px;
+    }
+}
+
+/* Makeup page specific */
+.makeup-page {
+    overflow: hidden;
+}
+
+.makeup-container {
+    position: relative;
+}

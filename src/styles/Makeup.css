@@ -1,5 +1,5 @@
 body.makeup-page {
-    background-image: url('../assets/images/butterflies.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),  url('../assets/images/burgundy_textured_background.jpg');
     background-size: cover;
     background-position: center;
     overflow-x: hidden;

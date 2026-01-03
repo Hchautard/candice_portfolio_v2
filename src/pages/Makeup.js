@@ -1,51 +1,210 @@
 import '../styles/Makeup.css';
-import { CardGrid } from "../components/CardGrid";
-import { motion } from "framer-motion";
 import { useState, useEffect } from 'react';
+import BentoSlider from '../components/BentoSlider';
 
-function setupCss(){
+function setupCss() {
   document.body.classList.remove('tattoo-page');
   document.body.classList.remove('project-page');
   document.body.classList.remove('contact-page');
   document.body.classList.add('makeup-page');
 }
 
-function Makeup() {
+function getImages() {
+  const images = require.context('../assets/images/makeup', false, /\.(png|jpg|jpeg)$/i);
+  const imagePaths = images.keys().map(key => ({
+    path: images(key),
+    filename: key.replace('./', '')
+  }));
+  return imagePaths;
+}
 
+// Données des images avec titres et descriptions
+const imageData = {
+  'flora_1.png': {
+    title: "Magic Garden : La princesse",
+    description: "Discover our collection of organic makeup products"
+  },
+  'flora_2.png': {
+    title: "Magic Garden : La princesse",
+    description: "Professional-grade brushes and applicators"
+  },
+  'alice_1.png': {
+    title: "Allo Docteur Love : l'enivrante",
+    description: "Express yourself with vibrant, long-lasting pigments"
+  },
+  'karole_1.png': {
+    title: "Magic Garden : La sirène",
+    description: "Makeup that nourishes your skin while enhancing your beauty"
+  },
+  'mira_1.png': {
+    title: "Magic Garden : L'elfe",
+    description: "Explore our exclusive seasonal palette with unique textures and finishes"
+  },
+  'karole_2.png': {
+    title: "Portal",
+    description: "Sustainable beauty products in recyclable packaging"
+  },
+  'song_1.png': {
+    title: "Allo Docteur Love : la briseuse de coeur",
+    description: "Inclusive shade ranges for all complexions"
+  },
+  'perles_1.png': {
+    title: "Glam",
+    description: "Free from harmful ingredients, gentle on sensitive skin"
+  },
+  'karole_3.png': {
+    title: "Portal défilé POZ",
+    description: "Just launched products to elevate your makeup routine"
+  },
+  'candice_1.jpg': {
+    title: "Ice look",
+    description: "Learn techniques from our expert makeup artists"
+  },
+  'carte_1.png': {
+    title: "La reine de coeur",
+    description: "Our most loved products that customers can't get enough of"
+  },
+  'ziggy_1.png': {
+    title: "Look David Bowie",
+    description: "Our most loved products that customers can't get enough of"
+  },
+  'hematome_1.png': {
+    title: "Hématome",
+    description: "Perfect combinations for gifting or trying something new"
+  },
+  'Clown.PNG': {
+    title: "Clown",
+    description: "Bold and creative clown makeup artistry"
+  },
+  'Pink_spider.PNG': {
+    title: "Pink Spider",
+    description: "Mystical spider-inspired pink makeup"
+  },
+  'Bloody_Mary.jpeg': {
+    title: "Bloody Mary",
+    description: "Dramatic horror-inspired makeup look"
+  },
+  'fleau.PNG': {
+    title: "Fléau",
+    description: "Dark and haunting makeup creation"
+  },
+  'Zombie.PNG': {
+    title: "Zombie",
+    description: "Realistic zombie makeup effects"
+  },
+  'Blue2.PNG': {
+    title: "Blue Avatar",
+    description: "Fantasy blue character makeup"
+  },
+  'Goth.JPG': {
+    title: "Gothic",
+    description: "Classic gothic makeup style"
+  },
+  'Operetta.JPG': {
+    title: "Operetta",
+    description: "Theatrical operetta-inspired look"
+  },
+  'Freddy.JPG': {
+    title: "Freddy",
+    description: "Horror movie character makeup"
+  },
+  'Pearl.JPEG': {
+    title: "Pearl",
+    description: "Elegant pearl-inspired makeup"
+  },
+  'Pearl2.JPEG': {
+    title: "Pearl 2",
+    description: "Another pearl-inspired variation"
+  },
+  'Blue.jpeg': {
+    title: "Blue Dreams",
+    description: "Dreamy blue makeup artistry"
+  },
+  'Chrome.JPEG': {
+    title: "Chrome",
+    description: "Futuristic chrome makeup effect"
+  },
+};
+
+// Ordre d'affichage
+const displayOrder = [
+  'flora_1.png',
+  'alice_1.png',
+  'karole_1.png',
+  'mira_1.png',
+  'karole_2.png',
+  'song_1.png',
+  'flora_2.png',
+  'perles_1.png',
+  'karole_3.png',
+  'candice_1.jpg',
+  'carte_1.png',
+  'ziggy_1.png',
+  'hematome_1.png',
+  'Clown.PNG',
+  'Pink_spider.PNG',
+  'Bloody_Mary.jpeg',
+  'fleau.PNG',
+  'Zombie.PNG',
+  'Blue2.PNG',
+  'Goth.JPG',
+  'Operetta.JPG',
+  'Freddy.JPG',
+  'Pearl.JPEG',
+  'Pearl2.JPEG',
+  'Blue.jpeg',
+  'Chrome.JPEG'
+];
+
+// Formater les images pour le slider
+function formatImagesForSlider(imageSrc) {
+  return displayOrder
+      .map((filename, index) => {
+        const image = imageSrc.find(img =>
+            img.filename.toLowerCase() === filename.toLowerCase()
+        );
+        if (image && imageData[filename]) {
+          return {
+            id: index + 1,
+            imageSrc: image.path,
+            title: imageData[filename].title,
+            description: imageData[filename].description
+          };
+        }
+        return null;
+      })
+      .filter(img => img !== null);
+}
+
+function Makeup() {
   const [contentLoaded, setContentLoaded] = useState(false);
+  const [images, setImages] = useState([]);
 
   setupCss();
 
-  // Délai similaire à celui utilisé dans Home.js
   useEffect(() => {
+    // Charger les images
+    const loadedImages = formatImagesForSlider(getImages());
+    setImages(loadedImages);
+
     const timer = setTimeout(() => {
       setContentLoaded(true);
-    }, 800);
-    
+    }, 300);
+
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <motion.div 
-      className="Makeup w-full"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="flex flex-col items-center w-full">
-        {contentLoaded && (
-          <motion.div 
-            className="mx-auto h-auto card-grid-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1 }}
-          >
-            <CardGrid />
-          </motion.div>
+      <div className="makeup-container">
+        {contentLoaded && images.length > 0 ? (
+            <BentoSlider images={images} />
+        ) : (
+            <div className="flex items-center justify-center h-screen">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-500"></div>
+            </div>
         )}
       </div>
-    </motion.div>
   );
 }
-  
+
 export default Makeup;
