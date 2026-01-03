@@ -1,13 +1,32 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import BentoSlide from "./BentoSlide";
 import "../styles/BentoSlider.css";
 
-const ITEMS_PER_SLIDE = 3;
+function useWindowSize() {
+    const [windowSize, setWindowSize] = useState({
+        width: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    });
 
-// Fonction pour diviser les images en groupes de 3
+    useEffect(() => {
+        function handleResize() {
+            setWindowSize({
+                width: window.innerWidth,
+            });
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return windowSize;
+}
+
+// Fonction pour diviser les images en groupes
 function groupImagesIntoSlides(images, itemsPerSlide) {
     const slides = [];
     for (let i = 0; i < images.length; i += itemsPerSlide) {
@@ -16,7 +35,18 @@ function groupImagesIntoSlides(images, itemsPerSlide) {
     return slides;
 }
 
-export default function BentoSlider({ images = [], itemsPerSlide = ITEMS_PER_SLIDE }) {
+export default function BentoSlider({ images = [] }) {
+    const { width } = useWindowSize();
+
+    const getItemsPerSlide = () => {
+        if (width < 640) return 1;      // Mobile: 1 image par slide
+        if (width < 1024) return 2;     // Tablette: 2 images par slide
+        return 3;                        // Desktop: 3 images par slide
+    };
+
+    const itemsPerSlide = getItemsPerSlide();
+    const isMobile = width < 640;
+
     const slides = useMemo(() => {
         if (!images || images.length === 0) return [];
         return groupImagesIntoSlides(images, itemsPerSlide);
@@ -29,12 +59,14 @@ export default function BentoSlider({ images = [], itemsPerSlide = ITEMS_PER_SLI
         slidesToShow: 1,
         slidesToScroll: 1,
         adaptiveHeight: false,
-        arrows: true,
+        arrows: !isMobile,
         swipe: true,
         touchMove: true,
         lazyLoad: "anticipated",
         waitForAnimate: false,
         cssEase: "ease-out",
+        swipeToSlide: true,
+        touchThreshold: 10,
     };
 
     if (!images || images.length === 0) {

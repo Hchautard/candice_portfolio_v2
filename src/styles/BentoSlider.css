@@ -5,6 +5,12 @@
     to { transform: rotate(360deg); }
 }
 
+.bento-slider-container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
 /* Optimisations GPU */
 .bento-slider-container .slick-slider,
 .bento-slider-container .slick-list,
@@ -28,24 +34,19 @@
     height: 100%;
 }
 
+/* Grille Bento */
+.bento-grid {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
 .bento-cell {
     position: relative;
     overflow: hidden;
 }
 
-/* Cards dans le bento */
-.bento-cell .card-container {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.bento-cell .card-container > div {
-    width: 100% !important;
-    height: 100% !important;
-}
-
 /* Positionnement des dots */
 .bento-slider-container .slick-dots {
+    bottom: 30px;
     z-index: 100;
 }
 
@@ -88,23 +89,84 @@
     opacity: 1;
 }
 
-/* Animation d'entrée pour les cellules */
+/* ==================== */
+/* RESPONSIVE - MOBILE  */
+/* ==================== */
+
+@media (max-width: 640px) {
+    .bento-slider-container {
+        height: 100vh;
+        height: 100dvh; /* Dynamic viewport height pour mobile */
+    }
+
+    .bento-grid {
+        gap: 8px !important;
+        padding: 10px !important;
+        height: 85vh !important;
+        height: 85dvh !important;
+    }
+
+    /* Cacher les flèches sur mobile */
+    .bento-slider-container .slick-prev,
+    .bento-slider-container .slick-next {
+        display: none !important;
+    }
+
+    /* Dots plus bas et plus gros sur mobile */
+    .bento-slider-container .slick-dots {
+        bottom: 15px;
+    }
+
+    .bento-slider-container .slick-dots li {
+        margin: 0 6px;
+    }
+
+    .bento-slider-container .slick-dots li button:before {
+        font-size: 10px;
+    }
+}
+
+/* ==================== */
+/* RESPONSIVE - TABLET  */
+/* ==================== */
+
+@media (min-width: 641px) and (max-width: 1023px) {
+    .bento-grid {
+        gap: 12px !important;
+        padding: 15px !important;
+    }
+
+    .bento-slider-container .slick-prev {
+        left: 15px;
+    }
+
+    .bento-slider-container .slick-next {
+        right: 15px;
+    }
+
+    .bento-slider-container .slick-prev:before,
+    .bento-slider-container .slick-next:before {
+        font-size: 30px;
+    }
+}
+
+/* ==================== */
+/* ANIMATION            */
+/* ==================== */
+
 .bento-cell {
-    animation: fadeInScale 0.5s ease-out forwards;
+    animation: fadeInScale 0.4s ease-out forwards;
     opacity: 0;
 }
 
-.bento-cell:nth-child(1) { animation-delay: 0.1s; }
-.bento-cell:nth-child(2) { animation-delay: 0.2s; }
-.bento-cell:nth-child(3) { animation-delay: 0.3s; }
-.bento-cell:nth-child(4) { animation-delay: 0.4s; }
-.bento-cell:nth-child(5) { animation-delay: 0.5s; }
-.bento-cell:nth-child(6) { animation-delay: 0.6s; }
+.bento-cell:nth-child(1) { animation-delay: 0.05s; }
+.bento-cell:nth-child(2) { animation-delay: 0.1s; }
+.bento-cell:nth-child(3) { animation-delay: 0.15s; }
 
 @keyframes fadeInScale {
     from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: scale(0.97);
     }
     to {
         opacity: 1;
@@ -112,25 +174,10 @@
     }
 }
 
-/* Hover effect sur les cellules */
-.bento-cell:hover {
-    z-index: 10;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .bento-grid {
-        gap: 8px !important;
-        padding: 10px !important;
-    }
-
-    .bento-slider-container .slick-prev,
-    .bento-slider-container .slick-next {
-        display: none !important;
-    }
-
-    .bento-slider-container .slick-dots {
-        bottom: 15px;
+/* Hover effect sur les cellules (desktop only) */
+@media (min-width: 1024px) {
+    .bento-cell:hover {
+        z-index: 10;
     }
 }
 
@@ -141,4 +188,8 @@
 
 .makeup-container {
     position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
 }
