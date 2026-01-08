@@ -34,11 +34,6 @@
     height: 100%;
 }
 
-/* Grille Bento */
-.bento-grid {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}
-
 .bento-cell {
     position: relative;
     overflow: hidden;
@@ -95,15 +90,15 @@
 
 @media (max-width: 640px) {
     .bento-slider-container {
-        height: 100vh;
-        height: 100dvh; /* Dynamic viewport height pour mobile */
+        /*height: 100vh;*/
+        /*height: 100dvh; !* Dynamic viewport height pour mobile *!*/
     }
 
     .bento-grid {
         gap: 8px !important;
         padding: 10px !important;
-        height: 85vh !important;
-        height: 85dvh !important;
+        /*height: 85vh !important;*/
+        /*height: 85dvh !important;*/
     }
 
     /* Cacher les flèches sur mobile */
@@ -112,17 +107,9 @@
         display: none !important;
     }
 
-    /* Dots plus bas et plus gros sur mobile */
+    /* Ne pas afficher les dots si une seule cellule est visible */
     .bento-slider-container .slick-dots {
-        bottom: 15px;
-    }
-
-    .bento-slider-container .slick-dots li {
-        margin: 0 6px;
-    }
-
-    .bento-slider-container .slick-dots li button:before {
-        font-size: 10px;
+        display: none !important;
     }
 }
 
