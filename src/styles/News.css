@@ -108,7 +108,7 @@
 }
 
 .news-description {
-    color: var(--primary, rgba(255, 255, 255, 0.8));
+    /*color: var(--primary, rgba(255, 255, 255, 0.8));*/
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-size: var(--medium-large);
@@ -121,7 +121,7 @@
 }
 
 .news-date {
-    color: var(--primary, rgba(255, 255, 255, 0.6));
+    /*color: var(--primary, rgba(255, 255, 255, 0.6));*/
     font-size: var(--medium);
     font-weight: 500;
 }

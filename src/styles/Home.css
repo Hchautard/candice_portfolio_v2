@@ -124,60 +124,62 @@ p {
 @media (max-width: 768px) {
     /* Typography mobile */
     h2 {
-        font-size: 2.0rem;
+        font-size: 2.2rem;
         text-align: center;
+        margin-bottom: 1.5rem;
     }
 
     p {
         text-align: justify;
         font-size: var(--medium);
+        line-height: 1.7;
     }
 
     /* Layout mobile */
     .banner {
-        margin-top: 1rem;
-        min-height: 90vh;
-        padding: 0 15px;
-        justify-content: end;
+        min-height: auto;
+        padding: 3rem 15px;
+        justify-content: center;
     }
 
     .banner-content {
         flex-direction: column;
+        align-items: center;
     }
 
     .content-container {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        width: 100%;
     }
 
     .text-container {
         margin-left: 0;
-        width: 95%;
-        max-width: 400px;
-        padding: 30px 20px;
+        width: 100%;
+        max-width: 100%;
+        padding: 2rem 1.5rem;
         text-align: center;
-        margin-bottom: none;
+        margin-bottom: 0;
     }
 
     .text {
         max-width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: 1.5rem;
         font-size: var(--medium);
     }
 
     .model-container {
-        width: 40%;
-        height: 30vh;
-        max-width: 300px;
-        margin-bottom: 50px;
+        display: none;
     }
 
     .cta-buttons {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
-        width: 90%;
+        width: 100%;
+        gap: 1rem;
+        margin-top: 2rem;
     }
 
     .button {
@@ -186,13 +188,23 @@ p {
 
     /* Buttons mobile */
     .content-container .button-light {
-        font-size: var(--medium);
-        padding: var(--medium) var(--large);
-        width: 100%;
-        max-width: 200px;
+        font-size: var(--medium-large);
+        padding: 0.875rem 2rem;
+        width: auto;
+        min-width: 200px;
         text-align: center;
-        margin: 0px 0;
-        display: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: 1px solid var(--secondary);
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .content-container .button-light:hover {
+        border-color: var(--accent);
+        background: rgba(255, 255, 255, 0.05);
     }
 
     /* Background mobile optimization */
@@ -200,5 +212,4 @@ p {
         background-attachment: scroll;
         background-position: center top;
     }
-
 }

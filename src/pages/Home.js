@@ -67,6 +67,8 @@ function Home() {
 
   const [contentLoaded, setContentLoaded] = useState(true);
 
+  const isMobile = window.innerWidth < 768;
+
   return (
       <motion.div
           className="Home"
@@ -103,28 +105,31 @@ function Home() {
                     </div>
                   </div>
 
-                  <div className="model-container">
-                    <Canvas
-                        camera={{ position: [5, 0, 5], fov: 50 }}
-                        onCreated={({ gl }) => {
-                          gl.physicallyCorrectLights = false;
-                        }}
-                    >
-                      <ambientLight intensity={0.6} />
-                      <spotLight position={[5, 5, 5]} angle={0.15} penumbra={1} intensity={1} />
-                      <pointLight position={[-5, -5, -5]} intensity={0.5} />
-                      <Suspense fallback={<LoadingFallback />}>
-                        <TattooMachineModel />
-                        <Environment preset="studio" />
-                        <OrbitControls
-                            enableZoom={false}
-                            enablePan={false}
-                            enableRotate={true}
-                            autoRotate={false}
-                        />
-                      </Suspense>
-                    </Canvas>
-                  </div>
+                  { !isMobile && (
+                    <div className="model-container">
+                      <Canvas
+                          camera={{ position: [5, 0, 5], fov: 50 }}
+                          onCreated={({ gl }) => {
+                            gl.physicallyCorrectLights = false;
+                          }}
+                      >
+                        <ambientLight intensity={0.6} />
+                        <spotLight position={[5, 5, 5]} angle={0.15} penumbra={1} intensity={1} />
+                        <pointLight position={[-5, -5, -5]} intensity={0.5} />
+                        <Suspense fallback={<LoadingFallback />}>
+                          <TattooMachineModel />
+                          <Environment preset="studio" />
+                          <OrbitControls
+                              enableZoom={false}
+                              enablePan={false}
+                              enableRotate={true}
+                              autoRotate={false}
+                          />
+                        </Suspense>
+                      </Canvas>
+                    </div>
+                  )}
+
                 </div>
               </motion.div>
           )}
