@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { getReviews } from '../services/database/reviews';
 import { getNews } from '../services/database/news';
 
-const DataContext = createContext(null); // ⬅️ Changez undefined en null
+const DataContext = createContext(null);
 
 export const DataProvider = ({ children }) => {
     const [reviews, setReviews] = useState([]);
