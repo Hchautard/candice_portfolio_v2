@@ -11,11 +11,19 @@ function setupCss() {
 
 function getImages() {
   const images = require.context('../assets/images/makeup', false, /\.(png|jpg|jpeg)$/i);
+  const imagesSmall = require.context('../assets/images/makeup/thumbnails', false, /\.(png|jpg|jpeg)$/i);
+
   const imagePaths = images.keys().map(key => ({
     path: images(key),
     filename: key.replace('./', '')
   }));
-  return imagePaths;
+
+  const imagePathsSmall = imagesSmall.keys().map(key => ({
+    path: imagesSmall(key),
+    filename: key.replace('./', '')
+  }));
+
+  return [imagePaths, imagePathsSmall];
 }
 
 // Données des images avec titres et descriptions
@@ -156,17 +164,52 @@ const displayOrder = [
   'Chrome.JPEG'
 ];
 
+const displayOrderSmall = [
+  'flora_1-small.jpg',
+  'alice_1-small.jpg',
+  'karole_1-small.jpg',
+  'mira_1-small.jpg',
+  'karole_2-small.jpg',
+  'song_1-small.jpg',
+  'flora_2-small.jpg',
+  'perles_1-small.jpg',
+  'karole_3-small.jpg',
+  'candice_1-small.jpg',
+  'carte_1-small.jpg',
+  'ziggy_1-small.jpg',
+  'hematome_1-small.jpg',
+  'Clown-small.jpg',
+  'Pink_spider-small.jpg',
+  'Bloody_Mary-small.jpg',
+  'fleau-small.jpg',
+  'Zombie-small.jpg',
+  'Blue2-small.jpg',
+  'Goth-small.jpg',
+  'Operetta-small.jpg',
+  'Freddy-small.jpg',
+  'Pearl-small.jpg',
+  'Pearl2-small.jpg',
+  'Blue-small.jpg',
+  'Chrome-small.jpg'
+];
+
 // Formater les images pour le slider
-function formatImagesForSlider(imageSrc) {
+function formatImagesForSlider(imageSrc, imagesSrcSmall) {
   return displayOrder
       .map((filename, index) => {
         const image = imageSrc.find(img =>
             img.filename.toLowerCase() === filename.toLowerCase()
         );
+        const smallFilename = displayOrderSmall[index];
+        const imageSmall = imagesSrcSmall.find(img =>
+            img.filename.toLowerCase() === smallFilename.toLowerCase()
+        );
+
         if (image && imageData[filename]) {
           return {
             id: index + 1,
             imageSrc: image.path,
+            imageSrcSmall: imageSmall ? imageSmall.path : image.path,
             title: imageData[filename].title,
             description: imageData[filename].description
           };
@@ -183,8 +226,10 @@ function Makeup() {
   setupCss();
 
   useEffect(() => {
-    // Charger les images
-    const loadedImages = formatImagesForSlider(getImages());
+    // Charger les images avec leurs thumbnails
+    const [imagePaths, imagePathsSmall] = getImages();
+    const loadedImages = formatImagesForSlider(imagePaths, imagePathsSmall);
+
     setImages(loadedImages);
 
     const timer = setTimeout(() => {

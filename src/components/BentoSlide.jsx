@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import LazyImage from "./LazyImage";
 
 function useWindowSize() {
     const [windowSize, setWindowSize] = useState({
@@ -24,11 +25,10 @@ function useWindowSize() {
 export default function BentoSlide({ items }) {
     const { width } = useWindowSize();
 
-    // Responsive: 1 colonne sur mobile, 2 sur tablette, 3 sur desktop
     const getColumns = () => {
-        if (width < 640) return 1;      // Mobile
-        if (width < 1024) return 2;     // Tablette
-        return 3;                        // Desktop
+        if (width < 640) return 1;
+        if (width < 1024) return 2;
+        return 3;
     };
 
     const columns = getColumns();
@@ -94,12 +94,10 @@ function BentoCard({ item, isMobile }) {
             onMouseEnter={() => !isMobile && setIsHovered(true)}
             onMouseLeave={() => !isMobile && setIsHovered(false)}
         >
-            {/* Image de fond */}
-            <img
+            <LazyImage
                 src={item.imageSrc}
+                srcSmall={item.imageSrcSmall}
                 alt={item.title}
-                loading="eager"
-                decoding="async"
                 style={{
                     position: "absolute",
                     top: 0,
