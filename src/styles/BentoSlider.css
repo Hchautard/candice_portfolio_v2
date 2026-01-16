@@ -101,12 +101,6 @@
         /*height: 85dvh !important;*/
     }
 
-    /* Cacher les flèches sur mobile */
-    .bento-slider-container .slick-prev,
-    .bento-slider-container .slick-next {
-        display: none !important;
-    }
-
     /* Ne pas afficher les dots si une seule cellule est visible */
     .bento-slider-container .slick-dots {
         display: none !important;

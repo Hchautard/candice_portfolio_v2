@@ -59,7 +59,7 @@ export default function BentoSlider({ images = [] }) {
         slidesToShow: 1,
         slidesToScroll: 1,
         adaptiveHeight: false,
-        arrows: !isMobile,
+        arrows: true,
         swipe: true,
         touchMove: true,
         lazyLoad: "anticipated",
