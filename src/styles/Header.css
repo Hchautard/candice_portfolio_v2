@@ -216,7 +216,7 @@ nav {
 
 /* Fix pour éviter le scroll horizontal */
 html, body {
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
 }
 
 /* Ajustement du contenu principal pour le header fixe en mobile */
