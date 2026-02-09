@@ -15,6 +15,7 @@
     "cra-template": "1.2.0",
     "dotenv": "^17.0.1",
     "emailjs-com": "^3.2.0",
+    "eslint": "^8.57.1",
     "font-awesome": "^4.7.0",
     "gsap": "^3.12.7",
     "motion": "^12.4.3",
@@ -34,9 +35,18 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src/"
   },
   "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
     "extends": [
       "react-app",
       "react-app/jest"
