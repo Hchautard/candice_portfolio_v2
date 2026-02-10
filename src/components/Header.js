@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Divider } from '@mui/material';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import '../styles/Header.css';
-import logo from '../assets/images/logo_anomalie_new.png';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);

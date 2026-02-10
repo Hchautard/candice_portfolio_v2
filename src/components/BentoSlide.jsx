@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import LazyImage from "./LazyImage";
+import PropTypes from 'prop-types';
+
+BentoSlide.propTypes = {
+    items: PropTypes.array.isRequired,
+};
 
 function useWindowSize() {
     const [windowSize, setWindowSize] = useState({

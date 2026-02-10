@@ -11,7 +11,7 @@ export default function ReviewsSection() {
     const [isPaused, setIsPaused] = useState(false);
     const scrollRef = useRef(null);
     const animationRef = useRef(null);
-    const scrollPositionRef = useRef(0);;
+    const scrollPositionRef = useRef(0);
 
     const renderStars = (rating) => {
         return Array.from({ length: 5 }, (_, i) => (

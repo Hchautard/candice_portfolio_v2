@@ -7,9 +7,15 @@ import React, {
   useRef,
   useEffect,
 } from "react";
+import PropTypes from "prop-types";
 
 const MouseEnterContext = createContext(undefined);
 
+CardContainer.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  containerClassName: PropTypes.string,
+};
 export const CardContainer = ({
   children,
   className,
@@ -27,12 +33,12 @@ export const CardContainer = ({
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
-  const handleMouseEnter = (e) => {
+  const handleMouseEnter = () => {
     setIsMouseEntered(true);
     if (!containerRef.current) return;
   };
 
-  const handleMouseLeave = (e) => {
+  const handleMouseLeave = () => {
     if (!containerRef.current) return;
     setIsMouseEntered(false);
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
@@ -63,6 +69,10 @@ export const CardContainer = ({
   );
 };
 
+CardBody.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
 export const CardBody = ({
   children,
   className
@@ -78,6 +88,17 @@ export const CardBody = ({
   );
 };
 
+CardItem.propTypes = {
+  as: PropTypes.elementType,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  translateX: PropTypes.number,
+  translateY: PropTypes.number,
+  translateZ: PropTypes.number,
+  rotateX: PropTypes.number,
+  rotateY: PropTypes.number,
+  rotateZ: PropTypes.number,
+};
 export const CardItem = ({
   as: Tag = "div",
   children,

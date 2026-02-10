@@ -4,6 +4,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import BentoSlide from "./BentoSlide";
 import "../styles/BentoSlider.css";
+import PropTypes from 'prop-types';
+
+BentoSlider.propTypes = {
+    images: PropTypes.array.isRequired,
+};
 
 function useWindowSize() {
     const [windowSize, setWindowSize] = useState({
@@ -45,7 +50,6 @@ export default function BentoSlider({ images = [] }) {
     };
 
     const itemsPerSlide = getItemsPerSlide();
-    const isMobile = width < 640;
 
     const slides = useMemo(() => {
         if (!images || images.length === 0) return [];

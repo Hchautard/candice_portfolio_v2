@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { CardBody, CardContainer, CardItem } from "./Card";
 import '../styles/ThreeDCard.css';
+import PropTypes from "prop-types";
 
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -16,11 +17,18 @@ const ImagePlaceholder = () => (
     </div>
 );
 
+ThreeDCardDemo.propTypes = {
+    height: PropTypes.number,
+    width: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    imageUrl: PropTypes.string,
+    loading: PropTypes.string,
+    fullSize: PropTypes.bool,
+}
 export function ThreeDCardDemo({
-                                 height = 70,
                                  width = '',
                                  title = "",
-                                 description = "Hover over this card to unleash the power of CSS perspective",
                                  imageUrl = "",
                                  loading = "lazy",
                                  fullSize = false, // Nouveau prop pour le mode bento
