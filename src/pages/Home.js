@@ -20,7 +20,7 @@ function TattooMachineModel() {
 
   // Animation for floating effect with 45-degree angle
   useFrame((state) => {
-    if (!modelRef.current) return; // ✅ Vérification de sécurité
+    if (!modelRef.current) return;
 
     const t = state.clock.getElapsedTime();
 
@@ -65,7 +65,7 @@ function Home() {
   document.body.classList.remove('makeup-page');
   document.body.classList.remove('project-page');
 
-  const [contentLoaded, setContentLoaded] = useState(true);
+  const [contentLoaded] = useState(true);
 
   const isMobile = window.innerWidth < 768;
 
@@ -87,7 +87,7 @@ function Home() {
               >
                 <div className="flex flex-row items-center banner-content">
                   <div className="text-container">
-                    <h2 className="tracking-tight">Bienvenue chez l'<span>Anomalie</span></h2>
+                    <h2 className="tracking-tight">Bienvenue chez l&apos;<span>Anomalie</span></h2>
 
                     <p className="text text-pretty">
                       Je suis Candice, jeune tatoueuse indépendante de 24 ans et je vous présente mon univers, mêlant influences cyber-sigilism, gothique et dark fantasy.

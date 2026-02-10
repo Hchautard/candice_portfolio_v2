@@ -250,11 +250,11 @@ function ContactForm() {
                             Un projet ? Un flash ? Contactez moi !
                         </h2>
                         <p className="mb-4 md:mb-8 text-left">
-                            Vous avez une idée de tatouage ? Besoin d'informations sur mes disponibilités ?
-                            Envie de personnaliser ou d'adopter un flash ?
+                            Vous avez une idée de tatouage ? Besoin d&apos;informations sur mes disponibilités ?
+                            Envie de personnaliser ou d&apos;adopter un flash ?
                             Ou simplement une question sur mes prestations ?
                             <br />
-                            N'hésitez pas à me contacter via ce formulaire de contact !
+                            N&apos;hésitez pas à me contacter via ce formulaire de contact !
                         </p>
                     </div>
 
@@ -402,7 +402,7 @@ function ContactForm() {
                                             checked={formData.oneOrManyTattoos}
                                             onChange={handleChange}
                                         />
-                                        <span className="checkbox-label">J'ai déjà un ou plusieurs tattoos</span>
+                                        <span className="checkbox-label">J&apos;ai déjà un ou plusieurs tattoos</span>
                                     </label>
                                 </div>
 
@@ -414,7 +414,7 @@ function ContactForm() {
                                             checked={formData.isForACoverage}
                                             onChange={handleChange}
                                         />
-                                        <span className="checkbox-label">C'est pour un recouvrement / cover</span>
+                                        <span className="checkbox-label">C&apos;est pour un recouvrement / cover</span>
                                     </label>
                                 </div>
 
@@ -487,12 +487,12 @@ function ContactForm() {
                                         <div className="icon-info">
                                             <InfoIcon/>
                                             <div className="info-text">
-                                                Merci de m'indiquer tes souhaits pour venir te faire tatouer en
-                                                m'indiquant :
+                                                Merci de m&apos;indiquer tes souhaits pour venir te faire tatouer en
+                                                m&apos;indiquant :
                                                 <ul className="list-disc list-inside">
                                                     <li>le mois où tu voudrais le réaliser</li>
                                                     <li>les jours où tu es disponible (au moins deux)</li>
-                                                    <li>le matin ou l'après midi</li>
+                                                    <li>le matin ou l&apos;après midi</li>
                                                 </ul>
                                             </div>
                                         </div>

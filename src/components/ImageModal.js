@@ -1,5 +1,13 @@
 import React, { useEffect } from 'react';
 import '../styles/ImageModal.css';
+import PropTypes from "prop-types";
+
+ImageModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  imageSrc: PropTypes.string.isRequired,
+  imageAlt: PropTypes.string.isRequired,
+};
 
 export function ImageModal({ isOpen, onClose, imageSrc, imageAlt }) {
   // Fermer avec la touche Escape

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { ThreeDCardDemo } from "./ThreeDCard";
+import PropTypes from "prop-types";
 
 function getImages() {
   const images = require.context('../assets/images/makeup', false, /\.(png|jpg|jpeg)$/i);
@@ -203,6 +204,10 @@ function getGridLayout(totalImages) {
 
   return layout;
 }
+
+ImagePreloader.PropTypes = {
+  images: PropTypes.array.isRequired,
+};
 
 // Composant pour précharger les images
 const ImagePreloader = ({ images }) => {
