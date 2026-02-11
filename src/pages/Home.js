@@ -6,6 +6,7 @@ import {Environment, OrbitControls, useGLTF} from "@react-three/drei";
 import {Link} from "react-router-dom";
 import NewsSection from "../components/NewsSection";
 import ReviewsSection from "../components/ReviewsSection";
+import DocumentTitleSetter from "../utils/title-setter.ts";
 
 function TattooMachineModel() {
   const modelRef = useRef();
@@ -64,6 +65,8 @@ function Home() {
   document.body.classList.remove('contact-page');
   document.body.classList.remove('makeup-page');
   document.body.classList.remove('project-page');
+
+  DocumentTitleSetter("Accueil");
 
   const [contentLoaded] = useState(true);
 

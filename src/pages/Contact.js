@@ -1,7 +1,10 @@
 import "../styles/Contact.css";
 import ContactForm from "../components/ContactForm";
+import DocumentTitleSetter from "../utils/title-setter.ts";
 
 function Contact() {
+    DocumentTitleSetter("Contact");
+
     document.body.classList.remove('tattoo-page');
     document.body.classList.remove('project-page');
     document.body.classList.remove('makeup-page');

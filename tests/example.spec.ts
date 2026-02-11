@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 
+// eslint-disable-next-line jest/no-done-callback
 test('has title', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 
@@ -7,6 +8,7 @@ test('has title', async ({ page }) => {
   await expect(page).toHaveTitle(/Playwright/);
 });
 
+// eslint-disable-next-line jest/no-done-callback
 test('get started link', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 
@@ -17,30 +19,31 @@ test('get started link', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
 
+// eslint-disable-next-line jest/no-done-callback
 test('header links working', async ({ page }) => {
 
   // HOME
-  await page.goto('https://lanomalie.com/contact');
+  await page.goto('localhost:3000/contact');
 
   await expect(page).toHaveTitle(/Contact/);
 
   // PROJECT
-  await page.goto('https://lanomalie.com/project');
+  await page.goto('localhost:3000/project');
 
-  await expect(page).toHaveTitle(/project/);
+  await expect(page).toHaveTitle(/Shop/);
 
   // MAKEUP
-  await page.goto('https://lanomalie.com/makeup');
+  await page.goto('localhost:3000/makeup');
 
   await expect(page).toHaveTitle(/Makeup/);
 
   // TATTOO
-  await page.goto('https://lanomalie.com/tattoo');
+  await page.goto('localhost:3000/tattoo');
 
   await expect(page).toHaveTitle(/Tattoo/);
 
   // HOME
-  await page.goto('https://lanomalie.com/');
+  await page.goto('localhost:3000/');
 
-  await expect(page).toHaveTitle(/Home/);
+  await expect(page).toHaveTitle(/Accueil/);
 });
