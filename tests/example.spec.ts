@@ -16,3 +16,31 @@ test('get started link', async ({ page }) => {
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
 });
+
+test('header links working', async ({ page }) => {
+
+  // HOME
+  await page.goto('https://lanomalie.com/contact');
+
+  await expect(page).toHaveTitle(/Contact/);
+
+  // PROJECT
+  await page.goto('https://lanomalie.com/project');
+
+  await expect(page).toHaveTitle(/project/);
+
+  // MAKEUP
+  await page.goto('https://lanomalie.com/makeup');
+
+  await expect(page).toHaveTitle(/Makeup/);
+
+  // TATTOO
+  await page.goto('https://lanomalie.com/tattoo');
+
+  await expect(page).toHaveTitle(/Tattoo/);
+
+  // HOME
+  await page.goto('https://lanomalie.com/');
+
+  await expect(page).toHaveTitle(/Home/);
+});
