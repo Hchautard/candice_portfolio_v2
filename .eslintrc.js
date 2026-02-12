@@ -23,5 +23,6 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react/no-unknown-property": "off",
+    "jest/no-done-callback": "off",
   },
 };
