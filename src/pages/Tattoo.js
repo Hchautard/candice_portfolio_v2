@@ -1,6 +1,7 @@
 import "../styles/Tattoo.css"
 import CardDistribution from "./CardDistribution";
 import { useEffect, useState } from "react";
+import DocumentTitleSetter from "../utils/title-setter.ts";
 
 function getImages() {
     const images = require.context('../assets/images/tattoo', false, /\.png$/);
@@ -27,6 +28,8 @@ function setupCss(){
 function Tattoo() {
     const [showComponent, setShowComponent] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState(false);
+
+    DocumentTitleSetter("Tattoo");
 
     setupCss();
 

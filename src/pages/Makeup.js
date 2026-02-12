@@ -1,6 +1,7 @@
 import '../styles/Makeup.css';
 import { useState, useEffect } from 'react';
 import BentoSlider from '../components/BentoSlider';
+import DocumentTitleSetter from "../utils/title-setter.ts";
 
 function setupCss() {
   document.body.classList.remove('tattoo-page');
@@ -222,6 +223,8 @@ function formatImagesForSlider(imageSrc, imagesSrcSmall) {
 function Makeup() {
   const [contentLoaded, setContentLoaded] = useState(false);
   const [images, setImages] = useState([]);
+
+  DocumentTitleSetter("Makeup");
 
   setupCss();
 

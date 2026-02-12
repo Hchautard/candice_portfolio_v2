@@ -2,8 +2,12 @@ import React, {useEffect, useState} from "react";
 import vid_project from "../assets/video/vid_project.mp4";
 import Video from "../components/Video";
 import '../styles/Project.css';
+import DocumentTitleSetter from "../utils/title-setter.ts";
 
 function Project() {
+
+    DocumentTitleSetter("Shop");
+
     document.body.classList.remove('tattoo-page');
     document.body.classList.remove('contact-page');
     document.body.classList.remove('makeup-page');
