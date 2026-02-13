@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import vid_project from "../assets/video/vid_project.mp4";
 import Video from "../components/Video";
+import NewsGrid from "../components/News/NewsGrid";
 import '../styles/Project.css';
 import DocumentTitleSetter from "../utils/title-setter.ts";
 
@@ -47,6 +48,7 @@ function Project() {
     }, []);
 
     return (
+        <>
         <div className="project-container">
             <div className="project-banner">
                 <div className="project-content-container">
@@ -74,6 +76,8 @@ function Project() {
                 </div>
             )}
         </div>
+            <NewsGrid />
+        </>
     );
 }
 

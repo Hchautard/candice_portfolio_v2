@@ -4,6 +4,8 @@ body.project-page {
     background-repeat: no-repeat;
     background-position: center;
 
+    padding-bottom: 5rem;
+
     &::before {
         content: "";
         position: fixed;
