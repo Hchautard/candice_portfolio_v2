@@ -125,6 +125,13 @@ body.project-page {
     }
 }
 
+.project-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (min-width: 768px) and (max-width: 1700px) {
     h2 {
         font-size: calc(var(--xxlarge));

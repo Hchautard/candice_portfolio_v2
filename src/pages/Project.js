@@ -48,7 +48,7 @@ function Project() {
     }, []);
 
     return (
-        <>
+        <div className="project-page">
         <div className="project-container">
             <div className="project-banner">
                 <div className="project-content-container">
@@ -77,7 +77,7 @@ function Project() {
             )}
         </div>
             <NewsGrid />
-        </>
+        </div>
     );
 }
 
