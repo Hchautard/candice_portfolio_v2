@@ -1,0 +1,199 @@
+/* ===== NEWS CARD SHOP ===== */
+.news-card-shop {
+    position: relative;
+    height: 100%;
+    padding: 24px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Overlay gradient */
+.news-card-shop::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+            to bottom,
+            transparent 30%,
+            rgba(0, 0, 0, 0.8) 100%
+    );
+    z-index: 0;
+}
+
+.news-card-shop::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    z-index: 2;
+}
+
+.news-card-shop:hover::after {
+    transform: scaleX(1);
+}
+
+.news-card-shop:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 25px var(--accent);
+    transform: translateY(-5px);
+}
+
+.news-card-shop > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== HEADER ===== */
+.news-header-shop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: auto;
+}
+
+.news-category-shop {
+    padding: 0.3rem 0.8rem;
+    background: var(--accent);
+    color: var(--primary);
+    font-size: var(--medium);
+    font-family: "Alice_Wonderland_2", cursive;
+    border-radius: 15px;
+}
+
+.news-date-shop {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: var(--medium);
+    font-weight: 500;
+}
+
+/* ===== CONTENT ===== */
+.news-title-shop {
+    margin: 0 0 10px 0;
+    font-family: "Alice_Wonderland_2", cursive;
+    font-size: var(--large);
+    font-weight: 700;
+    color: var(--secondary);
+    line-height: 1.3;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.news-description-shop {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--medium-large);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ===== FOOTER ===== */
+.news-footer-shop {
+    margin-top: 16px;
+}
+
+.news-arrow-shop {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--accent);
+    color: var(--primary);
+    font-family: "Alice_Wonderland_2", cursive;
+    font-size: var(--medium);
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.news-arrow-shop:hover {
+    background: var(--secondary);
+    transform: translateX(5px);
+    box-shadow: 0 0 15px var(--accent);
+}
+
+/* ===== VARIANTES PETITES CARTES ===== */
+.sub-top-right .news-card-shop,
+.sub-bottom-right .news-card-shop {
+    padding: 18px;
+}
+
+.sub-top-right .news-header-shop,
+.sub-bottom-right .news-header-shop {
+    margin-bottom: 12px;
+}
+
+.sub-top-right .news-date-shop,
+.sub-bottom-right .news-date-shop {
+    display: none;
+}
+
+.sub-top-right .news-title-shop,
+.sub-bottom-right .news-title-shop {
+    font-size: var(--medium-large);
+    margin-bottom: 0;
+}
+
+.sub-top-right .news-description-shop,
+.sub-bottom-right .news-description-shop,
+.sub-top-right .news-footer-shop,
+.sub-bottom-right .news-footer-shop {
+    display: none;
+}
+
+.sub-top-right .news-category-shop,
+.sub-bottom-right .news-category-shop {
+    padding: 0.2rem 0.6rem;
+    font-size: calc(var(--medium) - 0.1rem);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 968px) {
+    .news-card-shop {
+        padding: 20px;
+    }
+
+    .news-title-shop {
+        font-size: var(--medium-large);
+    }
+
+    .news-description-shop {
+        font-size: var(--medium);
+    }
+}
+
+@media (max-width: 768px) {
+    .news-card-shop {
+        padding: 18px;
+    }
+
+    .news-header-shop {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .news-arrow-shop {
+        padding: 8px 16px;
+        font-size: calc(var(--medium) - 0.1rem);
+    }
+
+    .sub-top-right .news-title-shop,
+    .sub-bottom-right .news-title-shop {
+        font-size: var(--medium);
+    }
+}

@@ -1,43 +1,31 @@
-import React from 'react';
-import "../../styles/NewsGrid.css";
 import {useData} from "../../contexts/DataContext";
 import NewsCard from "./NewsCard";
+import "../../styles/NewsGrid.css";
 
 export default function NewsGrid() {
     const { news, loading, error } = useData();
 
-    const newsList = news.sort((a, b) => new Date(b.date_event) - new Date(a.date_event)).slice(0, 3);
-
-    console.log("News data in NewsGrid:", newsList);
     if (loading) return <div>Loading news...</div>;
     if (error) return <div>Error loading news: {error.message}</div>;
 
+    const newsList = [...news]
+        .sort((a, b) => new Date(b.date_event) - new Date(a.date_event))
+        .slice(0, 3);
+
+    const gridClasses = ['main', 'sub-top-right', 'sub-bottom-right'];
+
     return (
         <div className="news-grid-shop">
-            <div className="main">
-                <NewsCard
-                    title={newsList[0].title}
-                    description={newsList[0].description}
-                    date={new Date(newsList[0].date_event).toLocaleDateString('fr-FR')}
-                    category={newsList[0].category}
-                />
-            </div>
-            <div className="sub-top-right">
-                <NewsCard
-                    title={newsList[1].title}
-                    description={newsList[1].description}
-                    date={new Date(newsList[1].date_event).toLocaleDateString('fr-FR')}
-                    category={newsList[1].category}
-                />
-            </div>
-            <div className="sub-bottom-right">
-                <NewsCard
-                    title={newsList[2].title}
-                    description={newsList[2].description}
-                    date={new Date(newsList[2].date_event).toLocaleDateString('fr-FR')}
-                    category={newsList[2].category}
-                />
-            </div>
+            {newsList.map((item, index) => (
+                <div key={item.id || index} className={gridClasses[index]}>
+                    <NewsCard
+                        title={item.title}
+                        description={item.description}
+                        date={new Date(item.date_event).toLocaleDateString('fr-FR')}
+                        category={item.category}
+                    />
+                </div>
+            ))}
         </div>
     );
 }
