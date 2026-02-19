@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+# L'Anomalie — Portfolio de Tatoueuse
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Portfolio de Candice, tatoueuse indépendante basée à Saint-Rémy-de-Provence, spécialisée dans les styles **cyber-sigilism**, **gothique** et **dark fantasy**.
 
-## Available Scripts
+Construit avec **React**, **Three.js**, **Framer Motion** et **Supabase**.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Démarrage rapide
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```sh
+npm install
+npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+L'app tourne sur **http://localhost:3000** par défaut.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Structure du projet
 
-### `npm run build`
+```
+/
+├── public/
+│   └── models/              # Modèles 3D (.glb)
+├── src/
+│   ├── assets/
+│   │   ├── fonts/           # Polices Alice Wonderland & Coolvetica
+│   │   ├── images/          # Backgrounds, photos tattoo & makeup
+│   │   └── video/           # Vidéo projet shop
+│   ├── components/          # Composants réutilisables
+│   │   ├── BentoSlider.jsx  # Galerie makeup en grille responsive
+│   │   ├── CardDistribution # Cartes tattoo distribuées avec GSAP
+│   │   ├── ContactForm.js   # Formulaire de contact (défaut + tatouage)
+│   │   ├── Header.js        # Navigation avec menu burger mobile
+│   │   ├── LazyImage.js     # Lazy loading avec blur placeholder
+│   │   └── NewsSection.js   # Section actualités animée
+│   ├── contexts/
+│   │   └── DataContext.js   # Chargement centralisé Supabase (news, avis)
+│   ├── pages/               # Pages principales (Home, Tattoo, Makeup, Contact, Project)
+│   ├── services/
+│   │   └── database/        # Requêtes Supabase (reviews, news)
+│   ├── styles/              # CSS par page/composant
+│   └── utils/
+│       └── supabase.ts      # Client Supabase
+└── tests/                   # Tests E2E Playwright
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Commandes disponibles
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Commande          | Action                                         |
+| :---------------- | :--------------------------------------------- |
+| `npm install`     | Installe les dépendances                       |
+| `npm start`       | Lance le serveur de dev sur `localhost:3000`   |
+| `npm run build`   | Build le site dans `./build/`                  |
+| `npm test`        | Lance les tests Jest en mode watch             |
+| `npm run lint`    | Analyse le code avec ESLint                    |
 
-### `npm run eject`
+### Tests E2E (Playwright)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```sh
+npx playwright install   # À faire une seule fois
+npx playwright test      # Lance tous les tests
+npx playwright test --ui # Mode interactif
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Pages principales
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Route        | Description                                       |
+| :----------- | :------------------------------------------------ |
+| `/`          | Accueil avec modèle 3D de machine à tatouer       |
+| `/tattoo`    | Galerie de flashs avec distribution de cartes     |
+| `/makeup`    | Galerie makeup en bento slider                    |
+| `/project`   | Présentation du futur salon L'Anomalie            |
+| `/contact`   | Formulaire de contact (général ou demande tattoo) |
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Stack technique
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [React 19](https://react.dev) — framework principal
+- [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) + [Three.js](https://threejs.org) — modèle 3D
+- [Framer Motion](https://www.framer.com/motion/) — animations de page
+- [GSAP](https://gsap.com) — animation de distribution des cartes
+- [Supabase](https://supabase.com) — base de données (avis clients, actualités)
+- [EmailJS](https://www.emailjs.com) — envoi du formulaire de contact sans backend
+- [Cloudinary](https://cloudinary.com) — upload des images de référence tatouage
+- [Tailwind CSS](https://tailwindcss.com) — utilitaires CSS
+- [Playwright](https://playwright.dev) — tests E2E
