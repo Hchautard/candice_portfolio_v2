@@ -1,7 +1,7 @@
 /* ===== SECTION NEWS ===== */
 .news-section {
     padding: 4rem 0;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
     margin: 2rem 20px;
     border-radius: 20px;

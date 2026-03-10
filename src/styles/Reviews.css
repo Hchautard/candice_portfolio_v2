@@ -1,7 +1,7 @@
 /* ===== SECTION REVIEWS CAROUSEL ===== */
 .reviews-section {
     padding: 4rem 0;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
     margin: 2rem 20px;
     border-radius: 20px;
@@ -52,7 +52,7 @@
 .review-card-carousel {
     min-width: 380px;
     max-width: 380px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(8px);
     padding: 2rem;
     border-radius: 15px;
@@ -133,7 +133,7 @@
     border-radius: 15px;
     font-size: var(--medium);
     font-family: "Alice_Wonderland_2", serif;
-    font-weight: 600;
+    font-weight: 400;
     white-space: nowrap;
 }
 
@@ -157,7 +157,7 @@
 }
 
 .review-comment {
-    color: whitesmoke;
+    color: var(--secondary);
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-size: var(--medium-large);
@@ -172,7 +172,7 @@
 }
 
 .review-date {
-    color: whitesmoke;
+    color: var(--secondary);
     font-size: var(--medium);
     font-weight: 500;
 }
