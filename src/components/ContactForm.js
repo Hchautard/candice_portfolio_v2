@@ -265,7 +265,7 @@ function ContactForm() {
                         Informations
                     </h2>
                     <p className="mb-4 md:mb-8 text-left">
-                        7b Avenue du 19 mars 1962, 13210 Saint-Rémy-de-Provence <br/>
+                        7b Avenue du 19 mars 1962, <br/> 13210 Saint-Rémy-de-Provence <br/>
                         Ouvert du lundi au samedi <strong>sur rendez-vous</strong> <br/>
                         <a href="tel:+33658863420" className="underline">06 52 57 99 44</a> <br/>
                         <span className="block mt-4">
@@ -277,7 +277,7 @@ function ContactForm() {
                 {/* Form Part */}
                 <div className="container-form">
                     {/* Tab buttons */}
-                    <div className="flex justify-start w-full gap-4 items-center">
+                    <div className="flex justify-start w-full gap-4 items-baseline">
                         <div className="icon-info">
                             <InfoIcon/>
                             <div className="info-text">
