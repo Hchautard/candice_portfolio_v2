@@ -4,7 +4,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(6, 1fr);
     gap: 16px;
-    padding: 20px 40px;
+    padding: 30px;
 
     @media (max-width: 768px) {
         width: 95%;
@@ -22,6 +22,9 @@
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     @media (max-width: 768px) {
         padding: 14px;
@@ -30,7 +33,8 @@
 
     h2 {
         color: var(--secondary);
-        font-size: var(--xlarge);
+        font-size: var(--large);
+        margin-bottom: 10px;
 
         @media (max-width: 768px) {
             font-size: var(--medium-large);
@@ -40,9 +44,9 @@
 
     p {
         color: var(--secondary);
-        font-size: calc(var(--medium) + 8px);
-        width: 90%;
-        line-height: 1.8rem;
+        font-size: calc(var(--medium) + 4px);
+        width: 100%;
+        line-height: 1.6rem;
 
         @media (max-width: 768px) {
             font-size: calc(var(--medium) - 1px);
@@ -63,6 +67,9 @@
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     @media (max-width: 768px) {
         padding: 14px;
@@ -71,7 +78,8 @@
 
     h2 {
         color: var(--secondary);
-        font-size: var(--xlarge);
+        font-size: var(--large);
+        margin-bottom: 10px;
 
         @media (max-width: 768px) {
             font-size: var(--medium-large);
@@ -81,9 +89,9 @@
 
     p {
         color: var(--secondary);
-        font-size: calc(var(--medium) + 8px);
+        font-size: calc(var(--medium) + 4px);
         width: 100%;
-        line-height: 1.8rem;
+        line-height: 1.6rem;
 
         @media (max-width: 768px) {
             font-size: calc(var(--medium) - 1px);
@@ -117,7 +125,7 @@
     backdrop-filter: blur(10px);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    padding: 24px;
+    padding: 20px;
 
     @media (max-width: 768px) {
         width: 100%;
@@ -127,7 +135,7 @@
 
     label {
         color: var(--secondary);
-        font-size: var(--large);
+        font-size: calc(var(--medium) + 4px);
         font-family: 'Alice_Wonderland_2';
         margin-bottom: -5px;
 
@@ -142,8 +150,8 @@
     input[type="tel"],
     input[type="date"] {
         width: 100%;
-        padding: 10px;
-        margin: 10px 0;
+        padding: 8px 10px;
+        margin: 6px 0;
         border-radius: 5px;
 
         @media (max-width: 768px) {
@@ -163,8 +171,8 @@
 
     input[type="file"] {
         width: 100%;
-        padding: 10px;
-        margin: 10px 0;
+        padding: 8px 10px;
+        margin: 6px 0;
         border-radius: 5px;
         background: rgba(255, 255, 255, 0.05);
         cursor: pointer;
@@ -181,7 +189,7 @@
         }
 
         &::file-selector-button {
-            padding: 8px 16px;
+            padding: 6px 14px;
             border: none;
             border-radius: 5px;
             background: var(--accent);
@@ -206,8 +214,8 @@
 
     textarea {
         width: 100%;
-        padding: 10px;
-        margin: 10px 0;
+        padding: 8px 10px;
+        margin: 6px 0;
         border-radius: 5px;
 
         @media (max-width: 768px) {
@@ -220,8 +228,8 @@
 
     button {
         width: 100%;
-        padding: 10px;
-        margin: 10px 0;
+        padding: 8px 10px;
+        margin: 8px 0;
         border-radius: 5px;
         box-shadow: 0 0 5px var(--accent);
         color: var(--accent);
@@ -280,8 +288,6 @@ textarea {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 15px;
-    margin: 10px 0;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
@@ -302,8 +308,8 @@ textarea {
 
 input[type="checkbox"] {
     appearance: none;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border: 2px solid var(--accent);
     border-radius: 6px;
     background: transparent;
@@ -335,7 +341,7 @@ input[type="checkbox"] {
         transform: translate(-50%, -50%) scale(0);
         color: var(--primary);
         font-weight: bold;
-        font-size: 16px;
+        font-size: 14px;
         animation: checkmark 0.3s ease forwards;
     }
 }
@@ -356,7 +362,7 @@ input[type="checkbox"] {
 
 .checkbox-label {
     color: var(--secondary);
-    font-size: var(--large);
+    font-size: calc(var(--medium) + 6px);
     font-family: 'Alice_Wonderland_2';
     cursor: pointer;
     transition: color 0.3s ease;
@@ -484,7 +490,7 @@ input[type="checkbox"] {
 }
 
 .tab {
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 5px;
     border: none;
     border-bottom: 2px solid transparent;
@@ -519,7 +525,7 @@ input[type="checkbox"] {
 
 .form {
     border-top: 1px solid var(--accent);
-    padding: 20px 10px 10px;
+    padding: 14px 8px 8px;
     animation: fadeIn 0.5s ease;
 
     @media (max-width: 768px) {
