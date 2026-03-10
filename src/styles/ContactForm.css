@@ -1,31 +1,62 @@
 .container-contact {
     width: 80%;
-    align-items: center;
-    justify-content: center;
-
-    /* Glassmorphism effect */
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 16px;
     padding: 20px 40px;
 
     @media (max-width: 768px) {
         width: 95%;
         padding: 20px;
+        display: flex;
         flex-direction: column;
-        gap: 30px;
+        gap: 20px;
     }
 }
 
-.text-content {
-    width: 48%;
-    line-height: 4rem;
+.text-intro {
+    grid-row: span 3 / span 3;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 24px;
 
-    @media (max-width: 768px) {
-        width: 100%;
-        text-align: center;
+    h2 {
+        color: var(--secondary);
+        font-size: var(--xlarge);
+
+        @media (max-width: 768px) {
+            font-size: calc(var(--large) - 5px);
+            margin-bottom: 16px;
+        }
     }
+
+    p {
+        color: var(--secondary);
+        font-size: calc(var(--medium) + 8px);
+        width: 90%;
+        line-height: 1.8rem;
+
+        @media (max-width: 768px) {
+            font-size: var(--medium);
+            width: 100%;
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+    }
+}
+
+.text-coords {
+    grid-row: span 3 / span 3;
+    grid-column-start: 1;
+    grid-row-start: 4;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 24px;
 
     h2 {
         color: var(--secondary);
@@ -66,7 +97,15 @@
 }
 
 .container-form {
-    width: 60%;
+    grid-column: span 2 / span 2;
+    grid-row: span 6 / span 6;
+    grid-column-start: 2;
+    grid-row-start: 1;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 24px;
 
     @media (max-width: 768px) {
         width: 100%;
@@ -107,7 +146,6 @@
         }
     }
 
-    /* Style pour les inputs file */
     input[type="file"] {
         width: 100%;
         padding: 10px;
@@ -318,7 +356,6 @@ input[type="checkbox"] {
 .form-field:nth-child(9) { animation-delay: 0.45s; }
 .form-field:nth-child(10) { animation-delay: 0.5s; }
 
-/* Classes spécifiques pour le grid du formulaire */
 @media (max-width: 768px) {
     form.container-form {
         display: flex;
@@ -330,7 +367,6 @@ input[type="checkbox"] {
         width: 100%;
     }
 
-    /* Messages de statut */
     .text-red-500,
     .text-green-500 {
         text-align: center;
@@ -348,7 +384,6 @@ input[type="checkbox"] {
     }
 }
 
-/* Ajustement du bouton sur mobile */
 @media (max-width: 768px) {
     .w-full.flex.justify-center {
         justify-content: center;
@@ -452,7 +487,6 @@ input[type="checkbox"] {
     }
 }
 
-/* Messages de statut avec animation */
 .text-red-500,
 .text-green-500 {
     animation: slideDown 0.4s ease;

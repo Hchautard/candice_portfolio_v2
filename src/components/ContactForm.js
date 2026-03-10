@@ -243,36 +243,38 @@ function ContactForm() {
                 pauseOnHover
                 theme="light"
             />
-            <div className="flex flex-col md:flex-row px-4 mx-auto container-contact">
-                <div className="flex flex-col text-content">
-                    <div className="flex flex-col mb-6 md:mb-0">
-                        <h2 className="tracking-tight font-extrabold text-center md:text-left">
-                            Un projet ? Un flash ? Contactez moi !
-                        </h2>
-                        <p className="mb-4 md:mb-8 text-left">
-                            Vous avez une idée de tatouage ? Besoin d&apos;informations sur mes disponibilités ?
-                            Envie de personnaliser ou d&apos;adopter un flash ?
-                            Ou simplement une question sur mes prestations ?
-                            <br />
-                            N&apos;hésitez pas à me contacter via ce formulaire de contact !
-                        </p>
-                    </div>
+            <div className="px-4 mx-auto container-contact">
 
-                    <div className="flex flex-col justify-start mb-6 md:mb-0">
-                        <h2 className="tracking-tight font-extrabold text-center md:text-left">
-                            Informations
-                        </h2>
-                        <p className="mb-4 md:mb-8 text-left">
-                            7b Avenue du 19 mars 1962, 13210 Saint-Rémy-de-Provence <br/>
-                            Ouvert du lundi au samedi <strong>sur rendez-vous</strong> <br/>
-                            <a href="tel:+33658863420" className="underline">06 52 57 99 44</a> <br/>
-                            <span className="block mt-4">
-                                Attention, si vous souhaitez passer au tattoo shop, merci de me contacter au préalable.
-                            </span>
-                        </p>
-                    </div>
+                {/* Intro Part */}
+                <div className="glass-card text-intro">
+                    <h2 className="tracking-tight font-extrabold text-center md:text-left">
+                        Un projet ? Un flash ? Contactez moi !
+                    </h2>
+                    <p className="mb-4 md:mb-8 text-left">
+                        Vous avez une idée de tatouage ? Besoin d&apos;informations sur mes disponibilités ?
+                        Envie de personnaliser ou d&apos;adopter un flash ?
+                        Ou simplement une question sur mes prestations ?
+                        <br />
+                        N&apos;hésitez pas à me contacter via ce formulaire de contact !
+                    </p>
                 </div>
 
+                {/* Coords Part */}
+                <div className="text-coords">
+                    <h2 className="tracking-tight font-extrabold text-center md:text-left">
+                        Informations
+                    </h2>
+                    <p className="mb-4 md:mb-8 text-left">
+                        7b Avenue du 19 mars 1962, 13210 Saint-Rémy-de-Provence <br/>
+                        Ouvert du lundi au samedi <strong>sur rendez-vous</strong> <br/>
+                        <a href="tel:+33658863420" className="underline">06 52 57 99 44</a> <br/>
+                        <span className="block mt-4">
+                        Attention, si vous souhaitez passer au tattoo shop, merci de me contacter au préalable.
+                    </span>
+                    </p>
+                </div>
+
+                {/* Form Part */}
                 <div className="container-form">
                     {/* Tab buttons */}
                     <div className="flex justify-start w-full gap-4 items-center">
