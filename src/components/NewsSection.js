@@ -6,7 +6,8 @@ import { useData } from '../contexts/DataContext';
 export default function NewsSection() {
     const { news, loading, error } = useData();
 
-    const newsList = news;
+    // Limit to the 3 most recent news items
+    const newsList = news.sort((a, b) => new Date(b.date_event) - new Date(a.date_event)).slice(0, 3);
     const navigate = useNavigate();
 
     const handleNewsClick = (newsItem) => {
