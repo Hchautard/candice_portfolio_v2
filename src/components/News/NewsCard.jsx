@@ -13,7 +13,7 @@ export default function NewsCard({ title, description, date, category, content, 
             <div className="news-card-shop" onClick={() => setIsOpen(true)}>
                 <div className="news-header-shop">
                     <div className="news-category-shop">{category}</div>
-                    <span className="news-date-shop">{date}</span>
+                    <span className="news-date-shop">{date} &nbsp;|&nbsp; {location}</span>
                 </div>
                 <h4 className="news-title-shop">{title}</h4>
                 <p className="news-description-shop">{description}</p>
