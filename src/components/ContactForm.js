@@ -251,10 +251,11 @@ function ContactForm() {
                         Un projet ? Un flash ? Contactez moi !
                     </h2>
                     <p className="mb-4 md:mb-8 text-left">
-                        Vous avez une idée de tatouage ? Besoin d&apos;informations sur mes disponibilités ?
-                        Envie de personnaliser ou d&apos;adopter un flash ?
+                        Vous avez une idée de tatouage ? <br/> Besoin d&apos;informations sur mes disponibilités ? <br/>
+                        Envie de personnaliser ou d&apos;adopter un flash ? <br/>
                         Ou simplement une question sur mes prestations ?
-                        <br />
+                        <br/>
+                        <br/>
                         N&apos;hésitez pas à me contacter via ce formulaire de contact !
                     </p>
                 </div>
