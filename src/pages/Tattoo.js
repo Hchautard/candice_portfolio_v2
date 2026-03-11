@@ -14,15 +14,35 @@ function formatImageForCards(imageSrc) {
     for (let i = 0; i < imageSrc.length; i++) {
         formatedImages.push({ id: i + 1, imageSrc: imageSrc[i], backContent: "Disponible !" });
     }
-
     return formatedImages;
 }
 
-function setupCss(){
+function setupCss() {
     document.body.classList.add('tattoo-page');
     document.body.classList.remove('project-page');
     document.body.classList.remove('contact-page');
     document.body.classList.remove('makeup-page');
+}
+
+const SKELETON_COUNT = 7;
+
+function SkeletonCard() {
+    return (
+        <div className="skeleton-card">
+            <div className="skeleton-image shimmer" />
+            <div className="skeleton-text shimmer" />
+        </div>
+    );
+}
+
+function SkeletonGrid() {
+    return (
+        <div className="skeleton-grid">
+            {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+                <SkeletonCard key={i} />
+            ))}
+        </div>
+    );
 }
 
 function Tattoo() {
@@ -30,7 +50,6 @@ function Tattoo() {
     const [imagesLoaded, setImagesLoaded] = useState(false);
 
     DocumentTitleSetter("Tattoo");
-
     setupCss();
 
     const formattedImages = formatImageForCards(getImages());
@@ -59,25 +78,20 @@ function Tattoo() {
     }, []);
 
     useEffect(() => {
-
         if (document.body.classList.contains('contact-page') || document.body.classList.contains('project-page')) {
             document.body.classList.remove('contact-page');
             document.body.classList.remove('project-page');
         }
 
-        // Add class to body when component mounts
         document.body.classList.add('tattoo-page');
 
-        // Attendre que les images soient chargées avant d'afficher
         if (imagesLoaded) {
             const timer = setTimeout(() => {
                 setShowComponent(true);
             }, 500);
-
             return () => clearTimeout(timer);
         }
 
-        // Remove class when component unmounts
         return () => {
             document.body.classList.remove('tattoo-page');
         };
@@ -86,14 +100,8 @@ function Tattoo() {
     return (
         <div className="Tattoo">
             <div className="container-tattoo">
-                {!imagesLoaded && (
-                    <div className="loading-container">
-                        <div className="loading-spinner">Chargement des tatouages...</div>
-                    </div>
-                )}
-                {showComponent && imagesLoaded ? (
-                    <CardDistribution cards={formattedImages} />
-                ) : null}
+                {!showComponent && <SkeletonGrid />}
+                {showComponent && imagesLoaded && <CardDistribution cards={formattedImages} />}
             </div>
         </div>
     );

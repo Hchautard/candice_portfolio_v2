@@ -37,3 +37,52 @@ body.tattoo-page {
         min-height: 100vh;
     }
 }
+
+/* ── Skeleton ── */
+.skeleton-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    width: 100%;
+}
+
+.skeleton-card {
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.skeleton-image {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 10px;
+    background: #2a2a2a;
+}
+
+.skeleton-text {
+    height: 1rem;
+    width: 60%;
+    border-radius: 6px;
+    background: #2a2a2a;
+    margin: 0 auto;
+}
+
+/* Effet shimmer */
+@keyframes shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position:  600px 0; }
+}
+
+.shimmer {
+    background: linear-gradient(
+            90deg,
+            #2a2a2a 25%,
+            #3d3d3d 50%,
+            #2a2a2a 75%
+    );
+    background-size: 600px 100%;
+    animation: shimmer 1.4s infinite linear;
+}
