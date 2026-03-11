@@ -23,6 +23,8 @@ export default function NewsGrid() {
                         description={item.description}
                         date={new Date(item.date_event).toLocaleDateString('fr-FR')}
                         category={item.category}
+                        content={item.content}
+                        location={item.location}
                     />
                 </div>
             ))}
