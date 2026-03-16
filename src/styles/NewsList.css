@@ -1,0 +1,138 @@
+/* ===== SECTION ===== */
+.news-list-section {
+    width: 70%;
+}
+
+/* ===== HEADER (title + arrows) ===== */
+.news-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.news-list-section-title {
+    font-family: "Alice_Wonderland_2", cursive;
+    font-size: var(--large);
+    color: var(--primary);
+}
+
+.news-list-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.news-list-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    line-height: 1;
+}
+
+.news-list-arrow:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+/* ===== ROW (4 cards side by side) ===== */
+.news-list-row {
+    display: flex;
+    gap: 20px;
+}
+
+.news-list-item {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ===== DOTS ===== */
+.news-list-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.news-list-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.news-list-dot-active {
+    background: var(--primary);
+    transform: scale(1.25);
+}
+
+.news-list-dot:hover:not(.news-list-dot-active) {
+    background: color-mix(in srgb, var(--primary) 40%, transparent);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 968px) {
+    .news-list-section {
+        width: 85%;
+    }
+
+    .news-list-row {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .news-list-section {
+        width: 90%;
+    }
+
+    .news-list-row {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .news-list-item {
+        flex: 1 1 calc(50% - 8px);
+        min-width: calc(50% - 8px);
+    }
+
+    .news-list-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .news-list-section {
+        width: 95%;
+    }
+
+    .news-list-row {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .news-list-item {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
+
+    .news-list-arrow {
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
+    }
+}
