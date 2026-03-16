@@ -3,8 +3,6 @@ import Modal from "react-modal";
 import "../../styles/NewsCard.css";
 import "../../styles/NewsModal.css";
 
-Modal.setAppElement("#root");
-
 export default function NewsCard({ title, description, date, category, content, location }) {
     const [isOpen, setIsOpen] = useState(false);
 
