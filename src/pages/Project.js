@@ -4,6 +4,7 @@ import Video from "../components/Video";
 import NewsGrid from "../components/News/NewsGrid";
 import '../styles/Project.css';
 import DocumentTitleSetter from "../utils/title-setter.ts";
+import NewsList from "../components/News/NewsList";
 
 function Project() {
 
@@ -82,6 +83,11 @@ function Project() {
 
             {/* Last News */}
             <NewsGrid/>
+
+            <br />
+
+            {/* All News */}
+            <NewsList/>
         </div>
     );
 }
