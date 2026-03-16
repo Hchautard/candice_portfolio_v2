@@ -1,17 +1,21 @@
-import { useState } from "react";
+import {useState} from "react";
 import Modal from "react-modal";
 import "../../styles/NewsCard.css";
 import "../../styles/NewsModal.css";
 
-export default function NewsCard({ title, description, date, category, content, location }) {
+export default function NewsCard({title, description, date, category, content, location}) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <>
             <div className="news-card-shop" onClick={() => setIsOpen(true)}>
                 <div className="news-header-shop">
-                    <div className="news-category-shop">{category}</div>
-                    <span className="news-date-shop">{date} &nbsp;|&nbsp; {location}</span>
+                    {category &&
+                        <div className="news-category-shop">{category}</div>
+                    }
+                    <span className="news-date-shop">
+                        {date}{date && location && <>&nbsp;|&nbsp;{location}</>}
+                    </span>
                 </div>
                 <h4 className="news-title-shop">{title}</h4>
                 <p className="news-description-shop">{description}</p>
@@ -29,10 +33,12 @@ export default function NewsCard({ title, description, date, category, content, 
             >
                 <div className="news-modal-header">
                     <div className="news-modal-meta">
+                        {category &&
                         <span className="news-category-shop">{category}</span>
-                        <span className="news-modal-date-loc">{date}
-                            &nbsp;|&nbsp;
-                        {location}</span>
+                        }
+                            <span className="news-modal-date-loc">
+                                {date}{date && location && <>&nbsp;|&nbsp;{location}</>}
+                            </span>
                     </div>
                     <button className="news-modal-close" onClick={() => setIsOpen(false)}>✕</button>
                 </div>

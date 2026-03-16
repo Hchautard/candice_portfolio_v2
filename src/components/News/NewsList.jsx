@@ -34,6 +34,7 @@ export default function NewsList() {
                 <span className="news-list-section-title">
                     &#124; Toutes les actualités
                 </span>
+                {ITEMS_PER_PAGE > 4 && (
                 <div className="news-list-nav">
                     <button
                         className="news-list-arrow"
@@ -49,7 +50,8 @@ export default function NewsList() {
                     >
                         &#8250;
                     </button>
-                </div>
+                  </div>
+                )}
             </div>
 
             <div className="news-list-row">
@@ -58,16 +60,14 @@ export default function NewsList() {
                         <NewsCard
                             title={item.title}
                             description={item.description}
-                            date={new Date(item.date_event).toLocaleDateString("fr-FR")}
-                            category={item.category}
+                            date={item.date_event ? new Date(item.date_event).toLocaleDateString('fr-FR') : ''}
                             content={item.content}
-                            location={item.location}
                         />
                     </div>
                 ))}
             </div>
 
-            {totalPages > 1 && (
+            {totalPages > 1 && ITEMS_PER_PAGE > 4 && (
                 <div className="news-list-dots">
                     {Array.from({ length: totalPages }, (_, i) => (
                         <button
