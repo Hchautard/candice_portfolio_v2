@@ -2,9 +2,6 @@
     position: relative;
     width: 100%;
     padding-top: 2%;
-}
-
-body.contact-page {
     background-image: url(../assets/images/old_phone.jpg);
     background-size: cover;
     background-position: center;
@@ -15,14 +12,13 @@ body.contact-page {
 /* Correction pour mobile */
 @media (max-width: 768px) {
     .Contact {
-        position: relative; 
-        background-attachment: scroll; 
+        background-attachment: scroll;
         background-size: cover;
         background-position: left center;
         background-repeat: no-repeat;
         min-height: 100vh;
-        padding: 5%; 
-        overflow-y: auto; 
+        padding: 5%;
+        overflow-y: auto;
         overflow-x: hidden;
     }
 }

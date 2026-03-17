@@ -1,25 +1,27 @@
-body.tattoo-page {
+.Tattoo {
     background-image: url('../assets/images/armure.jpg');
     background-size: cover;
     background-attachment: fixed;
     min-height: 100vh;
     overflow-x: hidden;
     overflow-y: auto;
+    position: relative;
+}
 
-    /* Overlay effect */
-    &::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: -1;
-    }
+.Tattoo::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 0;
 }
 
 .container-tattoo {
+    position: relative;
+    z-index: 1;
     width: 100%;
     padding: 2rem;
     min-height: 100vh;
@@ -27,10 +29,10 @@ body.tattoo-page {
 }
 
 @media (max-width: 768px) {
-    body.tattoo-page {
+    .Tattoo {
         background-attachment: scroll;
     }
-    
+
     .container-tattoo {
         width: 100%;
         padding: 1rem;

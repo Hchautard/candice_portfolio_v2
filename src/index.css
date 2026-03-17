@@ -11,6 +11,15 @@ code {
   font-family: Coolvetica_Regular;
 }
 
+/* Offset for fixed header on all pages */
+.Home,
+.Tattoo,
+.project-page,
+.Contact,
+.makeup-container {
+  padding-top: calc(5vh + 20px);
+}
+
 /* Define var colours */
 :root {
   --primary: #f1e2ba;
