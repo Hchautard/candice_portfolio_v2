@@ -1,12 +1,13 @@
 import "../styles/Home.css";
 import {motion} from "framer-motion";
-import {Suspense, useEffect, useRef, useState} from "react";
+import {Suspense, useState} from "react";
 import {Canvas, useFrame} from "@react-three/fiber";
 import {Environment, OrbitControls, useGLTF} from "@react-three/drei";
 import {Link} from "react-router-dom";
 import NewsSection from "../components/NewsSection";
 import ReviewsSection from "../components/ReviewsSection";
 import DocumentTitleSetter from "../utils/title-setter.ts";
+import {useEffect, useRef} from "react";
 
 function TattooMachineModel() {
   const modelRef = useRef();
@@ -61,11 +62,6 @@ function LoadingFallback() {
 }
 
 function Home() {
-  document.body.classList.remove('tattoo-page');
-  document.body.classList.remove('contact-page');
-  document.body.classList.remove('makeup-page');
-  document.body.classList.remove('project-page');
-
   DocumentTitleSetter("Accueil");
 
   const [contentLoaded] = useState(true);
@@ -95,7 +91,7 @@ function Home() {
                     <p className="text text-pretty">
                       Je suis Candice, jeune tatoueuse indépendante de 24 ans et je vous présente mon univers, mêlant influences cyber-sigilism, gothique et dark fantasy.
                       <br />
-                      Mon style est organique et instinctif, je travaille aussi en freehand afin d’adapter chaque tatouage au maximum à votre morphologie et à votre univers.
+                      Mon style est organique et instinctif, je travaille aussi en freehand afin d\&#39;adapter chaque tatouage au maximum à votre morphologie et à votre univers.
                     </p>
 
                     <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-8 mt-8 cta-buttons">
@@ -109,28 +105,28 @@ function Home() {
                   </div>
 
                   { !isMobile && (
-                    <div className="model-container">
-                      <Canvas
-                          camera={{ position: [5, 0, 5], fov: 50 }}
-                          onCreated={({ gl }) => {
-                            gl.physicallyCorrectLights = false;
-                          }}
-                      >
-                        <ambientLight intensity={0.6} />
-                        <spotLight position={[5, 5, 5]} angle={0.15} penumbra={1} intensity={1} />
-                        <pointLight position={[-5, -5, -5]} intensity={0.5} />
-                        <Suspense fallback={<LoadingFallback />}>
-                          <TattooMachineModel />
-                          <Environment preset="studio" />
-                          <OrbitControls
-                              enableZoom={false}
-                              enablePan={false}
-                              enableRotate={true}
-                              autoRotate={false}
-                          />
-                        </Suspense>
-                      </Canvas>
-                    </div>
+                      <div className="model-container">
+                        <Canvas
+                            camera={{ position: [5, 0, 5], fov: 50 }}
+                            onCreated={({ gl }) => {
+                              gl.physicallyCorrectLights = false;
+                            }}
+                        >
+                          <ambientLight intensity={0.6} />
+                          <spotLight position={[5, 5, 5]} angle={0.15} penumbra={1} intensity={1} />
+                          <pointLight position={[-5, -5, -5]} intensity={0.5} />
+                          <Suspense fallback={<LoadingFallback />}>
+                            <TattooMachineModel />
+                            <Environment preset="studio" />
+                            <OrbitControls
+                                enableZoom={false}
+                                enablePan={false}
+                                enableRotate={true}
+                                autoRotate={false}
+                            />
+                          </Suspense>
+                        </Canvas>
+                      </div>
                   )}
 
                 </div>

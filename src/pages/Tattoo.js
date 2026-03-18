@@ -17,13 +17,6 @@ function formatImageForCards(imageSrc) {
     return formatedImages;
 }
 
-function setupCss() {
-    document.body.classList.add('tattoo-page');
-    document.body.classList.remove('project-page');
-    document.body.classList.remove('contact-page');
-    document.body.classList.remove('makeup-page');
-}
-
 const SKELETON_COUNT = 7;
 
 function SkeletonCard() {
@@ -50,7 +43,6 @@ function Tattoo() {
     const [imagesLoaded, setImagesLoaded] = useState(false);
 
     DocumentTitleSetter("Tattoo");
-    setupCss();
 
     const formattedImages = formatImageForCards(getImages());
 
@@ -78,23 +70,12 @@ function Tattoo() {
     }, []);
 
     useEffect(() => {
-        if (document.body.classList.contains('contact-page') || document.body.classList.contains('project-page')) {
-            document.body.classList.remove('contact-page');
-            document.body.classList.remove('project-page');
-        }
-
-        document.body.classList.add('tattoo-page');
-
         if (imagesLoaded) {
             const timer = setTimeout(() => {
                 setShowComponent(true);
             }, 500);
             return () => clearTimeout(timer);
         }
-
-        return () => {
-            document.body.classList.remove('tattoo-page');
-        };
     }, [imagesLoaded]);
 
     return (

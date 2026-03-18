@@ -3,13 +3,6 @@ import { useState, useEffect } from 'react';
 import BentoSlider from '../components/BentoSlider';
 import DocumentTitleSetter from "../utils/title-setter.ts";
 
-function setupCss() {
-  document.body.classList.remove('tattoo-page');
-  document.body.classList.remove('project-page');
-  document.body.classList.remove('contact-page');
-  document.body.classList.add('makeup-page');
-}
-
 function getImages() {
   const images = require.context('../assets/images/makeup', false, /\.(png|jpg|jpeg)$/i);
   const imagesSmall = require.context('../assets/images/makeup/thumbnails', false, /\.(png|jpg|jpeg)$/i);
@@ -226,10 +219,7 @@ function Makeup() {
 
   DocumentTitleSetter("Makeup");
 
-  setupCss();
-
   useEffect(() => {
-    // Charger les images avec leurs thumbnails
     const [imagePaths, imagePathsSmall] = getImages();
     const loadedImages = formatImagesForSlider(imagePaths, imagePathsSmall);
 
