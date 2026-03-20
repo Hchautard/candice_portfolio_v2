@@ -44,7 +44,7 @@ export default function NewsSection() {
                             <h4 className="news-title">{news.title}</h4>
                             <p className="news-description">{news.description}</p>
                             <div className="news-footer">
-                                <span className="news-date">{new Date(news.date_event).toLocaleDateString('fr-FR')}</span>
+                                <span className="news-date">{news.date_event ? new Date(news.date_event).toLocaleDateString('fr-FR') : ''}</span>
                                 <span className="news-arrow">→</span>
                             </div>
                         </motion.div>
