@@ -62,6 +62,8 @@ export default function NewsList() {
                             description={item.description}
                             date={item.date_event ? new Date(item.date_event).toLocaleDateString('fr-FR') : ''}
                             content={item.content}
+                            category={item.category}
+                            context="list-shop"
                         />
                     </div>
                 ))}
