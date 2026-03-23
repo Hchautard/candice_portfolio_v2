@@ -20,6 +20,10 @@ code {
   padding-top: calc(5vh + 20px);
 }
 
+.project-page {
+  padding-bottom: calc(5vh + 20px);
+}
+
 /* Define var colours */
 :root {
   --primary: #f1e2ba;
