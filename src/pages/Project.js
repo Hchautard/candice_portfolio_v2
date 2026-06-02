@@ -53,13 +53,10 @@ function Project() {
                 )}
             </div>
 
-            {/* Last News */}
-            <NewsGrid/>
-
-            <br />
-
-            {/* All News */}
-            <NewsList/>
+            <div className="project-news-wrapper">
+                <NewsGrid/>
+                <NewsList/>
+            </div>
         </div>
     );
 }

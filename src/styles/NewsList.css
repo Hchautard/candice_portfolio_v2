@@ -1,6 +1,6 @@
 /* ===== SECTION ===== */
 .news-list-section {
-    width: 70%;
+    width: 100%;
 }
 
 /* ===== HEADER (title + arrows) ===== */
@@ -84,10 +84,6 @@
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 968px) {
-    .news-list-section {
-        width: 85%;
-    }
-
     .news-list-row {
         gap: 16px;
     }
@@ -95,7 +91,7 @@
 
 @media (max-width: 768px) {
     .news-list-section {
-        width: 90%;
+        width: 100%;
     }
 
     .news-list-row {
@@ -117,7 +113,7 @@
 
 @media (max-width: 480px) {
     .news-list-section {
-        width: 95%;
+        width: 100%;
     }
 
     .news-list-row {
