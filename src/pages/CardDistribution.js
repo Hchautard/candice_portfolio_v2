@@ -5,7 +5,7 @@ import '../styles/CardDistribution.css';
 const CardDistribution = ({ cards = [] }) => {
   const cardsRef = useRef([]);
   const containerRef = useRef(null);
-  const [cardsPerRow, setCardsPerRow] = useState(5);
+  const [cardsPerRow, setCardsPerRow] = useState(4);
   const [containerHeight, setContainerHeight] = useState('auto');
   const [loadedImages, setLoadedImages] = useState(new Set());
 

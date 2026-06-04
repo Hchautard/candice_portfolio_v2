@@ -22,22 +22,105 @@
 .container-tattoo {
     position: relative;
     z-index: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
     width: 100%;
-    padding: 2rem;
     min-height: 100vh;
     box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-    .Tattoo {
-        background-attachment: scroll;
-    }
+/* ── Sidebar ── */
+.tattoo-sidebar {
+    width: 180px;
+    min-width: 180px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-sizing: border-box;
+    z-index: 10;
+}
 
-    .container-tattoo {
-        width: 100%;
-        padding: 1rem;
-        min-height: 100vh;
-    }
+.sidebar-inner {
+    position: sticky;
+    top: 0;
+    padding: 2rem 1rem;
+    max-height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.sidebar-title {
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    margin: 0 0 1rem 0;
+    padding: 0 0.25rem 0.75rem 0.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-categories {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.sidebar-cat-btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.55);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    font-size: 0.875rem;
+    text-align: left;
+    font-family: inherit;
+}
+
+.sidebar-cat-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.sidebar-cat-btn.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    font-weight: 600;
+}
+
+.cat-label {
+    flex: 1;
+}
+
+.cat-count {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+.sidebar-cat-btn.active .cat-count {
+    background: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* ── Contenu principal ── */
+.tattoo-content {
+    flex: 1;
+    min-width: 0;
+    padding: 2rem;
 }
 
 /* ── Skeleton ── */
@@ -87,4 +170,44 @@
     );
     background-size: 600px 100%;
     animation: shimmer 1.4s infinite linear;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .Tattoo {
+        background-attachment: scroll;
+    }
+
+    .container-tattoo {
+        flex-direction: column;
+    }
+
+    .tattoo-sidebar {
+        width: 100%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .sidebar-inner {
+        position: static;
+        padding: 1rem;
+        max-height: none;
+    }
+
+    .sidebar-categories {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .sidebar-cat-btn {
+        width: auto;
+        font-size: 0.8rem;
+        padding: 0.35rem 0.65rem;
+    }
+
+    .tattoo-content {
+        padding: 1rem;
+    }
 }

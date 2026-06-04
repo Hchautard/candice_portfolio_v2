@@ -1,20 +1,25 @@
 import "../styles/Tattoo.css"
 import CardDistribution from "./CardDistribution";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DocumentTitleSetter from "../utils/title-setter.ts";
+import { CATEGORIES, IMAGE_CATEGORY_MAP } from "../data/tattooCategories";
 
 function getImages() {
     const images = require.context('../assets/images/tattoo', false, /\.png$/);
-    const imagePaths = images.keys().map(images);
-    return imagePaths;
+    return images.keys().map(key => ({
+        src: images(key),
+        name: key.replace('./', '').replace('.png', '')
+    }));
 }
 
-function formatImageForCards(imageSrc) {
-    let formatedImages = [];
-    for (let i = 0; i < imageSrc.length; i++) {
-        formatedImages.push({ id: i + 1, imageSrc: imageSrc[i], backContent: "Disponible !" });
-    }
-    return formatedImages;
+function formatImageForCards(rawImages) {
+    return rawImages.map((img, i) => ({
+        id: i + 1,
+        imageSrc: img.src,
+        name: img.name,
+        category: IMAGE_CATEGORY_MAP[img.name] || 'tous',
+        backContent: "Disponible !"
+    }));
 }
 
 const SKELETON_COUNT = 7;
@@ -41,14 +46,32 @@ function SkeletonGrid() {
 function Tattoo() {
     const [showComponent, setShowComponent] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState(false);
+    const [activeCategory, setActiveCategory] = useState('tous');
 
     DocumentTitleSetter("Tattoo");
 
-    const formattedImages = formatImageForCards(getImages());
+    const allImages = useMemo(() => formatImageForCards(getImages()), []);
+
+    const filteredImages = useMemo(() =>
+        activeCategory === 'tous'
+            ? allImages
+            : allImages.filter(img => img.category === activeCategory),
+        [allImages, activeCategory]
+    );
+
+    const categoryCounts = useMemo(() =>
+        CATEGORIES.reduce((acc, cat) => {
+            acc[cat.id] = cat.id === 'tous'
+                ? allImages.length
+                : allImages.filter(img => img.category === cat.id).length;
+            return acc;
+        }, {}),
+        [allImages]
+    );
 
     useEffect(() => {
         const preloadImages = async () => {
-            const imagePromises = formattedImages.map((card) => {
+            const imagePromises = allImages.map((card) => {
                 return new Promise((resolve, reject) => {
                     const img = new Image();
                     img.onload = resolve;
@@ -67,7 +90,7 @@ function Tattoo() {
         };
 
         preloadImages();
-    }, []);
+    }, [allImages]);
 
     useEffect(() => {
         if (imagesLoaded) {
@@ -81,8 +104,30 @@ function Tattoo() {
     return (
         <div className="Tattoo">
             <div className="container-tattoo">
-                {!showComponent && <SkeletonGrid />}
-                {showComponent && imagesLoaded && <CardDistribution cards={formattedImages} />}
+                <aside className="tattoo-sidebar">
+                    <div className="sidebar-inner">
+                        <p className="sidebar-title">Filtrer</p>
+                        <ul className="sidebar-categories">
+                            {CATEGORIES.map(cat => (
+                                <li key={cat.id}>
+                                    <button
+                                        className={`sidebar-cat-btn${activeCategory === cat.id ? ' active' : ''}`}
+                                        onClick={() => setActiveCategory(cat.id)}
+                                    >
+                                        <span className="cat-label">{cat.label}</span>
+                                        <span className="cat-count">{categoryCounts[cat.id]}</span>
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </aside>
+                <div className="tattoo-content">
+                    {!showComponent && <SkeletonGrid />}
+                    {showComponent && imagesLoaded && (
+                        <CardDistribution key={activeCategory} cards={filteredImages} />
+                    )}
+                </div>
             </div>
         </div>
     );
