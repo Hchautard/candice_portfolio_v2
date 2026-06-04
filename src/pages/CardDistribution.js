@@ -15,7 +15,7 @@ const CardDistribution = ({ cards = [] }) => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
         const cardWidth = window.innerWidth <= 768 ? 280 : 330;
-        const newCardsPerRow = Math.max(1, Math.floor(containerWidth / cardWidth));
+        const newCardsPerRow = Math.min(4, Math.max(1, Math.floor(containerWidth / cardWidth)));
         setCardsPerRow(newCardsPerRow);
       }
     };
@@ -45,7 +45,7 @@ const CardDistribution = ({ cards = [] }) => {
       gsap.to(card, {
         x: offsetX + col * cardSpacingX,
         y: row * cardSpacingY,
-        rotation: Math.random() * 10 - 5,
+        rotation: 0,
         duration: 0.5 + index * 0.05,
         ease: "power2.out",
       });
