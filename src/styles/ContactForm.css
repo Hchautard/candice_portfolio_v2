@@ -162,11 +162,7 @@
     }
 
     input#name {
-        width: 90%;
-
-        @media (max-width: 768px) {
-            width: 100%;
-        }
+        width: 100%;
     }
 
     input[type="file"] {
@@ -558,4 +554,51 @@ input[type="checkbox"] {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ── Champs requis ── */
+.required-star {
+    color: var(--accent);
+    font-style: normal;
+    text-decoration: none;
+    margin-left: 2px;
+    font-weight: bold;
+}
+
+.optional-label {
+    font-size: 0.85em;
+    opacity: 0.6;
+    font-family: inherit;
+    font-weight: normal;
+}
+
+.required-legend {
+    font-size: calc(var(--medium) - 2px);
+    color: var(--accent);
+    margin: 0;
+
+    @media (max-width: 768px) {
+        font-size: calc(var(--medium) - 4px);
+    }
+}
+
+/* ── Erreurs inline ── */
+.field-error {
+    display: block;
+    color: #f87171;
+    font-size: calc(var(--medium) - 2px);
+    margin-top: 3px;
+    animation: slideDown 0.2s ease;
+
+    @media (max-width: 768px) {
+        font-size: calc(var(--medium) - 4px);
+    }
+}
+
+.input-error {
+    box-shadow: 0 0 6px #f87171 !important;
+}
+
+.input-error:focus {
+    box-shadow: 0 0 10px #f87171 !important;
 }

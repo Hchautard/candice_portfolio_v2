@@ -8,5 +8,5 @@ export const contactFormTattooSchema = contactFormBaseSchema.extend({
     placement: z.string().min(1, "Le placement doit être spécifié."),
     description: z.string().min(10, "Les détails doivent contenir au moins 10 caractères."),
     files: z.array(z.instanceof(File)).max(5, "Vous pouvez télécharger jusqu'à 5 fichiers."),
-    appointmentPreferredDate: z.string().min(1, "La date préférée du rendez-vous est requise."),
+    appointmentPreferredDate: z.string().optional().or(z.literal('')),
 });

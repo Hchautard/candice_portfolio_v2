@@ -2,15 +2,23 @@ import { useState } from 'react';
 import '../styles/ContactForm.css';
 import emailjs from 'emailjs-com';
 import * as z from 'zod';
-import {toast, ToastContainer} from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import InfoIcon from '@mui/icons-material/Info';
 import { contactFormDefaultSchema } from "./ContactFormDefaultSchema";
 import { contactFormTattooSchema } from "./ContactFormTattooSchema";
 
+function RequiredStar() {
+    return <abbr title="Champ obligatoire" className="required-star"> *</abbr>;
+}
+
+function FieldError({ error }) {
+    if (!error) return null;
+    return <span className="field-error">{error}</span>;
+}
+
 function ContactForm() {
     const [activeTab, setActiveTab] = useState('default');
 
-    // État initial pour le formulaire par défaut
     const initialDefaultFormData = {
         name: '',
         email: '',
@@ -20,7 +28,6 @@ function ContactForm() {
         message: ''
     };
 
-    // État initial pour le formulaire tatouage
     const initialTattooFormData = {
         name: '',
         email: '',
@@ -36,6 +43,7 @@ function ContactForm() {
     };
 
     const [formData, setFormData] = useState(initialDefaultFormData);
+    const [fieldErrors, setFieldErrors] = useState({});
 
     const [status, setStatus] = useState({
         submitted: false,
@@ -46,9 +54,8 @@ function ContactForm() {
     const changeTab = (e, tab) => {
         e.preventDefault();
         setActiveTab(tab);
-        // Réinitialiser le formulaire selon l'onglet sélectionné
         setFormData(tab === 'default' ? initialDefaultFormData : initialTattooFormData);
-        // Réinitialiser le statut
+        setFieldErrors({});
         setStatus({
             submitted: false,
             submitting: false,
@@ -62,12 +69,14 @@ function ContactForm() {
             ...formData,
             [id]: type === 'checkbox' ? checked : value
         });
+        if (fieldErrors[id]) {
+            setFieldErrors(prev => ({ ...prev, [id]: undefined }));
+        }
     };
 
     const handleFileChange = async (e) => {
         const files = Array.from(e.target.files);
 
-        // Vérifier le nombre de fichiers
         if (files.length > 5) {
             setStatus({
                 submitted: false,
@@ -78,8 +87,7 @@ function ContactForm() {
             return;
         }
 
-        // Vérifier la taille totale (max 10MB par fichier)
-        const maxSize = 10 * 1024 * 1024; // 10MB
+        const maxSize = 10 * 1024 * 1024;
         const oversizedFiles = files.filter(file => file.size > maxSize);
         if (oversizedFiles.length > 0) {
             setStatus({
@@ -91,10 +99,8 @@ function ContactForm() {
             return;
         }
 
-        setFormData({
-            ...formData,
-            files: files
-        });
+        setFormData({ ...formData, files });
+        setFieldErrors(prev => ({ ...prev, files: undefined }));
     };
 
     const uploadFilesToCloudinary = async (files) => {
@@ -140,17 +146,15 @@ function ContactForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus(prevStatus => ({ ...prevStatus, submitting: true }));
+        setFieldErrors({});
 
         try {
             const schema = activeTab === 'default' ? contactFormDefaultSchema : contactFormTattooSchema;
             schema.parse(formData);
 
-            // Préparer les données pour EmailJS
             let emailData = { ...formData };
 
-            // Uploader les fichiers sur Cloudinary pour le formulaire tatouage
             if (activeTab === 'tattoo' && formData.files && formData.files.length > 0) {
-
                 setStatus(prevStatus => ({
                     ...prevStatus,
                     info: { error: false, msg: "Upload des images en cours..." }
@@ -178,13 +182,11 @@ function ContactForm() {
                 emailData.isForACoverageText = formData.isForACoverage ? 'Oui - Recouvrement' : 'Non';
             }
 
-            // Remettre le message normal
             setStatus(prevStatus => ({
                 ...prevStatus,
                 info: { error: false, msg: "Envoi du message..." }
             }));
 
-            // Choisir le bon template EmailJS selon le formulaire
             const templateId = activeTab === 'default'
                 ? process.env.REACT_APP_EMAILJS_DEFAULT_TEMPLATE_ID
                 : process.env.REACT_APP_EMAILJS_TATTOO_TEMPLATE_ID;
@@ -213,11 +215,18 @@ function ContactForm() {
             }
         } catch (error) {
             if (error instanceof z.ZodError) {
-                const firstError = error.issues[0];
+                const errors = {};
+                error.issues.forEach(issue => {
+                    const field = issue.path[0];
+                    if (field && !errors[field]) {
+                        errors[field] = issue.message;
+                    }
+                });
+                setFieldErrors(errors);
                 setStatus({
                     submitted: false,
                     submitting: false,
-                    info: { error: true, msg: firstError.message }
+                    info: { error: false, msg: null }
                 });
             } else {
                 setStatus({
@@ -316,28 +325,33 @@ function ContactForm() {
 
                         {/* Champs communs */}
                         <div className="col-span-1 form-field">
-                            <label htmlFor="name" className="block">Votre nom & prénom</label>
+                            <label htmlFor="name" className="block">
+                                Votre nom &amp; prénom<RequiredStar />
+                            </label>
                             <input
                                 type="text"
                                 id="name"
                                 value={formData.name}
                                 onChange={handleChange}
-                                className="w-full"
+                                className={`w-full${fieldErrors.name ? ' input-error' : ''}`}
                                 placeholder="Patati Patata"
-                                required
                             />
+                            <FieldError error={fieldErrors.name} />
                         </div>
+
                         <div className="col-span-1 form-field">
-                            <label htmlFor="email" className="block">Votre e-mail</label>
+                            <label htmlFor="email" className="block">
+                                Votre e-mail<RequiredStar />
+                            </label>
                             <input
                                 type="email"
                                 id="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="w-full"
+                                className={`w-full${fieldErrors.email ? ' input-error' : ''}`}
                                 placeholder="patati@patata.com"
-                                required
                             />
+                            <FieldError error={fieldErrors.email} />
                         </div>
 
                         <div className="col-span-1 form-field">
@@ -347,49 +361,56 @@ function ContactForm() {
                                 id="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
-                                className="w-full"
+                                className={`w-full${fieldErrors.phone ? ' input-error' : ''}`}
                                 placeholder="06 12 34 56 78"
                             />
+                            <FieldError error={fieldErrors.phone} />
                         </div>
 
                         <div className="col-span-1 form-field">
-                            <label htmlFor="birthdate" className="block">Date de naissance</label>
+                            <label htmlFor="birthdate" className="block">
+                                Date de naissance<RequiredStar />
+                            </label>
                             <input
                                 type="date"
                                 id="birthdate"
                                 value={formData.birthdate}
                                 onChange={handleChange}
-                                className="w-full"
-                                required
+                                className={`w-full${fieldErrors.birthdate ? ' input-error' : ''}`}
                             />
+                            <FieldError error={fieldErrors.birthdate} />
                         </div>
 
                         {/* Champs spécifiques au formulaire par défaut */}
                         {activeTab === 'default' && (
                             <>
                                 <div className="col-span-1 md:col-span-2 mt-2 md:mt-4 form-field">
-                                    <label htmlFor="subject" className="block">Objet</label>
+                                    <label htmlFor="subject" className="block">
+                                        Objet<RequiredStar />
+                                    </label>
                                     <input
                                         type="text"
                                         id="subject"
                                         value={formData.subject}
                                         onChange={handleChange}
-                                        className="block p-3 w-full"
+                                        className={`block p-3 w-full${fieldErrors.subject ? ' input-error' : ''}`}
                                         placeholder="Projet, flash, détails..."
-                                        required
                                     />
+                                    <FieldError error={fieldErrors.subject} />
                                 </div>
                                 <div className="col-span-1 md:col-span-2 form-field">
-                                    <label htmlFor="message" className="block">Votre message</label>
+                                    <label htmlFor="message" className="block">
+                                        Votre message<RequiredStar />
+                                    </label>
                                     <textarea
                                         id="message"
                                         rows="7"
                                         value={formData.message}
                                         onChange={handleChange}
-                                        className="block p-2.5 w-full"
+                                        className={`block p-2.5 w-full${fieldErrors.message ? ' input-error' : ''}`}
                                         placeholder="Laisser un commentaire..."
-                                        required
                                     ></textarea>
+                                    <FieldError error={fieldErrors.message} />
                                 </div>
                             </>
                         )}
@@ -422,45 +443,55 @@ function ContactForm() {
                                 </div>
 
                                 <div className="col-span-1 form-field">
-                                    <label htmlFor="size" className="block">Taille</label>
+                                    <label htmlFor="size" className="block">
+                                        Taille<RequiredStar />
+                                    </label>
                                     <input
                                         type="text"
                                         id="size"
                                         value={formData.size}
                                         onChange={handleChange}
-                                        className="w-full"
+                                        className={`w-full${fieldErrors.size ? ' input-error' : ''}`}
                                         placeholder="Ex: 10x15cm"
-                                        required
                                     />
+                                    <FieldError error={fieldErrors.size} />
                                 </div>
 
                                 <div className="col-span-1 form-field">
-                                    <label htmlFor="placement" className="block">Emplacement</label>
+                                    <label htmlFor="placement" className="block">
+                                        Emplacement<RequiredStar />
+                                    </label>
                                     <input
                                         type="text"
                                         id="placement"
                                         value={formData.placement}
                                         onChange={handleChange}
-                                        className="w-full"
+                                        className={`w-full${fieldErrors.placement ? ' input-error' : ''}`}
                                         placeholder="Ex: Avant-bras"
-                                        required
                                     />
+                                    <FieldError error={fieldErrors.placement} />
                                 </div>
 
                                 <div className="col-span-1 md:col-span-2 form-field">
-                                    <label htmlFor="description" className="block">Description du projet</label>
+                                    <label htmlFor="description" className="block">
+                                        Description du projet<RequiredStar />
+                                    </label>
                                     <textarea
                                         id="description"
                                         rows="5"
                                         value={formData.description}
                                         onChange={handleChange}
-                                        className="block p-2.5 w-full"
+                                        className={`block p-2.5 w-full${fieldErrors.description ? ' input-error' : ''}`}
                                         placeholder="Décrivez votre projet de tatouage..."
+                                        required
                                     ></textarea>
+                                    <FieldError error={fieldErrors.description} />
                                 </div>
 
                                 <div className="col-span-1 md:col-span-2 form-field">
-                                    <label htmlFor="files" className="block">Images de référence ou du tatouage à recouvrir (max 5) </label>
+                                    <label htmlFor="files" className="block">
+                                        Images de référence ou du tatouage à recouvrir (max 5)
+                                    </label>
                                     <input
                                         type="file"
                                         id="files"
@@ -472,7 +503,7 @@ function ContactForm() {
                                     {formData.files && formData.files.length > 0 && (
                                         <div className="file-preview">
                                             <p className="file-count">
-                                                📎 {formData.files.length} fichier{formData.files.length > 1 ? 's' : ''} sélectionné{formData.files.length > 1 ? 's' : ''}
+                                                {formData.files.length} fichier{formData.files.length > 1 ? 's' : ''} sélectionné{formData.files.length > 1 ? 's' : ''}
                                             </p>
                                             <ul className="file-list">
                                                 {Array.from(formData.files).map((file, index) => (
@@ -500,7 +531,7 @@ function ContactForm() {
                                             </div>
                                         </div>
                                         <label htmlFor="appointmentPreferredDate" className="block">
-                                            Date de rendez-vous souhaitée (optionnel)
+                                            Date de rendez-vous souhaitée <span className="optional-label">(optionnel)</span>
                                         </label>
                                     </div>
                                     <input
@@ -509,15 +540,19 @@ function ContactForm() {
                                         value={formData.appointmentPreferredDate}
                                         onChange={handleChange}
                                         className="w-full"
+                                        placeholder="Ex: Juin, disponible lundi et mercredi matin"
                                     />
                                 </div>
                             </>
                         )}
 
-                        <div className="w-full flex justify-center md:justify-end col-span-1 md:col-span-2">
+                        <div className="col-span-1 md:col-span-2 flex justify-between items-center flex-wrap gap-2">
+                            <p className="required-legend">
+                                <abbr title="Champ obligatoire" className="required-star">*</abbr> Champ obligatoire
+                            </p>
                             <button
                                 type="submit"
-                                className="px-5 rounded w-full md:w-auto"
+                                className="px-5 rounded"
                                 disabled={status.submitting}
                             >
                                 {status.submitting ? 'Envoi en cours...' : 'Envoyer'}
