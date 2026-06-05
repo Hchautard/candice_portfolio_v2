@@ -27,18 +27,18 @@ function Project() {
                     <div className="project-content-container">
                         <h2 className="tracking-tight">Bienvenue dans mon univers</h2>
                         <p className="project-text text-pretty">
-                            Ce futur salon hybride, l\&#39;<span>Anomalie</span>, combinera salon de tatouage, café de
+                            Ce futur salon hybride, l&apos;<span>Anomalie</span>, combinera salon de tatouage, café de
                             spécialité et boutique
                             créative.
                             <br/>
                             <br/>
-                            J\&#39;y créerai des tatouages organiques adaptés à chaque corps, les créateurs résidents vous
+                            J&apos;y créerai des tatouages organiques adaptés à chaque corps, les créateurs résidents vous
                             proposeront des pièces de mode uniques et des artistes indépendants locaux y exposeront
                             leurs
                             œuvres.
                             <br/>
                             <br/>
-                            Chaque visite sera l\&#39;occasion de découvrir un lieu vivant, à la fois artistique et
+                            Chaque visite sera l&apos;occasion de découvrir un lieu vivant, à la fois artistique et
                             convivial,
                             pensé pour accueillir et inspirer.
                         </p>
