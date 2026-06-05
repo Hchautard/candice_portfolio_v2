@@ -27,7 +27,7 @@ export default function NewsGrid() {
                             category={item.category}
                             content={item.content}
                             location={item.location}
-                            context="grid-shop"
+                            showDetails
                         />
                     </div>
                 ))}
