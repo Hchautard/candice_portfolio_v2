@@ -8,29 +8,56 @@ export const CATEGORIES = [
 ];
 
 export const IMAGE_CATEGORY_MAP = {
+    // Fantasy
     'Epee': 'fantasy',
     'Hache': 'fantasy',
-    'Fléau': 'fantasy',
-    'Blame': 'fantasy',
-    'Mage': 'fantasy',
+    'Fleau': 'fantasy',
     'Casque': 'fantasy',
-    'Valkyrie': 'fantasy',
-    'chevaliere_blanche': 'fantasy',
-    'chevaliere_noire': 'fantasy',
-    'Cyber': 'cyber',
-    'Cyber_colonne': 'cyber',
-    'Visage_cyber': 'cyber',
-    'Lune': 'nature',
+    'Bouclier': 'fantasy',
+    'Chevaliere': 'fantasy',
+    'Knight': 'fantasy',
+    'Plastron': 'fantasy',
+    'Bottes': 'fantasy',
+    'Gant': 'fantasy',
+
+    // Cyber
+    'Cyber1': 'cyber',
+    'Cyber2': 'cyber',
+    'Cyber-etoile': 'cyber',
+    'Sorciercyber': 'cyber',
+    'Police': 'cyber',
+
+    // Nature
     'Lys': 'nature',
-    'Orchidees': 'nature',
-    'Papillon_de_nuit': 'nature',
-    'Papillon_dot': 'nature',
+    'Orchidee': 'nature',
+    'Papillon': 'nature',
+    'Moth': 'nature',
+    'Poissons': 'nature',
+
+    // Mystique
     'Oeil': 'mystique',
-    'Siren': 'mystique',
-    'Coeur': 'mystique',
-    'Gant': 'mystique',
-    'Dot_symetrie': 'geometrique',
-    '3': 'geometrique',
-    '6': 'geometrique',
-    '10': 'geometrique',
+    'Witch': 'mystique',
+    'Portail': 'mystique',
+    'Chandelier': 'mystique',
+    'Bougie': 'mystique',
+    'Draculaura1': 'mystique',
+    'Draculaura2': 'mystique',
+    'Draculaura3': 'mystique',
+    'Scaragoth': 'mystique',
+    'Gothkey': 'mystique',
+    'Coeurneotribal': 'mystique',
+    'Dark': 'mystique',
+    'Cissorgirl': 'mystique',
+    'Frankie': 'mystique',
+    'Lampadaire': 'mystique',
+
+    // Géométrique
+    'Dot': 'geometrique',
+    'Corsetdot': 'geometrique',
+
+    // Ajouts
+    'Girls': 'cyber',
+    'Buste': 'fantasy',
+    'Talon': 'fantasy',
+    'Theiere': 'fantasy',
 };

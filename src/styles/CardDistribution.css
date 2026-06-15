@@ -12,16 +12,19 @@
 }
 
 .odd-face {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 5, 5, 0.85);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .odd-face-content {
   font-size: var(--xlarge);
-  color: var(--accent);
+  color: var(--accent-light);
   font-family: 'Alice_Wonderland_2';
   font-weight: bold;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  padding: 1rem;
 }
 
 @media (max-width: 768px) {
