@@ -275,12 +275,9 @@ function ContactForm() {
                         Informations
                     </h2>
                     <p className="mb-4 md:mb-8 text-left">
-                        7b Avenue du 19 mars 1962, <br/> 13210 Saint-Rémy-de-Provence <br/>
-                        Ouvert du lundi au samedi <strong>sur rendez-vous</strong> <br/>
+                        Montpellier <br/>
                         <a href="tel:+33658863420" className="underline">06 52 57 99 44</a> <br/>
-                        <span className="block mt-4">
-                        Attention, si vous souhaitez passer au tattoo shop, merci de me contacter au préalable.
-                    </span>
+                        Insta : <a href="https://www.instagram.com/l__anomalie/" target="_blank" rel="noreferrer" className="underline">@l__anomalie</a>
                     </p>
                 </div>
 
