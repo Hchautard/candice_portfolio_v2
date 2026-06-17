@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import Makeup from './pages/Makeup';
 import Tattoo from './pages/Tattoo';
 import Project from './pages/Project';
+import NewsDetail from './pages/NewsDetail';
 import Header from './components/Header';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: 'project',
         element: <Project />,
+      },
+      {
+        path: 'news/:id',
+        element: <NewsDetail />,
       },
     ],
   },
