@@ -58,10 +58,10 @@ export default function NewsList() {
                 {currentNews.map((item, index) => (
                     <div key={item.id || index} className="news-list-item">
                         <NewsCard
+                            id={item.id}
                             title={item.title}
                             description={item.description}
                             date={item.date_event ? new Date(item.date_event).toLocaleDateString('fr-FR') : ''}
-                            content={item.content}
                             category={item.category}
                         />
                     </div>
