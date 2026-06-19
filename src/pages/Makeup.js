@@ -2,6 +2,7 @@ import '../styles/Makeup.css';
 import { useState, useEffect } from 'react';
 import BentoSlider from '../components/BentoSlider';
 import DocumentTitleSetter from "../utils/title-setter.ts";
+import Spinner from '../components/Spinner';
 
 function getImages() {
   const images = require.context('../assets/images/makeup', false, /\.(png|jpg|jpeg)$/i);
@@ -238,9 +239,7 @@ function Makeup() {
         {contentLoaded && images.length > 0 ? (
             <BentoSlider images={images} />
         ) : (
-            <div className="flex items-center justify-center h-screen">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-500"></div>
-            </div>
+            <Spinner fullScreen />
         )}
       </div>
   );

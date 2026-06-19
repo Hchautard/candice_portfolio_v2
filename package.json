@@ -21,6 +21,7 @@
     "motion": "^12.4.3",
     "postgres": "^3.4.7",
     "react": "^19.0.0",
+    "react-calendly": "^4.4.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "react-modal": "^3.16.3",

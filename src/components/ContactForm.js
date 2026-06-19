@@ -39,7 +39,7 @@ function ContactForm() {
         placement: '',
         description: '',
         files: [],
-        appointmentPreferredDate: ''
+        appointmentPreferredDate: '',
     };
 
     const [formData, setFormData] = useState(initialDefaultFormData);
@@ -517,30 +517,16 @@ function ContactForm() {
                                 </div>
 
                                 <div className="col-span-1 md:col-span-2 form-field">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <div className="icon-info">
-                                            <InfoIcon/>
-                                            <div className="info-text">
-                                                Merci de m&apos;indiquer tes souhaits pour venir te faire tatouer en
-                                                m&apos;indiquant :
-                                                <ul className="list-disc list-inside">
-                                                    <li>le mois où tu voudrais le réaliser</li>
-                                                    <li>les jours où tu es disponible (au moins deux)</li>
-                                                    <li>le matin ou l&apos;après midi</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <label htmlFor="appointmentPreferredDate" className="block">
-                                            Date de rendez-vous souhaitée <span className="optional-label">(optionnel)</span>
-                                        </label>
-                                    </div>
+                                    <label htmlFor="appointmentPreferredDate" className="block">
+                                        Date de rendez-vous souhaitée <span className="optional-label">(optionnel)</span>
+                                    </label>
                                     <input
-                                        type="text"
+                                        type="date"
                                         id="appointmentPreferredDate"
                                         value={formData.appointmentPreferredDate}
                                         onChange={handleChange}
                                         className="w-full"
-                                        placeholder="Ex: Juin, disponible lundi et mercredi matin"
+                                        min={new Date().toISOString().split('T')[0]}
                                     />
                                 </div>
                             </>

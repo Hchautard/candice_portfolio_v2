@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import "../styles/Reviews.css";
 import { useData } from '../contexts/DataContext';
+import Spinner from './Spinner';
 
 export default function ReviewsSection() {
     const { reviews, loading, error } = useData();
@@ -54,8 +55,8 @@ export default function ReviewsSection() {
         };
     }, [isPaused, reviewItems.length]);
 
-    if (loading) return <div>Loading reviews...</div>;
-    if (error) return <div>Error loading reviews: {error.message}</div>;
+    if (loading) return <Spinner />;
+    if (error) return null;
 
     return (
         <motion.section
