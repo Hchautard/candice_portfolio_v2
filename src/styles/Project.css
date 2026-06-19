@@ -124,7 +124,7 @@
 .project-content-container {
     width: 35svw;
 
-    h2 {
+    h1 {
         color: var(--secondary);
         font-size: calc(var(--xxlarge) + 4px);
         line-height: 1.0;
@@ -160,7 +160,7 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1700px) {
-    h2 {
+    h1 {
         font-size: calc(var(--xxlarge));
     }
 

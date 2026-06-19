@@ -103,6 +103,7 @@ function Tattoo() {
 
     return (
         <div className="Tattoo">
+            <h1 className="sr-only">Portfolio Tattoo — L&apos;Anomalie</h1>
             <div className="container-tattoo">
                 <aside className="tattoo-sidebar">
                     <div className="sidebar-inner">

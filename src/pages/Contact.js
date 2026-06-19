@@ -7,6 +7,7 @@ function Contact() {
 
     return (
         <div className="Contact">
+            <h1 className="sr-only">Nous contacter — L&apos;Anomalie</h1>
             <ContactForm />
         </div>
     );

@@ -20,7 +20,7 @@
 }
 
 /* ===== TYPOGRAPHY ===== */
-h2 {
+h1 {
     font-family: "Alice_Wonderland_2", serif;
     color: var(--secondary);
     font-size: calc(var(--xxxlarge) - 10px);
@@ -61,7 +61,7 @@ p {
 }
 
 @media screen and (min-width: 768px) and (max-width: 1700px) {
-    h2 {
+    h1 {
         font-size: calc(var(--xxlarge));
     }
 
@@ -123,7 +123,7 @@ p {
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
     /* Typography mobile */
-    h2 {
+    h1 {
         font-size: 2.2rem;
         text-align: center;
         margin-bottom: 1.5rem;

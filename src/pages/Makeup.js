@@ -234,6 +234,7 @@ function Makeup() {
 
   return (
       <div className="makeup-container">
+        <h1 className="sr-only">Portfolio Makeup & Maquillage Artistique — L&apos;Anomalie</h1>
         {contentLoaded && images.length > 0 ? (
             <BentoSlider images={images} />
         ) : (

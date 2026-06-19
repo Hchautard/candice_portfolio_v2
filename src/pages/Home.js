@@ -86,12 +86,12 @@ function Home() {
               >
                 <div className="flex flex-row items-center banner-content">
                   <div className="text-container">
-                    <h2 className="tracking-tight">Bienvenue chez l&apos;<span>Anomalie</span></h2>
+                    <h1 className="tracking-tight">Bienvenue chez l&apos;<span>Anomalie</span></h1>
 
                     <p className="text text-pretty">
                       Je suis Candice, jeune tatoueuse indépendante de 24 ans et je vous présente mon univers, mêlant influences cyber-sigilism, gothique et dark fantasy.
                       <br />
-                      Mon style est organique et instinctif, je travaille aussi en freehand afin d\&#39;adapter chaque tatouage au maximum à votre morphologie et à votre univers.
+                      Mon style est organique et instinctif, je travaille aussi en freehand afin d&apos;adapter chaque tatouage au maximum à votre morphologie et à votre univers.
                     </p>
 
                     <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-8 mt-8 cta-buttons">
