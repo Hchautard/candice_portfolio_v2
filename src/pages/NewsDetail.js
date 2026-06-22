@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 import { useData } from '../contexts/DataContext';
 import DocumentTitleSetter from '../utils/title-setter.ts';
 import creation from '../assets/images/news/creation.jpg';
@@ -68,10 +69,7 @@ export default function NewsDetail() {
                 </header>
 
                 <div className="news-detail-body">
-                    {item.content
-                        ? <div dangerouslySetInnerHTML={{ __html: item.content }} />
-                        : <p>{item.description}</p>
-                    }
+                    <ReactMarkdown>{item.content || item.description || ''}</ReactMarkdown>
                 </div>
             </div>
         </motion.article>
