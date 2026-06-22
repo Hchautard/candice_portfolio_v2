@@ -1,6 +1,10 @@
 .news-detail {
     min-height: 100vh;
     padding: 2rem 1rem 4rem;
+    background-image: url(../assets/images/black_silk.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .news-detail-inner {
@@ -67,7 +71,7 @@
 }
 
 .news-detail-body {
-    color: var(--primary);
+    color: var(--accent-light);
     font-size: var(--medium-large);
     line-height: 1.85;
 }
