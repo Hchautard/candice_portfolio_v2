@@ -16,7 +16,8 @@ code {
 .Tattoo,
 .project-page,
 .Contact,
-.makeup-container {
+.makeup-container,
+.news-detail {
   padding-top: calc(5vh + 20px);
 }
 

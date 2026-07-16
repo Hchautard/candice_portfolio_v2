@@ -11,7 +11,7 @@ export default function NewsSection() {
     const navigate = useNavigate();
 
     const handleNewsClick = (newsItem) => {
-        navigate(`/project?news=${newsItem.id}`);
+        navigate(`/news/${newsItem.id}`);
     };
 
     if (loading) return <div>Loading news...</div>;

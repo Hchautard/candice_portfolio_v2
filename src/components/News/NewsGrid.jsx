@@ -21,11 +21,11 @@ export default function NewsGrid() {
                 {newsList.map((item, index) => (
                     <div key={item.id || index} className={gridClasses[index]}>
                         <NewsCard
+                            id={item.id}
                             title={item.title}
                             description={item.description}
                             date={new Date(item.date_event).toLocaleDateString('fr-FR')}
                             category={item.category}
-                            content={item.content}
                             location={item.location}
                             showDetails
                         />

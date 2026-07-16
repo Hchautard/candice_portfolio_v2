@@ -84,7 +84,7 @@
     font-family: "Alice_Wonderland_2", cursive;
     font-size: var(--large);
     color: var(--primary);
-    margin-bottom: 24px;
+    margin-top: 2rem;
     text-align: left;
     width: 100%;
 }
