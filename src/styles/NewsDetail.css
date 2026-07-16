@@ -76,6 +76,9 @@
     color: var(--accent-light);
     font-size: var(--medium-large);
     line-height: 1.85;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 2rem;
+    border-radius: 12px;
 }
 
 .news-detail-body p {
