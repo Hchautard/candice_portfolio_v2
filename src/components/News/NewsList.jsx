@@ -9,8 +9,9 @@ export default function NewsList() {
 
     const ITEMS_PER_PAGE = 4;
 
-    if (loading) return <div>Loading news...</div>;
-    if (error) return <div>Error loading news: {error.message}</div>;
+    if (loading) return <div className="news-status">Chargement des actualités…</div>;
+    if (error) return <div className="news-status">Les actualités sont indisponibles pour le moment.</div>;
+    if (news.length === 0) return null;
 
     const allNews = [...news].sort(
         (a, b) => new Date(b.date_event) - new Date(a.date_event)
@@ -31,9 +32,9 @@ export default function NewsList() {
     return (
         <div className="news-list-section">
             <div className="news-list-header">
-                <span className="news-list-section-title">
+                <h2 className="news-list-section-title">
                     &#124; Toutes les actualités
-                </span>
+                </h2>
                 {ITEMS_PER_PAGE > 4 && (
                 <div className="news-list-nav">
                     <button

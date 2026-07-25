@@ -83,8 +83,9 @@
 .news-grid-shop-section-title {
     font-family: "Alice_Wonderland_2", cursive;
     font-size: var(--large);
+    font-weight: normal;
     color: var(--primary);
-    margin-top: 2rem;
+    margin: 2rem 0 0;
     text-align: left;
     width: 100%;
 }

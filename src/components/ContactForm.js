@@ -3,17 +3,24 @@ import '../styles/ContactForm.css';
 import emailjs from 'emailjs-com';
 import * as z from 'zod';
 import { toast, ToastContainer } from 'react-toastify';
-import InfoIcon from '@mui/icons-material/Info';
 import { contactFormDefaultSchema } from "./ContactFormDefaultSchema";
 import { contactFormTattooSchema } from "./ContactFormTattooSchema";
+
+function InfoIcon() {
+    return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+        </svg>
+    );
+}
 
 function RequiredStar() {
     return <abbr title="Champ obligatoire" className="required-star"> *</abbr>;
 }
 
-function FieldError({ error }) {
+function FieldError({ id, error }) {
     if (!error) return null;
-    return <span className="field-error">{error}</span>;
+    return <span id={id} className="field-error">{error}</span>;
 }
 
 function ContactForm() {
@@ -276,7 +283,6 @@ function ContactForm() {
                     </h2>
                     <p className="mb-4 md:mb-8 text-left">
                         Montpellier <br/>
-                        <a href="tel:+33658863420" className="underline">06 52 57 99 44</a> <br/>
                         Insta : <a href="https://www.instagram.com/l__anomalie/" target="_blank" rel="noreferrer" className="underline">@l__anomalie</a>
                     </p>
                 </div>
@@ -284,7 +290,7 @@ function ContactForm() {
                 {/* Form Part */}
                 <div className="container-form">
                     {/* Tab buttons */}
-                    <div className="flex justify-start w-full gap-4 items-baseline">
+                    <div className="flex justify-start w-full gap-4 items-baseline" role="tablist" aria-label="Type de formulaire">
                         <div className="icon-info">
                             <InfoIcon/>
                             <div className="info-text">
@@ -292,30 +298,34 @@ function ContactForm() {
                             </div>
                         </div>
 
-                        <a
-                            href="#"
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={activeTab === 'default'}
                             onClick={(e) => changeTab(e, 'default')}
                             className={`tab ${activeTab === 'default' ? 'active' : ''}`}
                         >
                             Défaut
-                        </a>
-                        <a
-                            href="#"
+                        </button>
+                        <button
+                            type="button"
+                            role="tab"
+                            aria-selected={activeTab === 'tattoo'}
                             onClick={(e) => changeTab(e, 'tattoo')}
                             className={`tab ${activeTab === 'tattoo' ? 'active' : ''}`}
                         >
                             Tatouage
-                        </a>
+                        </button>
                     </div>
 
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 form">
                         {status.info.error && (
-                            <div className="col-span-1 md:col-span-2 text-red-500 mb-4 text-center p-3 rounded">
+                            <div role="alert" className="col-span-1 md:col-span-2 form-status form-status-error mb-4 text-center p-3 rounded">
                                 {status.info.msg}
                             </div>
                         )}
                         {status.submitted && !status.info.error && (
-                            <div className="col-span-1 md:col-span-2 text-green-500 mb-4 text-center p-3 rounded">
+                            <div role="status" className="col-span-1 md:col-span-2 form-status form-status-success mb-4 text-center p-3 rounded">
                                 {status.info.msg}
                             </div>
                         )}
@@ -332,8 +342,10 @@ function ContactForm() {
                                 onChange={handleChange}
                                 className={`w-full${fieldErrors.name ? ' input-error' : ''}`}
                                 placeholder="Patati Patata"
+                                aria-invalid={fieldErrors.name ? true : undefined}
+                                aria-describedby={fieldErrors.name ? 'name-error' : undefined}
                             />
-                            <FieldError error={fieldErrors.name} />
+                            <FieldError id="name-error" error={fieldErrors.name} />
                         </div>
 
                         <div className="col-span-1 form-field">
@@ -347,8 +359,10 @@ function ContactForm() {
                                 onChange={handleChange}
                                 className={`w-full${fieldErrors.email ? ' input-error' : ''}`}
                                 placeholder="patati@patata.com"
+                                aria-invalid={fieldErrors.email ? true : undefined}
+                                aria-describedby={fieldErrors.email ? 'email-error' : undefined}
                             />
-                            <FieldError error={fieldErrors.email} />
+                            <FieldError id="email-error" error={fieldErrors.email} />
                         </div>
 
                         <div className="col-span-1 form-field">
@@ -360,8 +374,10 @@ function ContactForm() {
                                 onChange={handleChange}
                                 className={`w-full${fieldErrors.phone ? ' input-error' : ''}`}
                                 placeholder="06 12 34 56 78"
+                                aria-invalid={fieldErrors.phone ? true : undefined}
+                                aria-describedby={fieldErrors.phone ? 'phone-error' : undefined}
                             />
-                            <FieldError error={fieldErrors.phone} />
+                            <FieldError id="phone-error" error={fieldErrors.phone} />
                         </div>
 
                         <div className="col-span-1 form-field">
@@ -374,8 +390,10 @@ function ContactForm() {
                                 value={formData.birthdate}
                                 onChange={handleChange}
                                 className={`w-full${fieldErrors.birthdate ? ' input-error' : ''}`}
+                                aria-invalid={fieldErrors.birthdate ? true : undefined}
+                                aria-describedby={fieldErrors.birthdate ? 'birthdate-error' : undefined}
                             />
-                            <FieldError error={fieldErrors.birthdate} />
+                            <FieldError id="birthdate-error" error={fieldErrors.birthdate} />
                         </div>
 
                         {/* Champs spécifiques au formulaire par défaut */}
@@ -392,8 +410,10 @@ function ContactForm() {
                                         onChange={handleChange}
                                         className={`block p-3 w-full${fieldErrors.subject ? ' input-error' : ''}`}
                                         placeholder="Projet, flash, détails..."
+                                        aria-invalid={fieldErrors.subject ? true : undefined}
+                                        aria-describedby={fieldErrors.subject ? 'subject-error' : undefined}
                                     />
-                                    <FieldError error={fieldErrors.subject} />
+                                    <FieldError id="subject-error" error={fieldErrors.subject} />
                                 </div>
                                 <div className="col-span-1 md:col-span-2 form-field">
                                     <label htmlFor="message" className="block">
@@ -406,8 +426,10 @@ function ContactForm() {
                                         onChange={handleChange}
                                         className={`block p-2.5 w-full${fieldErrors.message ? ' input-error' : ''}`}
                                         placeholder="Laisser un commentaire..."
+                                        aria-invalid={fieldErrors.message ? true : undefined}
+                                        aria-describedby={fieldErrors.message ? 'message-error' : undefined}
                                     ></textarea>
-                                    <FieldError error={fieldErrors.message} />
+                                    <FieldError id="message-error" error={fieldErrors.message} />
                                 </div>
                             </>
                         )}
@@ -450,8 +472,10 @@ function ContactForm() {
                                         onChange={handleChange}
                                         className={`w-full${fieldErrors.size ? ' input-error' : ''}`}
                                         placeholder="Ex: 10x15cm"
+                                        aria-invalid={fieldErrors.size ? true : undefined}
+                                        aria-describedby={fieldErrors.size ? 'size-error' : undefined}
                                     />
-                                    <FieldError error={fieldErrors.size} />
+                                    <FieldError id="size-error" error={fieldErrors.size} />
                                 </div>
 
                                 <div className="col-span-1 form-field">
@@ -465,8 +489,10 @@ function ContactForm() {
                                         onChange={handleChange}
                                         className={`w-full${fieldErrors.placement ? ' input-error' : ''}`}
                                         placeholder="Ex: Avant-bras"
+                                        aria-invalid={fieldErrors.placement ? true : undefined}
+                                        aria-describedby={fieldErrors.placement ? 'placement-error' : undefined}
                                     />
-                                    <FieldError error={fieldErrors.placement} />
+                                    <FieldError id="placement-error" error={fieldErrors.placement} />
                                 </div>
 
                                 <div className="col-span-1 md:col-span-2 form-field">
@@ -481,8 +507,10 @@ function ContactForm() {
                                         className={`block p-2.5 w-full${fieldErrors.description ? ' input-error' : ''}`}
                                         placeholder="Décrivez votre projet de tatouage..."
                                         required
+                                        aria-invalid={fieldErrors.description ? true : undefined}
+                                        aria-describedby={fieldErrors.description ? 'description-error' : undefined}
                                     ></textarea>
-                                    <FieldError error={fieldErrors.description} />
+                                    <FieldError id="description-error" error={fieldErrors.description} />
                                 </div>
 
                                 <div className="col-span-1 md:col-span-2 form-field">

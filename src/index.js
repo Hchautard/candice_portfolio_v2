@@ -1,23 +1,28 @@
 // src/index.js
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Home from './pages/Home';
-import Contact from './pages/Contact';
-import Makeup from './pages/Makeup';
-import Tattoo from './pages/Tattoo';
-import Project from './pages/Project';
-import NewsDetail from './pages/NewsDetail';
 import Header from './components/Header';
+import Spinner from './components/Spinner';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
 import reportWebVitals from './reportWebVitals';
+
+// Chaque page charge son propre chunk : le bundle initial reste léger
+const Home = lazy(() => import('./pages/Home'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Makeup = lazy(() => import('./pages/Makeup'));
+const Tattoo = lazy(() => import('./pages/Tattoo'));
+const Project = lazy(() => import('./pages/Project'));
+const NewsDetail = lazy(() => import('./pages/NewsDetail'));
 
 function Layout() {
   return (
       <>
         <Header />
-        <Outlet />
+        <Suspense fallback={<Spinner fullScreen />}>
+          <Outlet />
+        </Suspense>
       </>
   );
 }

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../styles/NewsCard.css";
 import creation from "../../assets/images/news/creation.jpg";
 import illustration from "../../assets/images/news/illustration.jpg";
@@ -11,13 +11,13 @@ const CATEGORY_BACKGROUNDS = {
 };
 
 export default function NewsCard({ id, title, description, date, category, location, image, showDetails }) {
-    const navigate = useNavigate();
     const backgroundImage = CATEGORY_BACKGROUNDS[category] || creation;
 
     return (
-        <div
+        <Link
+            to={`/news/${id}`}
             className="news-card-shop"
-            onClick={() => navigate(`/news/${id}`)}
+            aria-label={`Lire l'actualité : ${title}`}
             style={{
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundBlendMode: "darken",
@@ -33,15 +33,15 @@ export default function NewsCard({ id, title, description, date, category, locat
                 </span>
             </div>
             {image && (
-                <img className="news-card-image" src={image} alt={title} />
+                <img className="news-card-image" src={image} alt="" />
             )}
-            <h4 className="news-title-shop">{title}</h4>
+            <h3 className="news-title-shop">{title}</h3>
             {showDetails && (
                 <p className="news-description-shop">{description}</p>
             )}
             <div className="news-footer-shop">
                 <div className="news-arrow-shop">Lire la suite →</div>
             </div>
-        </div>
+        </Link>
     );
 }

@@ -20,14 +20,10 @@
 }
 
 /* ===== TYPOGRAPHY ===== */
-h1 {
+.Home h1 {
     font-family: "Alice_Wonderland_2", serif;
     color: var(--secondary);
     font-size: calc(var(--xxxlarge) - 10px);
-    text-align: left;
-}
-
-p {
     text-align: left;
 }
 
@@ -61,7 +57,7 @@ p {
 }
 
 @media screen and (min-width: 768px) and (max-width: 1700px) {
-    h1 {
+    .Home h1 {
         font-size: calc(var(--xxlarge));
     }
 
@@ -123,13 +119,13 @@ p {
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
     /* Typography mobile */
-    h1 {
+    .Home h1 {
         font-size: 2.2rem;
         text-align: center;
         margin-bottom: 1.5rem;
     }
 
-    p {
+    .Home p {
         text-align: justify;
         font-size: var(--medium);
         line-height: 1.7;

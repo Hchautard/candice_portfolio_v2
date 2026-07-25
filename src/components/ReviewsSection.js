@@ -16,8 +16,8 @@ export default function ReviewsSection() {
 
     const renderStars = (rating) => {
         return Array.from({ length: 5 }, (_, i) => (
-            <span key={i} className={`star ${i < rating ? 'filled' : ''}`}>
-                ⭐
+            <span key={i} aria-hidden="true" className={`star ${i < rating ? 'filled' : ''}`}>
+                ★
             </span>
         ));
     };
@@ -26,7 +26,7 @@ export default function ReviewsSection() {
 
     useEffect(() => {
         const scrollContainer = scrollRef.current;
-        if (!scrollContainer) return;
+        if (!scrollContainer || reviewItems.length === 0) return;
 
         const scrollSpeed = 0.5;
         const cardWidth = 380 + 32;
@@ -56,7 +56,7 @@ export default function ReviewsSection() {
     }, [isPaused, reviewItems.length]);
 
     if (loading) return <Spinner />;
-    if (error) return null;
+    if (error || reviewItems.length === 0) return null;
 
     return (
         <motion.section
@@ -67,7 +67,7 @@ export default function ReviewsSection() {
             viewport={{ once: true }}
         >
             <div className="container-carousel">
-                <h3 className="section-title">Avis Clients</h3>
+                <h2 className="section-title">Avis Clients</h2>
 
                 <div className="carousel-wrapper">
                     <div
@@ -84,7 +84,7 @@ export default function ReviewsSection() {
                                 <div className="review-header">
                                     <div className="client-info">
                                         <h4 className="client-name">{review.author}</h4>
-                                        <div className="rating">
+                                        <div className="rating" role="img" aria-label={`Note : ${review.rating} sur 5`}>
                                             {renderStars(review.rating)}
                                         </div>
                                     </div>

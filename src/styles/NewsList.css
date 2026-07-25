@@ -14,7 +14,9 @@
 .news-list-section-title {
     font-family: "Alice_Wonderland_2", cursive;
     font-size: var(--large);
+    font-weight: normal;
     color: var(--primary);
+    margin: 0;
 }
 
 .news-list-nav {

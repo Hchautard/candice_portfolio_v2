@@ -22,6 +22,11 @@
     z-index: 0;
 }
 
+/* Status text sits on the dark silk background here */
+.project-page .news-status {
+    color: var(--primary);
+}
+
 .project-news-wrapper {
     width: 70%;
     display: flex;
@@ -125,9 +130,11 @@
     width: 35svw;
 
     h1 {
+        font-family: "Alice_Wonderland_2", serif;
         color: var(--secondary);
         font-size: calc(var(--xxlarge) + 4px);
         line-height: 1.0;
+        text-align: left;
 
         @media (max-width: 768px) {
             font-size: calc(var(--xxlarge) - 8px);
@@ -160,7 +167,7 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1700px) {
-    h1 {
+    .project-page h1 {
         font-size: calc(var(--xxlarge));
     }
 

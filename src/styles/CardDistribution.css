@@ -11,6 +11,12 @@
   transform: rotateY(180deg);
 }
 
+/* Cards sit on the darkened armour background — the accent outline would vanish */
+#card-distribution-container [role="button"]:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 4px;
+}
+
 .odd-face {
   background: rgba(10, 5, 5, 0.85);
   backdrop-filter: blur(10px);

@@ -79,12 +79,6 @@ export default function BentoSlider({ images = [] }) {
 
     return (
         <div className="bento-slider-container">
-            <div style={{ display: "none" }}>
-                {images.map((img, i) => (
-                    <img key={i} src={img.imageSrc} alt="" />
-                ))}
-            </div>
-
             <Slider {...settings}>
                 {slides.map((slideItems, index) => (
                     <div key={index}>

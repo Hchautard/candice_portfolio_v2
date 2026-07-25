@@ -8,6 +8,7 @@ const CardDistribution = ({ cards = [] }) => {
   const [cardsPerRow, setCardsPerRow] = useState(4);
   const [containerHeight, setContainerHeight] = useState('auto');
   const [loadedImages, setLoadedImages] = useState(new Set());
+  const [flippedCards, setFlippedCards] = useState(new Set());
 
   useEffect(() => {
     // Met à jour le nombre de cartes par ligne selon la largeur du conteneur
@@ -63,21 +64,23 @@ const CardDistribution = ({ cards = [] }) => {
   const flipCard = (index) => {
     if (!cardsRef.current[index]) return;
 
-    if (cardsRef.current[index].flipped) {
-      gsap.to(cardsRef.current[index], {
-        rotationY: 0,
-        duration: 0.5,
-        ease: "power2.out",
-      });
-    } else {
-      gsap.to(cardsRef.current[index], {
-        rotationY: 180,
-        duration: 0.5,
-        ease: "power2.out",
-      });
-    }
+    const isFlipped = flippedCards.has(index);
 
-    cardsRef.current[index].flipped = !cardsRef.current[index].flipped;
+    gsap.to(cardsRef.current[index], {
+      rotationY: isFlipped ? 0 : 180,
+      duration: 0.5,
+      ease: "power2.out",
+    });
+
+    setFlippedCards(prev => {
+      const next = new Set(prev);
+      if (isFlipped) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+      return next;
+    });
   }
 
   // Gestion du chargement des images
@@ -110,7 +113,16 @@ const CardDistribution = ({ cards = [] }) => {
                      md:w-80 md:h-96
                      sm:w-64 sm:h-80"
                 onClick={() => flipCard(i)}
-                flipped={false}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    flipCard(i);
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+                aria-pressed={flippedCards.has(i)}
+                aria-label={card.name ? `Retourner la carte « ${card.name} »` : `Retourner la carte ${i + 1}`}
             >
               {/* Face avant de la carte */}
               <div className="absolute w-full h-full rounded-lg backface-hidden">
@@ -123,7 +135,7 @@ const CardDistribution = ({ cards = [] }) => {
                       )}
                       <img
                           src={card.imageSrc}
-                          alt={card.alt || `Card ${i}`}
+                          alt=""
                           className={`w-full h-full object-cover rounded-lg transition-opacity duration-300 ${
                               loadedImages.has(card.id) ? 'opacity-100' : 'opacity-0'
                           }`}
@@ -151,7 +163,7 @@ const CardDistribution = ({ cards = [] }) => {
                 {card.backImage ? (
                     <img
                         src={card.backImage}
-                        alt={`Back of card ${i}`}
+                        alt=""
                         className="w-full h-full object-cover rounded-lg"
                         loading="lazy"
                     />

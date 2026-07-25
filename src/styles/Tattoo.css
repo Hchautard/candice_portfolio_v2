@@ -92,6 +92,11 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
+/* Sidebar is dark — the accent outline would vanish against it */
+.sidebar-cat-btn:focus-visible {
+    outline-color: var(--accent-light);
+}
+
 .sidebar-cat-btn.active {
     background: rgba(255, 255, 255, 0.12);
     color: white;

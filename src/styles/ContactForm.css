@@ -408,21 +408,12 @@ input[type="checkbox"] {
         width: 100%;
     }
 
-    .text-red-500,
-    .text-green-500 {
+    .form-status {
         text-align: center;
         padding: 8px;
         border-radius: 5px;
         margin-bottom: 8px;
         font-size: calc(var(--medium) - 2px);
-    }
-
-    .text-red-500 {
-        background: rgba(255, 0, 0, 0.1);
-    }
-
-    .text-green-500 {
-        background: rgba(0, 255, 0, 0.1);
     }
 }
 
@@ -489,6 +480,8 @@ input[type="checkbox"] {
     margin-top: 10px;
     padding: 5px;
     border: none;
+    background: none;
+    font-size: inherit;
     border-bottom: 2px solid transparent;
     transition: all 0.3s ease;
     color: var(--secondary);
@@ -540,8 +533,7 @@ input[type="checkbox"] {
     }
 }
 
-.text-red-500,
-.text-green-500 {
+.form-status {
     animation: slideDown 0.4s ease;
 }
 
@@ -585,7 +577,7 @@ input[type="checkbox"] {
 /* ── Erreurs inline ── */
 .field-error {
     display: block;
-    color: #f87171;
+    color: var(--error);
     font-size: calc(var(--medium) - 2px);
     margin-top: 3px;
     animation: slideDown 0.2s ease;
@@ -596,9 +588,26 @@ input[type="checkbox"] {
 }
 
 .input-error {
-    box-shadow: 0 0 6px #f87171 !important;
+    box-shadow: 0 0 6px var(--error) !important;
 }
 
 .input-error:focus {
-    box-shadow: 0 0 10px #f87171 !important;
+    box-shadow: 0 0 10px var(--error) !important;
+}
+
+/* ── Messages de statut du formulaire ── */
+.form-status {
+    font-size: calc(var(--medium) + 2px);
+}
+
+.form-status-error {
+    color: var(--error);
+    background: rgba(161, 21, 16, 0.08);
+    border: 1px solid rgba(161, 21, 16, 0.35);
+}
+
+.form-status-success {
+    color: var(--success);
+    background: rgba(29, 92, 51, 0.08);
+    border: 1px solid rgba(29, 92, 51, 0.35);
 }

@@ -1,8 +1,7 @@
 import '../styles/Makeup.css';
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import BentoSlider from '../components/BentoSlider';
 import DocumentTitleSetter from "../utils/title-setter.ts";
-import Spinner from '../components/Spinner';
 
 function getImages() {
   const images = require.context('../assets/images/makeup', false, /\.(png|jpg|jpeg)$/i);
@@ -215,32 +214,19 @@ function formatImagesForSlider(imageSrc, imagesSrcSmall) {
 }
 
 function Makeup() {
-  const [contentLoaded, setContentLoaded] = useState(false);
-  const [images, setImages] = useState([]);
-
   DocumentTitleSetter("Makeup");
 
-  useEffect(() => {
+  // require.context est synchrone : la liste est prête dès le premier rendu,
+  // les miniatures + LazyImage gèrent le chargement progressif des visuels
+  const images = useMemo(() => {
     const [imagePaths, imagePathsSmall] = getImages();
-    const loadedImages = formatImagesForSlider(imagePaths, imagePathsSmall);
-
-    setImages(loadedImages);
-
-    const timer = setTimeout(() => {
-      setContentLoaded(true);
-    }, 300);
-
-    return () => clearTimeout(timer);
+    return formatImagesForSlider(imagePaths, imagePathsSmall);
   }, []);
 
   return (
       <div className="makeup-container">
         <h1 className="sr-only">Portfolio Makeup & Maquillage Artistique — L&apos;Anomalie</h1>
-        {contentLoaded && images.length > 0 ? (
-            <BentoSlider images={images} />
-        ) : (
-            <Spinner fullScreen />
-        )}
+        <BentoSlider images={images} />
       </div>
   );
 }

@@ -1,6 +1,6 @@
 import "../styles/Tattoo.css"
 import CardDistribution from "./CardDistribution";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import DocumentTitleSetter from "../utils/title-setter.ts";
 import { CATEGORIES, IMAGE_CATEGORY_MAP } from "../data/tattooCategories";
 
@@ -22,30 +22,7 @@ function formatImageForCards(rawImages) {
     }));
 }
 
-const SKELETON_COUNT = 7;
-
-function SkeletonCard() {
-    return (
-        <div className="skeleton-card">
-            <div className="skeleton-image shimmer" />
-            <div className="skeleton-text shimmer" />
-        </div>
-    );
-}
-
-function SkeletonGrid() {
-    return (
-        <div className="skeleton-grid">
-            {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
-                <SkeletonCard key={i} />
-            ))}
-        </div>
-    );
-}
-
 function Tattoo() {
-    const [showComponent, setShowComponent] = useState(false);
-    const [imagesLoaded, setImagesLoaded] = useState(false);
     const [activeCategory, setActiveCategory] = useState('tous');
 
     DocumentTitleSetter("Tattoo");
@@ -68,38 +45,6 @@ function Tattoo() {
         }, {}),
         [allImages]
     );
-
-    useEffect(() => {
-        const preloadImages = async () => {
-            const imagePromises = allImages.map((card) => {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.onload = resolve;
-                    img.onerror = reject;
-                    img.src = card.imageSrc;
-                });
-            });
-
-            try {
-                await Promise.all(imagePromises);
-                setImagesLoaded(true);
-            } catch (error) {
-                console.error("Erreur lors du chargement des images:", error);
-                setImagesLoaded(true);
-            }
-        };
-
-        preloadImages();
-    }, [allImages]);
-
-    useEffect(() => {
-        if (imagesLoaded) {
-            const timer = setTimeout(() => {
-                setShowComponent(true);
-            }, 500);
-            return () => clearTimeout(timer);
-        }
-    }, [imagesLoaded]);
 
     return (
         <div className="Tattoo">
@@ -124,10 +69,7 @@ function Tattoo() {
                     </div>
                 </aside>
                 <div className="tattoo-content">
-                    {!showComponent && <SkeletonGrid />}
-                    {showComponent && imagesLoaded && (
-                        <CardDistribution key={activeCategory} cards={filteredImages} />
-                    )}
+                    <CardDistribution key={activeCategory} cards={filteredImages} />
                 </div>
             </div>
         </div>
