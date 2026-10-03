@@ -128,6 +128,42 @@
     padding: 2rem;
 }
 
+/* ── Réalisations ── */
+.realisations {
+    padding: var(--xxlarge) 1rem;
+}
+
+.realisations-title {
+    font-family: 'Alice_Wonderland_2', cursive;
+    font-size: var(--xxlarge);
+    font-weight: normal;
+    color: var(--accent-light);
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+    margin: 0 0 var(--xlarge);
+}
+
+/* Même largeur et même écart que les cartes flash (320px, pas de 380px) */
+.realisations-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 320px));
+    justify-content: center;
+    gap: 60px;
+}
+
+.realisations-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+}
+
 /* ── Skeleton ── */
 .skeleton-grid {
     display: grid;
@@ -214,5 +250,13 @@
 
     .tattoo-content {
         padding: 1rem;
+    }
+
+    .realisations-title {
+        font-size: var(--xlarge);
+    }
+
+    .realisations-grid {
+        gap: var(--large);
     }
 }

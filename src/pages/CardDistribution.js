@@ -31,7 +31,6 @@ const CardDistribution = ({ cards = [] }) => {
     const isMobile = window.innerWidth <= 768;
     const cardSpacingX = isMobile ? 380 : 380;
     const cardSpacingY = isMobile ? 420 : 420;
-    const cardHeight = isMobile ? 340 : 340;
 
     const totalWidth = cardsPerRow * cardSpacingX;
     const containerWidth = containerRef.current?.offsetWidth || 0;
@@ -51,7 +50,7 @@ const CardDistribution = ({ cards = [] }) => {
         ease: "power2.out",
       });
 
-      const cardBottom = (row + 1) * cardSpacingY + cardHeight;
+      const cardBottom = row * cardSpacingY + card.offsetHeight;
       if (cardBottom > maxHeight) {
         maxHeight = cardBottom;
       }
@@ -100,7 +99,7 @@ const CardDistribution = ({ cards = [] }) => {
           className="relative p-4 overflow-visible"
           style={{
             height: `${containerHeight}px`,
-            minHeight: '100vh'
+            minHeight: containerHeight === 'auto' ? '100vh' : undefined
           }}
           id="card-distribution-container"
       >
