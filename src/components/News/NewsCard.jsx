@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import "../../styles/NewsCard.css";
-import creation from "../../assets/images/news/creation.jpg";
-import illustration from "../../assets/images/news/illustration.jpg";
-import event from "../../assets/images/news/event.jpg";
+import creation from "../../assets/images/news/creation.webp";
+import illustration from "../../assets/images/news/illustration.webp";
+import event from "../../assets/images/news/event.webp";
 
 const CATEGORY_BACKGROUNDS = {
     "Création": creation,

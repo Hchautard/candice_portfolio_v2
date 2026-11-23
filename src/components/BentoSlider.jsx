@@ -66,7 +66,7 @@ export default function BentoSlider({ images = [] }) {
         arrows: true,
         swipe: true,
         touchMove: true,
-        lazyLoad: "anticipated",
+        lazyLoad: "ondemand", // ne monte que la slide affichée (et ses 3 images HD)
         waitForAnimate: false,
         cssEase: "ease-out",
         swipeToSlide: true,

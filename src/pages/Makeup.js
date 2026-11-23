@@ -3,126 +3,120 @@ import { useMemo } from 'react';
 import BentoSlider from '../components/BentoSlider';
 import DocumentTitleSetter from "../utils/title-setter.ts";
 
-function getImages() {
-  const images = require.context('../assets/images/makeup', false, /\.(png|jpg|jpeg)$/i);
-  const imagesSmall = require.context('../assets/images/makeup/thumbnails', false, /\.(png|jpg|jpeg)$/i);
+// Images optimisées en WebP via `npm run optimize:media` ; miniatures floues de 20 px en JPG
+const images = require.context('../assets/images/makeup', false, /\.webp$/);
+const thumbnails = require.context('../assets/images/makeup/thumbnails', false, /-small\.jpe?g$/i);
 
-  const imagePaths = images.keys().map(key => ({
-    path: images(key),
-    filename: key.replace('./', '')
-  }));
+// Clé commune = nom du fichier sans extension ni suffixe "-small", insensible à la casse
+const baseName = (key) => key.replace('./', '').replace(/(-small)?\.[a-z]+$/i, '').toLowerCase();
 
-  const imagePathsSmall = imagesSmall.keys().map(key => ({
-    path: imagesSmall(key),
-    filename: key.replace('./', '')
-  }));
-
-  return [imagePaths, imagePathsSmall];
+function indexByName(context) {
+  return Object.fromEntries(context.keys().map(key => [baseName(key), context(key)]));
 }
 
-// Données des images avec titres et descriptions
+// Données des images avec titres et descriptions (clé = nom du fichier sans extension)
 const imageData = {
-  'flora_1.png': {
+  'flora_1': {
     title: "Magic Garden : La princesse",
     description: "Discover our collection of organic makeup products"
   },
-  'flora_2.png': {
+  'flora_2': {
     title: "Magic Garden : La princesse",
     description: "Professional-grade brushes and applicators"
   },
-  'alice_1.png': {
+  'alice_1': {
     title: "Allo Docteur Love : l'enivrante",
     description: "Express yourself with vibrant, long-lasting pigments"
   },
-  'karole_1.png': {
+  'karole_1': {
     title: "Magic Garden : La sirène",
     description: "Makeup that nourishes your skin while enhancing your beauty"
   },
-  'mira_1.png': {
+  'mira_1': {
     title: "Magic Garden : L'elfe",
     description: "Explore our exclusive seasonal palette with unique textures and finishes"
   },
-  'karole_2.png': {
+  'karole_2': {
     title: "Portal",
     description: "Sustainable beauty products in recyclable packaging"
   },
-  'song_1.png': {
+  'song_1': {
     title: "Allo Docteur Love : la briseuse de coeur",
     description: "Inclusive shade ranges for all complexions"
   },
-  'perles_1.png': {
+  'perles_1': {
     title: "Glam",
     description: "Free from harmful ingredients, gentle on sensitive skin"
   },
-  'karole_3.png': {
+  'karole_3': {
     title: "Portal défilé POZ",
     description: "Just launched products to elevate your makeup routine"
   },
-  'candice_1.jpg': {
+  'candice_1': {
     title: "Ice look",
     description: "Learn techniques from our expert makeup artists"
   },
-  'carte_1.png': {
+  'carte_1': {
     title: "La reine de coeur",
     description: "Our most loved products that customers can't get enough of"
   },
-  'ziggy_1.png': {
+  'ziggy_1': {
     title: "Look David Bowie",
     description: "Our most loved products that customers can't get enough of"
   },
-  'hematome_1.png': {
+  'hematome_1': {
     title: "Hématome",
     description: "Perfect combinations for gifting or trying something new"
   },
-  'Clown.PNG': {
+  'Clown': {
     title: "Clown",
     description: "Bold and creative clown makeup artistry"
   },
-  'Pink_spider.PNG': {
+  'Pink_spider': {
     title: "Pink Spider",
     description: "Mystical spider-inspired pink makeup"
   },
-  'Bloody_Mary.jpeg': {
+  'Bloody_Mary': {
     title: "Bloody Mary",
     description: "Dramatic horror-inspired makeup look"
   },
-  'fleau.PNG': {
+  'fleau': {
     title: "Fléau",
     description: "Dark and haunting makeup creation"
   },
-  'Zombie.PNG': {
+  'Zombie': {
     title: "Zombie",
     description: "Realistic zombie makeup effects"
   },
-  'Blue2.PNG': {
+  'Blue2': {
     title: "Blue Avatar",
     description: "Fantasy blue character makeup"
   },
-  'Goth.JPG': {
+  'Goth': {
     title: "Gothic",
     description: "Classic gothic makeup style"
   },
-  'Operetta.JPG': {
+  'Operetta': {
     title: "Operetta",
     description: "Theatrical operetta-inspired look"
   },
-  'Freddy.JPG': {
+  'Freddy': {
     title: "Freddy",
     description: "Horror movie character makeup"
   },
-  'Pearl.JPEG': {
+  'Pearl': {
     title: "Pearl",
     description: "Elegant pearl-inspired makeup"
   },
-  'Pearl2.JPEG': {
+  'Pearl2': {
     title: "Pearl 2",
     description: "Another pearl-inspired variation"
   },
-  'Blue.jpeg': {
+  'Blue': {
     title: "Blue Dreams",
     description: "Dreamy blue makeup artistry"
   },
-  'Chrome.JPEG': {
+  'Chrome': {
     title: "Chrome",
     description: "Futuristic chrome makeup effect"
   },
@@ -130,85 +124,51 @@ const imageData = {
 
 // Ordre d'affichage
 const displayOrder = [
-  'flora_1.png',
-  'alice_1.png',
-  'karole_1.png',
-  'mira_1.png',
-  'karole_2.png',
-  'song_1.png',
-  'flora_2.png',
-  'perles_1.png',
-  'karole_3.png',
-  'candice_1.jpg',
-  'carte_1.png',
-  'ziggy_1.png',
-  'hematome_1.png',
-  'Clown.PNG',
-  'Pink_spider.PNG',
-  'Bloody_Mary.jpeg',
-  'fleau.PNG',
-  'Zombie.PNG',
-  'Blue2.PNG',
-  'Goth.JPG',
-  'Operetta.JPG',
-  'Freddy.JPG',
-  'Pearl.JPEG',
-  'Pearl2.JPEG',
-  'Blue.jpeg',
-  'Chrome.JPEG'
-];
-
-const displayOrderSmall = [
-  'flora_1-small.jpg',
-  'alice_1-small.jpg',
-  'karole_1-small.jpg',
-  'mira_1-small.jpg',
-  'karole_2-small.jpg',
-  'song_1-small.jpg',
-  'flora_2-small.jpg',
-  'perles_1-small.jpg',
-  'karole_3-small.jpg',
-  'candice_1-small.jpg',
-  'carte_1-small.jpg',
-  'ziggy_1-small.jpg',
-  'hematome_1-small.jpg',
-  'Clown-small.jpg',
-  'Pink_spider-small.jpg',
-  'Bloody_Mary-small.jpg',
-  'fleau-small.jpg',
-  'Zombie-small.jpg',
-  'Blue2-small.jpg',
-  'Goth-small.jpg',
-  'Operetta-small.jpg',
-  'Freddy-small.jpg',
-  'Pearl-small.jpg',
-  'Pearl2-small.jpg',
-  'Blue-small.jpg',
-  'Chrome-small.jpg'
+  'flora_1',
+  'alice_1',
+  'karole_1',
+  'mira_1',
+  'karole_2',
+  'song_1',
+  'flora_2',
+  'perles_1',
+  'karole_3',
+  'candice_1',
+  'carte_1',
+  'ziggy_1',
+  'hematome_1',
+  'Clown',
+  'Pink_spider',
+  'Bloody_Mary',
+  'fleau',
+  'Zombie',
+  'Blue2',
+  'Goth',
+  'Operetta',
+  'Freddy',
+  'Pearl',
+  'Pearl2',
+  'Blue',
+  'Chrome'
 ];
 
 // Formater les images pour le slider
-function formatImagesForSlider(imageSrc, imagesSrcSmall) {
-  return displayOrder
-      .map((filename, index) => {
-        const image = imageSrc.find(img =>
-            img.filename.toLowerCase() === filename.toLowerCase()
-        );
-        const smallFilename = displayOrderSmall[index];
-        const imageSmall = imagesSrcSmall.find(img =>
-            img.filename.toLowerCase() === smallFilename.toLowerCase()
-        );
+function formatImagesForSlider() {
+  const full = indexByName(images);
+  const small = indexByName(thumbnails);
 
-        if (image && imageData[filename]) {
-          return {
-            id: index + 1,
-            imageSrc: image.path,
-            imageSrcSmall: imageSmall ? imageSmall.path : image.path,
-            title: imageData[filename].title,
-            description: imageData[filename].description
-          };
-        }
-        return null;
+  return displayOrder
+      .map((name, index) => {
+        const key = name.toLowerCase();
+        if (!full[key] || !imageData[name]) return null;
+
+        return {
+          id: index + 1,
+          imageSrc: full[key],
+          imageSrcSmall: small[key] || full[key],
+          title: imageData[name].title,
+          description: imageData[name].description
+        };
       })
       .filter(img => img !== null);
 }
@@ -218,15 +178,12 @@ function Makeup() {
 
   // require.context est synchrone : la liste est prête dès le premier rendu,
   // les miniatures + LazyImage gèrent le chargement progressif des visuels
-  const images = useMemo(() => {
-    const [imagePaths, imagePathsSmall] = getImages();
-    return formatImagesForSlider(imagePaths, imagePathsSmall);
-  }, []);
+  const sliderImages = useMemo(() => formatImagesForSlider(), []);
 
   return (
       <div className="makeup-container">
         <h1 className="sr-only">Portfolio Makeup & Maquillage Artistique — L&apos;Anomalie</h1>
-        <BentoSlider images={images} />
+        <BentoSlider images={sliderImages} />
       </div>
   );
 }

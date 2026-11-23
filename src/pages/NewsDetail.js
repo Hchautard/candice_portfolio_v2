@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { useData } from '../contexts/DataContext';
 import DocumentTitleSetter from '../utils/title-setter.ts';
-import creation from '../assets/images/news/creation.jpg';
-import illustration from '../assets/images/news/illustration.jpg';
-import event from '../assets/images/news/event.jpg';
+import creation from '../assets/images/news/creation.webp';
+import illustration from '../assets/images/news/illustration.webp';
+import event from '../assets/images/news/event.webp';
 import '../styles/NewsDetail.css';
 
 const CATEGORY_IMAGES = {
