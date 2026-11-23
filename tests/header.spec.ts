@@ -1,10 +1,9 @@
-import {test, expect} from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-// Test the classic redirection of header links
+// Chaque lien du header mène à la bonne page
 test('Header links should navigate to correct pages', async ({ page }) => {
-    await page.goto('http://localhost:3000/');
+    await page.goto('/');
 
-    // Liste des liens et des URLs attendues
     const links = [
         { text: 'Accueil', url: '/' },
         { text: 'Shop', url: '/project' },
@@ -14,30 +13,16 @@ test('Header links should navigate to correct pages', async ({ page }) => {
     ];
 
     for (const link of links) {
-        // Cliquer sur le lien
         await page.locator('.header-link', { hasText: link.text }).click();
-
-        // Vérifier que l'URL est correcte
         await expect(page).toHaveURL(new RegExp(link.url + '$'));
     }
 });
 
-// Test the actual header component rendering and functionality
+// Le header et ses 5 liens sont affichés
 test('Header component should render and have functional links', async ({ page }) => {
-    await page.goto('http://localhost:3000/');
+    await page.goto('/');
 
-    // Vérifier que le header est visible
-    const header = page.locator('.Header');
-    await expect(header).toBeVisible();
-
-    // Vérifier que la barre de navigation est visible
-    const navbar = page.locator('.navbar');
-    await expect(navbar).toBeVisible();
-
-    // Vérifier que tous les liens de navigation sont visibles
-    const navLinks = page.locator('.header-link');
-    await expect(navLinks).toHaveCount(5);
+    await expect(page.locator('.Header')).toBeVisible();
+    await expect(page.locator('.navbar')).toBeVisible();
+    await expect(page.locator('.header-link')).toHaveCount(5);
 });
-
-
-
