@@ -65,6 +65,8 @@ async function main() {
             .filter((e) => !group.only || group.only.includes(e.name))
             .map((e) => path.join(dir, e.name));
 
+        // Séquentiel volontairement : sharp (effort 6) sature déjà le CPU, et chaque original
+        // n'est archivé qu'une fois son WebP écrit
         for (const file of files) {
             const rel = path.relative(ROOT, file);
             const inSize = (await stat(file)).size;
@@ -89,7 +91,4 @@ async function main() {
     console.log(`\n${count} image(s) : ${mb(before)} → ${mb(after)} (originaux dans media-originals/)`);
 }
 
-main().catch((err) => {
-    console.error(err);
-    process.exit(1);
-});
+await main();
