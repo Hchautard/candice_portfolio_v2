@@ -150,19 +150,104 @@
     display: flex;
     justify-content: center;
 
-    Video {
+    .video-figure {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--small);
         width: 60%;
+        margin: 0;
+
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
+    video {
+        width: 100%;
         transform: scale(1);
         transition: transform 0.3s ease-in-out;
 
         &:hover {
             transform: scale(1.05);
-            transition: transform 0.3s ease-in-out;
         }
+    }
+}
 
-        @media (max-width: 768px) {
-            width: 100%;
+.video-transcript-open {
+    background: none;
+    border: none;
+    padding: var(--small);
+    color: var(--secondary);
+    font-size: 1.05rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--accent);
+    }
+}
+
+/* Transcription : fenêtre modale native, affichée dans la couche supérieure (hors du conteneur en hauteur fixe) */
+.video-transcript {
+    width: min(40rem, calc(100% - 32px));
+    max-height: 80dvh;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary);
+    color: var(--secondary);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+
+    &::backdrop {
+        background: rgba(var(--secondary-rgba), 0.75);
+    }
+
+    .video-transcript-content {
+        padding: var(--large);
+
+        @media (max-width: 480px) {
+            padding: var(--medium);
         }
+    }
+
+    .video-transcript-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--medium);
+        margin-bottom: var(--medium);
+
+        h2 {
+            font-family: "Alice_Wonderland_2", serif;
+            font-size: calc(var(--large) + 4px);
+            line-height: 1.1;
+        }
+    }
+
+    .video-transcript-close {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--secondary);
+        font-size: 2rem;
+        line-height: 1;
+        cursor: pointer;
+
+        &:hover {
+            background: rgba(var(--secondary-rgba), 0.1);
+        }
+    }
+
+    p {
+        font-size: 1.05rem;
+        line-height: 1.55;
+        margin-bottom: var(--medium);
+        max-width: 65ch;
     }
 }
 
