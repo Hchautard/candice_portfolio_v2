@@ -3,7 +3,9 @@
     grid-template-columns: 3fr 2fr;
     grid-template-rows: 1fr 1fr;
     gap: 12px;
-    height: 50svh;
+    /* min-height et non height : sur un écran bas, les cartes dépassaient de la grille
+       et recouvraient l'en-tête « Toutes les actualités » (et ses flèches) placé juste dessous */
+    min-height: 50svh;
     width: 100%;
 }
 

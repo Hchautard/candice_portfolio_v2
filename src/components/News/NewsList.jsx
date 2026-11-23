@@ -35,7 +35,7 @@ export default function NewsList() {
                 <h2 className="news-list-section-title">
                     &#124; Toutes les actualités
                 </h2>
-                {ITEMS_PER_PAGE > 4 && (
+                {totalPages > 1 && (
                 <div className="news-list-nav">
                     <button
                         className="news-list-arrow"
@@ -69,7 +69,7 @@ export default function NewsList() {
                 ))}
             </div>
 
-            {totalPages > 1 && ITEMS_PER_PAGE > 4 && (
+            {totalPages > 1 && (
                 <div className="news-list-dots">
                     {Array.from({ length: totalPages }, (_, i) => (
                         <button
@@ -77,6 +77,7 @@ export default function NewsList() {
                             className={`news-list-dot ${i === currentPage ? "news-list-dot-active" : ""}`}
                             onClick={() => setCurrentPage(i)}
                             aria-label={`Page ${i + 1}`}
+                            aria-current={i === currentPage ? "page" : undefined}
                         />
                     ))}
                 </div>
