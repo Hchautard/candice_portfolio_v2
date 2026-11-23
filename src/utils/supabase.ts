@@ -3,7 +3,12 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Sans configuration (CI, clone sans .env), createClient lèverait une erreur au chargement
+// et ferait planter tout le site : on l'affiche alors sans actualités ni avis.
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+
+if (!supabase) {
+    console.warn("Supabase non configuré : actualités et avis désactivés (voir REACT_APP_SUPABASE_URL dans .env).");
+}
 
 export default supabase;
-        

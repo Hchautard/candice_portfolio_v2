@@ -4,6 +4,7 @@ import {Suspense, lazy} from "react";
 import {Link} from "react-router-dom";
 import NewsSection from "../components/NewsSection";
 import ReviewsSection from "../components/ReviewsSection";
+import ErrorBoundary from "../components/ErrorBoundary";
 import DocumentTitleSetter from "../utils/title-setter.ts";
 
 // three.js ne charge que sur desktop, dans son propre chunk, après le premier rendu
@@ -51,9 +52,12 @@ function Home() {
 
               { !isMobile && (
                   <div className="model-container">
-                    <Suspense fallback={null}>
-                      <TattooMachine3D />
-                    </Suspense>
+                    {/* Sans WebGL, le modèle disparaît au lieu de faire planter l'accueil */}
+                    <ErrorBoundary>
+                      <Suspense fallback={null}>
+                        <TattooMachine3D />
+                      </Suspense>
+                    </ErrorBoundary>
                   </div>
               )}
 

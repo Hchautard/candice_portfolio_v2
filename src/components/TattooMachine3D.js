@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 
@@ -54,7 +54,24 @@ function LoadingFallback() {
     );
 }
 
+// R3F crée le contexte WebGL dans une promesse non interceptée : sans WebGL (GPU blacklisté,
+// accélération matérielle désactivée…), l'erreur échappe aux error boundaries. On vérifie donc avant.
+function hasWebGL() {
+    try {
+        const canvas = document.createElement("canvas");
+        const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+        gl?.getExtension("WEBGL_lose_context")?.loseContext(); // libère le contexte de test
+        return !!gl;
+    } catch {
+        return false;
+    }
+}
+
 export default function TattooMachine3D() {
+    const [webGLAvailable] = useState(hasWebGL);
+
+    if (!webGLAvailable) return null;
+
     return (
         <Canvas
             camera={{ position: [5, 0, 5], fov: 50 }}

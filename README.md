@@ -55,7 +55,7 @@ L'app tourne sur **http://localhost:3000** par défaut.
 | `npm install`     | Installe les dépendances                       |
 | `npm start`       | Lance le serveur de dev sur `localhost:3000`   |
 | `npm run build`   | Build le site dans `./build/`                  |
-| `npm test`        | Lance les tests Jest en mode watch             |
+| `npm test`        | Lance les tests E2E Playwright                 |
 | `npm run lint`    | Analyse le code avec ESLint                    |
 | `npm run optimize:media` | Convertit les nouvelles images en WebP optimisé |
 
@@ -82,6 +82,8 @@ npx playwright install   # À faire une seule fois
 npx playwright test      # Lance tous les tests
 npx playwright test --ui # Mode interactif
 ```
+
+Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise celui déjà lancé sur le port 3000. Les tests ne dépendent pas de Supabase : sans `.env`, le site s'affiche simplement sans actualités ni avis (c'est le cas en CI).
 
 ---
 

@@ -1,6 +1,8 @@
 import supabase from '../../utils/supabase.ts';
 
 export const getNews = async () => {
+    if (!supabase) return [];
+
     const { data, error } = await supabase
         .from('news')
         .select('*')
