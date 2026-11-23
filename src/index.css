@@ -13,6 +13,20 @@ body {
   outline-offset: 3px;
 }
 
+/* Mouvement réduit demandé par le système : animations et transitions CSS quasi instantanées.
+   framer-motion suit le même réglage (MotionConfig reducedMotion="user" dans index.js),
+   GSAP est géré au cas par cas (CardDistribution). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Paragraphs read left-aligned everywhere (App root centers text by default) */
 p {
   text-align: left;

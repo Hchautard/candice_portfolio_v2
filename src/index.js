@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Spinner from './components/Spinner';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
+import { MotionConfig } from 'framer-motion';
 import reportWebVitals from './reportWebVitals';
 
 // Chaque page charge son propre chunk : le bundle initial reste léger
@@ -68,9 +69,12 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-      <DataProvider>
-        <RouterProvider router={router} />
-      </DataProvider>
+      {/* Respecte « réduire les animations » du système pour toutes les animations framer-motion */}
+      <MotionConfig reducedMotion="user">
+        <DataProvider>
+          <RouterProvider router={router} />
+        </DataProvider>
+      </MotionConfig>
     </React.StrictMode>
 );
 

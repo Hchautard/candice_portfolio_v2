@@ -140,7 +140,6 @@
 .carousel-hint {
     text-align: center;
     margin-top: 2rem;
-    opacity: 0.7;
 }
 
 .carousel-hint span {
@@ -153,6 +152,34 @@
 @keyframes pulse {
     0%, 100% { opacity: 0.7; }
     50% { opacity: 1; }
+}
+
+/* Pause / reprise du défilement : utilisable au toucher et au clavier (le survol seul ne suffit pas) */
+.carousel-toggle {
+    background: none;
+    border: none;
+    padding: var(--small) var(--medium);
+    color: var(--secondary);
+    font-family: "Alice_Wonderland_2", serif;
+    font-size: var(--medium-large);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--accent);
+    }
+}
+
+/* Mouvement réduit : rangée défilable à la main, cartes calées au défilement */
+.carousel-track--manual {
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+
+    .review-card-carousel {
+        scroll-snap-align: center;
+    }
 }
 
 .review-comment {
