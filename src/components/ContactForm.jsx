@@ -125,8 +125,8 @@ function ContactForm() {
     const uploadFilesToCloudinary = async (files) => {
         if (!files || files.length === 0) return [];
 
-        const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`;
-        const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+        const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${import.meta.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`;
+        const uploadPreset = import.meta.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 
         const uploadPromises = files.map(async (file) => {
             const formData = new FormData();
@@ -226,15 +226,15 @@ function ContactForm() {
             }));
 
             const templateId = activeTab === 'default'
-                ? process.env.REACT_APP_EMAILJS_DEFAULT_TEMPLATE_ID
-                : process.env.REACT_APP_EMAILJS_TATTOO_TEMPLATE_ID;
+                ? import.meta.env.REACT_APP_EMAILJS_DEFAULT_TEMPLATE_ID
+                : import.meta.env.REACT_APP_EMAILJS_TATTOO_TEMPLATE_ID;
 
             await emailjs.send(
-                process.env.REACT_APP_EMAILJS_SERVICE_ID,
+                import.meta.env.REACT_APP_EMAILJS_SERVICE_ID,
                 templateId,
                 emailData,
                 {
-                    publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
+                    publicKey: import.meta.env.REACT_APP_EMAILJS_PUBLIC_KEY,
                     // Anti double envoi / rafale : 20 s minimum entre deux messages
                     limitRate: { id: 'contact-form', throttle: 20000 },
                 }

@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
-const supabaseKey = process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
+const supabaseUrl = import.meta.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = import.meta.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
 
 // Sans configuration (CI, clone sans .env), createClient lèverait une erreur au chargement
 // et ferait planter tout le site : on l'affiche alors sans actualités ni avis.

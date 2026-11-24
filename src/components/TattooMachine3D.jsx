@@ -5,7 +5,7 @@ import { Environment, OrbitControls, useGLTF } from "@react-three/drei";
 function TattooMachineModel() {
     const modelRef = useRef();
 
-    const { scene, error } = useGLTF(process.env.PUBLIC_URL + "/models/tattoo_machine/scene-v2.glb");
+    const { scene, error } = useGLTF(import.meta.env.BASE_URL + "models/tattoo_machine/scene-v2.glb");
 
     useEffect(() => {
         if (error) {

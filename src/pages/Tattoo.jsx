@@ -5,20 +5,26 @@ import DocumentTitleSetter from "../utils/title-setter.ts";
 import { CATEGORIES, IMAGE_CATEGORY_MAP } from "../data/tattooCategories";
 import { DONE_IMAGE_MAP, REALISATIONS } from "../data/tattooDone";
 
-// Images optimisées en WebP via `npm run optimize:media`
-const doneImages = require.context('../assets/images/tattoo/done', false, /\.webp$/);
+// Images optimisées en WebP via `npm run optimize:media`.
+// import.meta.glob (Vite) liste les fichiers au build : chemin → URL de l'image
+const flashImages = import.meta.glob('../assets/images/tattoo/*.webp', { eager: true, import: 'default' });
+const doneImages = import.meta.glob('../assets/images/tattoo/done/*.webp', { eager: true, import: 'default' });
+
+const fileName = (path) => path.split('/').pop().replace(/\.webp$/, '');
 
 function getImages() {
-    const images = require.context('../assets/images/tattoo', false, /\.webp$/);
-    return images.keys().map(key => ({
-        src: images(key),
-        name: key.replace('./', '').replace('.webp', '')
+    // Ordre alphabétique, comme l'ancien require.context de webpack
+    return Object.keys(flashImages).sort().map(path => ({
+        src: flashImages[path],
+        name: fileName(path)
     }));
 }
 
+const doneImage = (file) => doneImages[`../assets/images/tattoo/done/${file}.webp`];
+
 function getDoneImage(name) {
     const doneName = DONE_IMAGE_MAP[name];
-    return doneName ? doneImages(`./${doneName}.webp`) : undefined;
+    return doneName ? doneImage(doneName) : undefined;
 }
 
 function formatImageForCards(rawImages) {
@@ -87,7 +93,7 @@ function Tattoo() {
                             {REALISATIONS.map(({ file, alt }) => (
                                 <li key={file}>
                                     <img
-                                        src={doneImages(`./${file}.webp`)}
+                                        src={doneImage(file)}
                                         alt={alt}
                                         width="1080"
                                         height="1350"

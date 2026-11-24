@@ -10,7 +10,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  /* Un seul navigateur à la fois : en parallèle, le serveur de dev CRA sature (chunks en attente > 15 s)
+  /* Un seul navigateur à la fois : en parallèle, le serveur de dev saturait sous CRA (chunks en attente > 15 s)
      et la suite est plus lente qu'en séquentiel (~45 s pour les 3 navigateurs). */
   workers: 1,
   /* Marge pour le premier chargement des pages sur un serveur de dev non minifié */
@@ -39,12 +39,11 @@ export default defineConfig({
     },
   ],
 
-  /* Lance le serveur de dev avant les tests ; en local, réutilise un `npm start` déjà ouvert */
+  /* Lance le serveur de dev Vite (port 3000, cf. vite.config.js) ; en local, réutilise un `npm start` déjà ouvert */
   webServer: {
     command: 'npm start',
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
-    env: { BROWSER: 'none', PORT: String(PORT) },
   },
 });

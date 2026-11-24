@@ -2,7 +2,7 @@
 
 Portfolio de Candice, tatoueuse indépendante basée à Saint-Rémy-de-Provence, spécialisée dans les styles **cyber-sigilism**, **gothique** et **dark fantasy**.
 
-Construit avec **React**, **Three.js**, **Motion** et **Supabase**.
+Construit avec **React** et **Vite**, **Three.js**, **Motion** et **Supabase**.
 
 ---
 
@@ -22,6 +22,8 @@ L'app tourne sur **http://localhost:3000** par défaut.
 
 ```
 /
+├── index.html               # Page HTML (balises SEO / partage), point d'entrée de Vite
+├── vite.config.js           # Build, port 3000, préfixe REACT_APP_ des variables
 ├── public/
 │   └── models/              # Modèles 3D (.glb)
 ├── src/
@@ -42,7 +44,7 @@ L'app tourne sur **http://localhost:3000** par défaut.
 │   ├── pages/               # Pages (Home, Tattoo, Makeup, Contact, Project, NewsDetail, NotFound)
 │   ├── services/
 │   │   └── database/        # Requêtes Supabase (reviews, news)
-│   ├── index.js             # Point d'entrée : routes (chargées à la demande) et mise en page
+│   ├── index.jsx            # Point d'entrée : routes (chargées à la demande) et mise en page
 │   ├── styles/              # CSS par page/composant
 │   └── utils/
 │       └── supabase.ts      # Client Supabase
@@ -56,8 +58,9 @@ L'app tourne sur **http://localhost:3000** par défaut.
 | Commande          | Action                                         |
 | :---------------- | :--------------------------------------------- |
 | `npm install`     | Installe les dépendances                       |
-| `npm start`       | Lance le serveur de dev sur `localhost:3000`   |
+| `npm start`       | Lance le serveur de dev Vite sur `localhost:3000` |
 | `npm run build`   | Build le site dans `./build/`                  |
+| `npm run preview` | Sert le build en local sur `localhost:4173`    |
 | `npm test`        | Lance les tests E2E Playwright                 |
 | `npm run lint`    | Analyse le code avec ESLint                    |
 | `npm run optimize:media` | Convertit les nouvelles images en WebP optimisé |
@@ -99,6 +102,7 @@ Les clés sont lues dans `.env` (ignoré par git). Le modèle `.env.example` lis
 | `REACT_APP_EMAILJS_*` (4)                  | EmailJS    | Envoyer le formulaire de contact              |
 | `REACT_APP_CLOUDINARY_*` (2)               | Cloudinary | Héberger les images jointes à une demande     |
 | `REACT_APP_SUPABASE_*` (2)                 | Supabase   | Lire les actualités et les avis               |
+| `REACT_APP_SITE_URL`                       | —          | URL publique du site, pour l'image de partage |
 
 Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y mettre que des clés publiques. Sans `.env`, le site fonctionne sans actualités, sans avis et sans envoi de formulaire.
 
@@ -108,7 +112,8 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
 
 - `public/_redirects` renvoie toutes les URL vers `index.html` (format Netlify) : le routage se fait côté navigateur, et les adresses inconnues affichent la page 404 du site.
 - Les variables de `.env` doivent aussi être définies chez l'hébergeur, puisqu'elles sont lues au moment du build.
-- Pour que l'aperçu des liens partagés (`og:image`, `public/og-image.jpg`) fonctionne sur les réseaux sociaux, renseigner l'URL du site dans le champ `"homepage"` de `package.json` (par exemple `"homepage": "https://mon-domaine.fr"`) : les réseaux exigent une adresse absolue.
+- Pour que l'aperçu des liens partagés (`og:image`, `public/og-image.jpg`) fonctionne sur les réseaux sociaux, définir `REACT_APP_SITE_URL` (par exemple `https://mon-domaine.fr`) chez l'hébergeur : les réseaux exigent une adresse absolue, `vite.config.js` l'insère dans `index.html` au build.
+- Commande de build `npm run build`, dossier publié `build/` (inchangés depuis Create React App).
 
 ---
 
