@@ -6,7 +6,7 @@ test('Header links should navigate to correct pages', async ({ page }) => {
 
     const links = [
         { text: 'Accueil', url: '/' },
-        { text: 'Shop', url: '/project' },
+        { text: 'Le salon', url: '/project' },
         { text: 'Tattoo', url: '/tattoo' },
         { text: 'Makeup', url: '/makeup' },
         { text: 'Contact', url: '/contact' },

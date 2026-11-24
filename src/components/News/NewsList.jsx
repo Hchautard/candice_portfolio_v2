@@ -3,7 +3,7 @@ import { useData } from "../../contexts/DataContext";
 import NewsCard from "./NewsCard";
 import "../../styles/NewsList.css";
 
-export default function NewsList() {
+export default function NewsList({ skip = 0 }) {
     const { news, loading, error } = useData();
     const [currentPage, setCurrentPage] = useState(0);
 
@@ -13,9 +13,11 @@ export default function NewsList() {
     if (error) return <div className="news-status">Les actualités sont indisponibles pour le moment.</div>;
     if (news.length === 0) return null;
 
-    const allNews = [...news].sort(
-        (a, b) => new Date(b.date_event) - new Date(a.date_event)
-    );
+    const allNews = [...news]
+        .sort((a, b) => new Date(b.date_event) - new Date(a.date_event))
+        .slice(skip);
+
+    if (allNews.length === 0) return null;
 
     const totalPages = Math.ceil(allNews.length / ITEMS_PER_PAGE);
     const startIndex = currentPage * ITEMS_PER_PAGE;
@@ -33,7 +35,7 @@ export default function NewsList() {
         <div className="news-list-section">
             <div className="news-list-header">
                 <h2 className="news-list-section-title">
-                    &#124; Toutes les actualités
+                    &#124; {skip > 0 ? 'Actualités précédentes' : 'Toutes les actualités'}
                 </h2>
                 {totalPages > 1 && (
                 <div className="news-list-nav">

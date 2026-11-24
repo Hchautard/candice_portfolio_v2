@@ -6,7 +6,7 @@ import '../styles/Header.css';
 
 const LINKS = [
     { to: '/', label: 'Accueil', end: true },
-    { to: '/project', label: 'Shop' },
+    { to: '/project', label: 'Le salon' },
     { to: '/tattoo', label: 'Tattoo' },
     { to: '/makeup', label: 'Makeup' },
     { to: '/contact', label: 'Contact' },

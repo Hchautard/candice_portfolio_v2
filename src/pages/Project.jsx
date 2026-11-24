@@ -10,7 +10,7 @@ import NewsList from "../components/News/NewsList";
 
 function Project() {
 
-    DocumentTitleSetter("Shop");
+    DocumentTitleSetter("Le salon");
 
     return (
         <div className="project-page">
@@ -47,7 +47,8 @@ function Project() {
 
             <div className="project-news-wrapper">
                 <NewsGrid/>
-                <NewsList/>
+                {/* Les 3 plus récentes sont dans la grille : la liste ne montre que les précédentes */}
+                <NewsList skip={3}/>
             </div>
         </div>
     );
