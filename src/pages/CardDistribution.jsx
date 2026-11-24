@@ -2,9 +2,12 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import '../styles/CardDistribution.css';
 
-// Espace entre deux cartes (la taille des cartes, elle, est mesurée : elle change selon l'écran)
+// Espace entre deux cartes (la taille des cartes, elle, est mesurée : elle change selon l'écran).
+// Sous 640 px, deux colonnes serrées : une seule colonne faisait ~18 000 px de défilement.
 const GAP_X = 60;
 const GAP_Y = 36;
+const GAP_NARROW = 16;
+const NARROW_WIDTH = 640;
 const MAX_PER_ROW = 4;
 
 const prefersReducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -42,11 +45,13 @@ const CardDistribution = ({ cards = [] }) => {
 
     const cardWidth = firstCard.offsetWidth;
     const cardHeight = firstCard.offsetHeight;
-    const spacingX = cardWidth + GAP_X;
-    const spacingY = cardHeight + GAP_Y;
+    const narrow = containerWidth < NARROW_WIDTH;
+    const spacingX = cardWidth + (narrow ? GAP_NARROW : GAP_X);
+    const spacingY = cardHeight + (narrow ? GAP_NARROW : GAP_Y);
 
     // n cartes occupent (n - 1) espacements + une largeur de carte : aucune ne dépasse du conteneur
-    const perRow = Math.min(MAX_PER_ROW, Math.max(1, Math.floor((containerWidth - cardWidth) / spacingX) + 1));
+    // + 0.5 px de tolérance : les largeurs mesurées sont arrondies au pixel
+    const perRow = Math.min(MAX_PER_ROW, Math.max(1, Math.floor((containerWidth - cardWidth + 0.5) / spacingX) + 1));
     const rowWidth = (perRow - 1) * spacingX + cardWidth;
     const offsetX = Math.max(0, (containerWidth - rowWidth) / 2);
 
@@ -127,7 +132,7 @@ const CardDistribution = ({ cards = [] }) => {
                 key={card.id || i}
                 ref={(el) => (cardsRef.current[i] = el)}
                 className="absolute rounded-lg shadow-lg cursor-pointer perspective-500 transform-style-preserve-3d
-                     w-64 h-80 md:w-80 md:h-96"
+                     w-[calc(50%-10px)] aspect-[4/5] sm:w-56 sm:h-[17.5rem] sm:aspect-auto lg:w-64 lg:h-80 xl:w-80 xl:h-96"
                 onClick={() => flipCard(i)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {

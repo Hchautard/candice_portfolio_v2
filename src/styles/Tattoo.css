@@ -260,3 +260,54 @@
         gap: var(--large);
     }
 }
+
+/* ── Introduction du catalogue ── */
+.tattoo-intro {
+    max-width: 40rem;
+    margin: 3.5rem auto 1rem;
+    padding: 0 1rem;
+    text-align: center;
+    color: var(--primary);
+
+    h1 {
+        font-family: "Alice_Wonderland_2", serif;
+        font-size: var(--xxlarge);
+        line-height: 1.1;
+        margin: 0 0 1rem;
+        text-wrap: balance;
+    }
+
+    p {
+        text-align: center;
+        line-height: 1.55;
+        margin: 0 0 0.5rem;
+        color: var(--primary);
+        text-wrap: pretty;
+    }
+
+    a {
+        color: var(--primary);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-color: var(--accent-light);
+
+        &:hover {
+            color: var(--accent-light);
+        }
+
+        &:focus-visible {
+            outline-color: var(--primary);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .tattoo-intro {
+        margin: 1.5rem auto 0.5rem;
+        padding: 0;
+
+        h1 {
+            font-size: var(--xlarge);
+        }
+    }
+}

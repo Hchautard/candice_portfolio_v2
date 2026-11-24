@@ -20,17 +20,25 @@
 .odd-face {
   background: rgba(10, 5, 5, 0.85);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 .odd-face-content {
+  /* Taille suivant la largeur de la carte (134 à 320 px) : « Disponible ! » tient sur une ligne */
   font-size: var(--xlarge);
   color: var(--accent-light);
   font-family: 'Alice_Wonderland_2';
   font-weight: bold;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   text-align: center;
+  text-wrap: balance;
   padding: 1rem;
+}
+
+@media (max-width: 1279px) {
+  .odd-face-content {
+    font-size: clamp(1.25rem, 6vw, 2rem);
+  }
 }
 
 @media (max-width: 768px) {
@@ -38,7 +46,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 2rem;
+    /* Marge réduite : deux colonnes de cartes tiennent sur un téléphone */
+    padding: 0.5rem 0;
     width: 100%;
     flex-wrap: wrap;
   }

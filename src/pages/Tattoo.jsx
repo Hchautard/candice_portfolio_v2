@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import DocumentTitleSetter from "../utils/title-setter.ts";
 import { CATEGORIES, IMAGE_CATEGORY_MAP } from "../data/tattooCategories";
 import { DONE_IMAGE_MAP, REALISATIONS } from "../data/tattooDone";
+import { INSTAGRAM } from "../data/social";
 
 // Images optimisées en WebP via `npm run optimize:media`.
 // import.meta.glob (Vite) liste les fichiers au build : chemin → URL de l'image
@@ -70,7 +71,6 @@ function Tattoo() {
 
     return (
         <div className="Tattoo">
-            <h1 className="sr-only">Portfolio Tattoo — L&apos;Anomalie</h1>
             <div className="container-tattoo">
                 <aside className="tattoo-sidebar">
                     <div className="sidebar-inner">
@@ -91,6 +91,19 @@ function Tattoo() {
                     </div>
                 </aside>
                 <div className="tattoo-content">
+                    <header className="tattoo-intro">
+                        <h1>Mes flashs</h1>
+                        <p>
+                            À adopter tels quels ou à adapter à votre morphologie. Touchez une carte pour la retourner.
+                        </p>
+                        <p>
+                            Un flash vous plaît ?{' '}
+                            <a href={INSTAGRAM.dmUrl} target="_blank" rel="noopener noreferrer">
+                                Écrivez-moi sur Instagram<span className="sr-only"> (nouvel onglet)</span>
+                            </a>
+                            {' '}en me donnant son nom.
+                        </p>
+                    </header>
                     <CardDistribution key={activeCategory} cards={filteredImages} />
 
                     <section className="realisations" aria-labelledby="realisations-title">
