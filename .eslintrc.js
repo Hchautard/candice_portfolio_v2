@@ -12,6 +12,11 @@ module.exports = {
     "sourceType": "module",
   },
 
+  // Version de React lue dans package.json (sinon avertissement à chaque lint)
+  settings: {
+    react: { version: "detect" },
+  },
+
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",

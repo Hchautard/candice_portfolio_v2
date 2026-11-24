@@ -7,7 +7,7 @@ import Spinner from './components/Spinner';
 import RouteError from './components/RouteError';
 import { createBrowserRouter, RouterProvider, Outlet, ScrollRestoration } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
-import { MotionConfig } from 'framer-motion';
+import { MotionConfig } from 'motion/react';
 import reportWebVitals from './reportWebVitals';
 
 // Chaque page charge son propre chunk : le bundle initial reste léger
