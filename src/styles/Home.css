@@ -170,7 +170,7 @@
     }
 
     .Home p {
-        text-align: justify;
+        text-align: left;
         font-size: var(--medium);
         line-height: 1.7;
     }

@@ -43,6 +43,18 @@ p {
   padding-top: calc(5vh + 20px);
 }
 
+/* Mobile : le bouton du menu (fixe, 20 px + 45 px) ne doit pas couvrir le haut des pages */
+@media (max-width: 768px) {
+  .Home,
+  .Tattoo,
+  .project-page,
+  .Contact,
+  .makeup-container,
+  .news-detail {
+    padding-top: max(calc(5vh + 20px), 80px);
+  }
+}
+
 .project-page {
   padding-bottom: calc(5vh + 20px);
 }

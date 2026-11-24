@@ -296,7 +296,7 @@ function ContactForm() {
                 {/* Intro Part */}
                 <div className="glass-card text-intro">
                     <h2 className="tracking-tight font-extrabold text-center md:text-left">
-                        Un projet ? Un flash ? Contactez-moi !
+                        Un projet&nbsp;? Un flash&nbsp;? Contactez-moi&nbsp;!
                     </h2>
                     <p className="mb-4 md:mb-8 text-left">
                         Vous avez une idée de tatouage ? <br/> Besoin d&apos;informations sur mes disponibilités ? <br/>

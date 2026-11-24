@@ -97,7 +97,7 @@ function Tattoo() {
                             À adopter tels quels ou à adapter à votre morphologie. Touchez une carte pour la retourner.
                         </p>
                         <p>
-                            Un flash vous plaît ?{' '}
+                            Un flash vous plaît&nbsp;?{' '}
                             <a href={INSTAGRAM.dmUrl} target="_blank" rel="noopener noreferrer">
                                 Écrivez-moi sur Instagram<span className="sr-only"> (nouvel onglet)</span>
                             </a>
