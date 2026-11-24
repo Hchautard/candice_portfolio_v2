@@ -1,6 +1,6 @@
 # L'Anomalie — Portfolio de Tatoueuse
 
-Portfolio de Candice, tatoueuse indépendante basée à Saint-Rémy-de-Provence, spécialisée dans les styles **cyber-sigilism**, **gothique** et **dark fantasy**.
+Portfolio de Candice, tatoueuse indépendante basée à Montpellier, spécialisée dans les styles **cyber-sigilism**, **gothique** et **dark fantasy**.
 
 Construit avec **React**, **Three.js**, **Motion** et **Supabase**.
 
