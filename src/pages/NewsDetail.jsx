@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import { useData } from '../contexts/DataContext';
 import DocumentTitleSetter from '../utils/title-setter.ts';
+import { formatDate } from '../utils/dates';
 import creation from '../assets/images/news/creation.webp';
 import illustration from '../assets/images/news/illustration.webp';
 import event from '../assets/images/news/event.webp';
@@ -34,9 +35,7 @@ export default function NewsDetail() {
     if (!item) return null;
 
     const coverImage = CATEGORY_IMAGES[item.category] || creation;
-    const formattedDate = item.date_event
-        ? new Date(item.date_event).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-        : '';
+    const formattedDate = formatDate(item.date_event, { day: 'numeric', month: 'long', year: 'numeric' });
 
     return (
         <motion.article

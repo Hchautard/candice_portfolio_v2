@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useData } from "../../contexts/DataContext";
 import NewsCard from "./NewsCard";
+import { formatDate } from "../../utils/dates";
 import "../../styles/NewsList.css";
 
 export default function NewsList({ skip = 0 }) {
@@ -13,9 +14,8 @@ export default function NewsList({ skip = 0 }) {
     if (error) return <div className="news-status">Les actualités sont indisponibles pour le moment.</div>;
     if (news.length === 0) return null;
 
-    const allNews = [...news]
-        .sort((a, b) => new Date(b.date_event) - new Date(a.date_event))
-        .slice(skip);
+    // Déjà triées de la plus récente à la plus ancienne (services/database/news.js)
+    const allNews = news.slice(skip);
 
     if (allNews.length === 0) return null;
 
@@ -64,7 +64,7 @@ export default function NewsList({ skip = 0 }) {
                             id={item.id}
                             title={item.title}
                             description={item.description}
-                            date={item.date_event ? new Date(item.date_event).toLocaleDateString('fr-FR') : ''}
+                            date={formatDate(item.date_event)}
                             category={item.category}
                         />
                     </div>
