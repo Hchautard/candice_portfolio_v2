@@ -5,6 +5,7 @@ import './index.css';
 import Header from './components/Header';
 import Spinner from './components/Spinner';
 import RouteError from './components/RouteError';
+import SiteFooter from './components/SiteFooter';
 import { createBrowserRouter, RouterProvider, Outlet, ScrollRestoration } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
 import { MotionConfig } from 'motion/react';
@@ -27,6 +28,7 @@ function Layout() {
         <Suspense fallback={<Spinner fullScreen />}>
           <Outlet />
         </Suspense>
+        <SiteFooter />
       </>
   );
 }

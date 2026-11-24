@@ -6,6 +6,8 @@ import NewsSection from "../components/NewsSection";
 import ReviewsSection from "../components/ReviewsSection";
 import ErrorBoundary from "../components/ErrorBoundary";
 import DocumentTitleSetter from "../utils/title-setter.ts";
+import InstagramIcon from "../components/InstagramIcon";
+import { INSTAGRAM } from "../data/social";
 
 // three.js ne charge que sur desktop, dans son propre chunk, après le premier rendu
 const TattooMachine3D = lazy(() => import("../components/TattooMachine3D"));
@@ -40,14 +42,20 @@ function Home() {
                   Mon style est organique et instinctif, je travaille aussi en freehand afin d&apos;adapter chaque tatouage au maximum à votre morphologie et à votre univers.
                 </p>
 
-                <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold sm:grid-cols-2 md:flex lg:gap-x-8 mt-8 cta-buttons">
-                  <Link to="/project" className="button rounded">Le shop</Link>
-                  <Link to="/tattoo" className="button rounded">Tattoo</Link>
-                  <Link to="/makeup" className="button rounded">Makeup</Link>
-                  <div className="flex flex-col justify-center items-center">
-                    <Link to="/contact" className="button-light rounded">Contact<span aria-hidden="true">&rarr;</span></Link>
-                  </div>
+                {/* Instagram d'abord (objectif du site), le formulaire ensuite ; les pages restent dans le menu */}
+                <div className="cta-buttons">
+                  <a className="button rounded" href={INSTAGRAM.dmUrl} target="_blank" rel="noopener noreferrer">
+                    <InstagramIcon size={22} />
+                    M&apos;écrire sur Instagram
+                    <span className="sr-only"> (nouvel onglet)</span>
+                  </a>
+                  <Link to="/contact" className="button-light rounded">
+                    Formulaire de demande<span aria-hidden="true">&rarr;</span>
+                  </Link>
                 </div>
+                <p className="hero-explore">
+                  Découvrir <Link to="/tattoo">les flashs</Link>, <Link to="/makeup">le makeup</Link> ou <Link to="/project">le futur salon</Link>.
+                </p>
               </div>
 
               { !isMobile && (

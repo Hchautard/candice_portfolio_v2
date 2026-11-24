@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import InstagramIcon from './InstagramIcon';
+import { INSTAGRAM } from '../data/social';
 import '../styles/Header.css';
 
 const LINKS = [
@@ -123,6 +125,18 @@ export default function Header() {
                             {label}
                         </NavLink>
                     ))}
+                    {/* Instagram, canal principal : pictogramme sur bureau, pictogramme + pseudo dans le menu mobile */}
+                    <a
+                        className="header-instagram"
+                        href={INSTAGRAM.profileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={closeMenu}
+                    >
+                        <InstagramIcon size={20} />
+                        <span className="header-instagram-label">{INSTAGRAM.handle}</span>
+                        <span className="sr-only"> sur Instagram (nouvel onglet)</span>
+                    </a>
                 </div>
             </nav>
 
