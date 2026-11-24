@@ -64,6 +64,7 @@ L'app tourne sur **http://localhost:3000** par défaut.
 | `npm run build`   | Build le site dans `./build/`                  |
 | `npm run preview` | Sert le build en local sur `localhost:4173`    |
 | `npm test`        | Lance les tests E2E Playwright                 |
+| `npm run test:build` | Teste le site construit (politique de sécurité) |
 | `npm run lint`    | Analyse le code avec ESLint                    |
 | `npm run optimize:media` | Convertit les nouvelles images en WebP optimisé |
 | `npm run optimize:3d` | Régénère le modèle 3D et son éclairage allégés |
@@ -96,6 +97,7 @@ Le modèle est sous licence CC BY 4.0 : le crédit de son auteur, dans le pied d
 npx playwright install   # À faire une seule fois
 npx playwright test      # Lance tous les tests
 npx playwright test --ui # Mode interactif
+npm run test:build       # Site construit, avec la politique de sécurité de public/_headers
 ```
 
 Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise celui déjà lancé sur le port 3000. Les tests ne dépendent pas de Supabase : sans `.env`, le site s'affiche simplement sans actualités ni avis (c'est le cas en CI).
@@ -120,7 +122,7 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
 ## Mise en ligne
 
 - `public/_redirects` renvoie toutes les URL vers `index.html` (format Netlify) : le routage se fait côté navigateur, et les adresses inconnues affichent la page 404 du site.
-- `public/_headers` (même format) ajoute les en-têtes de sécurité et met en cache pour un an les fichiers de `build/assets/`, dont le nom change à chaque modification.
+- `public/_headers` (même format) ajoute les en-têtes de sécurité et met en cache pour un an les fichiers de `build/assets/`, dont le nom change à chaque modification. Sa politique de sécurité (CSP) liste les seuls services externes permis (Supabase, EmailJS, Cloudinary) : pour en ajouter un (police en ligne, vidéo YouTube, statistiques…), y ajouter son adresse, sinon le navigateur le bloque. `npm run test:build` vérifie chaque page du build avec cette politique, en CI aussi.
 - Les variables de `.env` doivent aussi être définies chez l'hébergeur, puisqu'elles sont lues au moment du build.
 - Pour que l'aperçu des liens partagés (`og:image`, `public/og-image.jpg`) fonctionne sur les réseaux sociaux, définir `REACT_APP_SITE_URL` (par exemple `https://mon-domaine.fr`) chez l'hébergeur : les réseaux exigent une adresse absolue, `vite.config.js` l'insère dans `index.html` au build.
 - Commande de build `npm run build`, dossier publié `build/` (inchangés depuis Create React App).

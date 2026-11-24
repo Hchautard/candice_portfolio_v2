@@ -25,6 +25,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "playwright test",
+    "test:build": "playwright test -c playwright.build.config.ts",
     "lint": "eslint src/ --ext .js,.jsx",
     "optimize:media": "node scripts/optimize-media.mjs",
     "optimize:3d": "node scripts/optimize-3d.mjs"

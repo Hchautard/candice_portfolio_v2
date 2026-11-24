@@ -1,9 +1,12 @@
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+// Version « unstyled » + feuille du paquet : sinon react-toastify injecte une balise <style>,
+// que la CSP (public/_headers) bloque. Importée avant ContactForm.css, qui peut la surcharger.
+import 'react-toastify/ReactToastify.css';
 import '../styles/ContactForm.css';
 import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
 import * as z from 'zod';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify/unstyled';
 import { contactFormDefaultSchema } from "./ContactFormDefaultSchema";
 import { contactFormTattooSchema } from "./ContactFormTattooSchema";
 

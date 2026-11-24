@@ -10,6 +10,8 @@
 
 # production
 /build
+# build des tests de la CSP (playwright.build.config.ts)
+/build-test
 
 # misc
 .DS_Store

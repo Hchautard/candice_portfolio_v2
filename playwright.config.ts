@@ -7,6 +7,8 @@ const PORT = 3000;
  */
 export default defineConfig({
   testDir: './tests',
+  /* Tests du site construit : npm run test:build (playwright.build.config.ts) */
+  testIgnore: '**/build/**',
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
