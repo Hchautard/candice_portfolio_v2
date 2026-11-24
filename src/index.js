@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Header from './components/Header';
 import Spinner from './components/Spinner';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet, ScrollRestoration } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
 import { MotionConfig } from 'framer-motion';
 import reportWebVitals from './reportWebVitals';
@@ -21,6 +21,8 @@ function Layout() {
   return (
       <>
         <Header />
+        {/* Nouvelle page : en haut. Retour arrière : position précédente restaurée. */}
+        <ScrollRestoration />
         <Suspense fallback={<Spinner fullScreen />}>
           <Outlet />
         </Suspense>
