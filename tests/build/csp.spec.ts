@@ -1,26 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
-import { readFileSync } from 'node:fs';
 
 // Politique de sécurité (CSP) de public/_headers, sur le site construit (playwright.build.config.ts).
-// `vite preview` ne lit pas _headers : chaque page reçoit ici les en-têtes que l'hébergeur lui
-// enverra. Le navigateur bloque alors tout ce que la politique ne permet pas, et le signale.
-
-type Rule = { pattern: RegExp; headers: Record<string, string> };
-
-// Format Netlify : une adresse (/* , /assets/*) en début de ligne, puis ses en-têtes indentés
-const RULES = readFileSync('public/_headers', 'utf8').split(/\r?\n/).reduce<Rule[]>((rules, line) => {
-    if (!line.trim() || line.trim().startsWith('#')) return rules;
-    if (!/^\s/.test(line)) {
-        const glob = line.trim().replace(/[.+?^${}()|[\]\\]/g, '\\$&').replaceAll('*', '.*');
-        return [...rules, { pattern: new RegExp(`^${glob}$`), headers: {} }];
-    }
-    const [name, ...value] = line.trim().split(':');
-    rules.at(-1)!.headers[name.trim().toLowerCase()] = value.join(':').trim();
-    return rules;
-}, []);
-
-const headersFor = (pathname: string) =>
-    Object.assign({}, ...RULES.filter((rule) => rule.pattern.test(pathname)).map((rule) => rule.headers));
+// Le build est servi avec les en-têtes de _headers (scripts/preview-headers.mjs), comme chez
+// l'hébergeur : le navigateur bloque tout ce que la politique ne permet pas, et le signale.
 
 const NEWS = [
     { id: 1, title: 'Convention de Montpellier', description: 'Trois jours de flash day.', content: '## Programme\n\nDes flashs **à prix doux**.', category: 'Événement', location: 'Montpellier', date_event: '2026-10-12', created_at: '2026-09-01T10:00:00Z' },
@@ -33,15 +15,8 @@ const REVIEWS = [
 // PNG de 1 × 1 px
 const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=', 'base64');
 
-/** Sert la page avec les en-têtes de _headers, simule les services externes et relève les blocages. */
-async function publish(page: Page, siteOrigin: string) {
-    await page.route((url) => url.origin === siteOrigin, async (route) => {
-        if (route.request().resourceType() !== 'document') return route.fallback();
-        const response = await route.fetch();
-        const { pathname } = new URL(route.request().url());
-        await route.fulfill({ response, headers: { ...response.headers(), ...headersFor(pathname) } });
-    });
-
+/** Simule les services externes et relève tout ce que la politique bloque. */
+async function watchPolicy(page: Page) {
     // Adresses factices de playwright.build.config.ts. Une requête refusée par la CSP n'arrive jamais ici.
     await page.route(/^https:\/\/csp-test\.supabase\.co\/rest\/v1\/(news|reviews)/, (route) =>
         route.fulfill({ json: route.request().url().includes('/news') ? NEWS : REVIEWS }));
@@ -89,14 +64,15 @@ const PAGES: [string, RegExp][] = [
 
 test.describe('content security policy', () => {
     for (const [path, heading] of PAGES) {
-        test(`${path} loads without anything blocked`, async ({ page, baseURL }) => {
+        test(`${path} loads without anything blocked`, async ({ page }) => {
             const errors: string[] = [];
             page.on('pageerror', (error) => errors.push(error.message));
-            const blocked = await publish(page, new URL(baseURL!).origin);
+            const blocked = await watchPolicy(page);
 
             const response = await page.goto(path);
-            // Garde-fou : la page a bien reçu la politique
+            // Garde-fou : la page a bien reçu la politique (et les autres en-têtes de _headers)
             expect(response!.headers()['content-security-policy']).toContain("default-src 'self'");
+            expect(response!.headers()['x-frame-options']).toBe('DENY');
             await expect(page.getByRole('heading', { level: 1 })).toContainText(heading);
             await page.waitForLoadState('networkidle');
             await scrollThrough(page);
@@ -106,8 +82,8 @@ test.describe('content security policy', () => {
         });
     }
 
-    test('news and reviews come from Supabase', async ({ page, baseURL }) => {
-        const blocked = await publish(page, new URL(baseURL!).origin);
+    test('news and reviews come from Supabase', async ({ page }) => {
+        const blocked = await watchPolicy(page);
         await page.goto('/');
 
         await expect(page.locator('.news-section').getByRole('heading', { name: 'Convention de Montpellier' })).toBeVisible();
@@ -115,8 +91,8 @@ test.describe('content security policy', () => {
         expect(await blocked()).toEqual([]);
     });
 
-    test('the 3D model is decoded (Draco worker and WebAssembly)', async ({ page, baseURL }) => {
-        const blocked = await publish(page, new URL(baseURL!).origin);
+    test('the 3D model is decoded (Draco worker and WebAssembly)', async ({ page }) => {
+        const blocked = await watchPolicy(page);
         // Le décodeur Draco répond { type: 'decode' } une fois la géométrie décodée. Bloqué (worker
         // ou WebAssembly), il se tait : le modèle ne s'affiche jamais.
         await page.addInitScript(() => {
@@ -144,8 +120,8 @@ test.describe('content security policy', () => {
         expect(await blocked()).toEqual([]);
     });
 
-    test('a tattoo request with an image goes through Cloudinary and EmailJS', async ({ page, baseURL }) => {
-        const blocked = await publish(page, new URL(baseURL!).origin);
+    test('a tattoo request with an image goes through Cloudinary and EmailJS', async ({ page }) => {
+        const blocked = await watchPolicy(page);
         await page.goto('/contact');
         await page.getByRole('button', { name: 'Projet tatouage' }).click();
 

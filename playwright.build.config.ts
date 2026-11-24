@@ -24,13 +24,15 @@ export default defineConfig({
   outputDir: 'test-results/build',
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
+  // Deux navigateurs à la fois (comme en CI) : à six, le modèle 3D en rendu logiciel saturait la machine
+  workers: 2,
   expect: { timeout: 15_000 },
   // Rapport rangé à côté de celui des tests principaux : la CI publie tout playwright-report/
   reporter: process.env.CI
     ? [['github'], ['html', { open: 'never', outputFolder: 'playwright-report/build' }]]
     : [['list'], ['html', { open: 'never', outputFolder: 'playwright-report/build' }]],
   use: {
-    baseURL: `http://localhost:${PORT}`,
+    baseURL: `http://127.0.0.1:${PORT}`,
     trace: 'on-first-retry',
   },
 
@@ -51,10 +53,11 @@ export default defineConfig({
   ],
 
   // Build neuf à chaque lancement (quelques secondes), dans build-test/ : build/ garde les vraies clés.
-  // Jamais de serveur réutilisé, il pourrait servir un ancien build.
+  // Servi avec les en-têtes de _headers, comme chez l'hébergeur. Jamais de serveur réutilisé,
+  // il pourrait servir un ancien build.
   webServer: {
-    command: `npx vite build --outDir build-test && npx vite preview --outDir build-test --port ${PORT} --strictPort`,
-    url: `http://localhost:${PORT}`,
+    command: `npx vite build --outDir build-test && node scripts/preview-headers.mjs build-test ${PORT}`,
+    url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: false,
     timeout: 120_000,
   },
