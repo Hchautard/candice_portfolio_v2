@@ -10,7 +10,9 @@ import NewsList from "../components/News/NewsList";
 
 function Project() {
 
-    DocumentTitleSetter("Le salon");
+    DocumentTitleSetter("Le salon", {
+        description: "L'Anomalie, le futur salon hybride de Candice à Montpellier : tatouage, café de spécialité et boutique de créateurs et d'artistes locaux.",
+    });
 
     return (
         <div className="project-page">

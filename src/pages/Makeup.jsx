@@ -37,7 +37,9 @@ function formatImagesForSlider() {
 }
 
 function Makeup() {
-  DocumentTitleSetter("Makeup");
+  DocumentTitleSetter("Makeup", {
+    description: "Maquillage artistique par Candice à Montpellier : looks fantastiques, effets spéciaux (zombie, hématome, clown), glam et défilés.",
+  });
 
   // import.meta.glob en mode eager est synchrone : la liste est prête dès le premier rendu,
   // les miniatures + LazyImage gèrent le chargement progressif des visuels
