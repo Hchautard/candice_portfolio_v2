@@ -5,10 +5,14 @@ import DocumentTitleSetter from "../utils/title-setter.ts";
 // Looks dans l'ordre d'affichage (file = nom du fichier dans assets/images/makeup, sans extension)
 import MAKEUP_LOOKS from '../data/makeupLooks.json';
 
-// Images optimisées en WebP via `npm run optimize:media` ; miniatures floues de 20 px en JPG.
+import { sizeOf, srcSetBuilder } from '../utils/responsive-images';
+
+// Images optimisées en WebP via `npm run optimize:media`, avec leurs versions réduites (w640/…) ;
+// miniatures floues de 20 px en JPG.
 // import.meta.glob (Vite) liste les fichiers au build : chemin → URL de l'image
 const images = import.meta.glob('../assets/images/makeup/*.webp', { eager: true, import: 'default' });
 const thumbnails = import.meta.glob('../assets/images/makeup/thumbnails/*-small.{jpg,jpeg,JPG,JPEG}', { eager: true, import: 'default' });
+const srcSetOf = srcSetBuilder(import.meta.glob('../assets/images/makeup/w*/*.webp', { eager: true, import: 'default' }));
 
 // Clé commune = nom du fichier sans extension ni suffixe "-small", insensible à la casse
 const baseName = (path) => path.split('/').pop().replace(/(-small)?\.[a-z]+$/i, '').toLowerCase();
@@ -21,14 +25,19 @@ function indexByName(modules) {
 function formatImagesForSlider() {
   const full = indexByName(images);
   const small = indexByName(thumbnails);
+  const paths = Object.fromEntries(Object.keys(images).map((path) => [baseName(path), path]));
 
   return MAKEUP_LOOKS
       .filter(({ file }) => full[file.toLowerCase()])
       .map(({ file, title, description }, index) => {
         const key = file.toLowerCase();
+        const [width, height] = sizeOf(paths[key]) ?? [];
         return {
           id: index + 1,
           imageSrc: full[key],
+          imageSrcSet: srcSetOf(paths[key], full[key]),
+          // Proportions : la cellule recadre la photo (cover), sa largeur affichée en dépend
+          aspectRatio: width && height ? width / height : undefined,
           imageSrcSmall: small[key] || full[key],
           title,
           description

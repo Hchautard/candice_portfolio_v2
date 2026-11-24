@@ -75,6 +75,8 @@ npm run optimize:media
 
 Chaque image est redimensionnée et remplacée par un `.webp` (quelques centaines de Ko au lieu de plusieurs Mo). L'original haute définition est rangé dans `media-originals/`, ignoré par git. Pour un nouveau fond de page utilisé en CSS, l'ajouter à la liste `only` dans `scripts/optimize-media.mjs`.
 
+Pour les flashs, les réalisations et le makeup, la commande prépare aussi des versions réduites (sous-dossiers `w400/`, `w560/`, `w640/`…) et note la taille de chaque photo dans `src/assets/images/sizes.json`. Le site les propose au navigateur (`srcset`), qui télécharge la plus légère restant nette : sur la page Tattoo, de 20 % (Mac Retina) à 60 % (écran d'ordinateur standard) d'images en moins. Ces dossiers et ce fichier sont à committer avec les photos.
+
 Pour une nouvelle vidéo (720p, ~1 Mb/s, lecture progressive) :
 
 ```sh
