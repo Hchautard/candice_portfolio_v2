@@ -6,7 +6,8 @@ on:
     branches: [ main, master ]
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    # Même runner que les tests Playwright (voir playwright.yml)
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4

@@ -6,8 +6,15 @@ on:
     branches: [ main, master ]
 jobs:
   test:
-    timeout-minutes: 30
-    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    # Image officielle Playwright (Ubuntu 24.04) : les trois navigateurs et leurs dépendances système
+    # y sont déjà. `npx playwright install --with-deps` téléchargeait ~180 paquets apt à chaque run,
+    # et un miroir lent faisait dépasser la limite de 30 min avant le premier test.
+    # Le tag doit suivre la version de @playwright/test dans package-lock.json (1.58.2).
+    container:
+      image: mcr.microsoft.com/playwright:v1.58.2-noble
+      options: --user 1001
     steps:
     - uses: actions/checkout@v5
     - uses: actions/setup-node@v4
@@ -16,8 +23,6 @@ jobs:
         cache: npm
     - name: Install dependencies
       run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
     # Le serveur de dev est lancé par Playwright (webServer dans playwright.config.ts).
     # Sans secrets Supabase, le site s'affiche sans actualités ni avis : les tests n'en dépendent pas.
     - name: Run Playwright tests

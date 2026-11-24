@@ -37,3 +37,6 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# Originaux haute définition des médias (voir scripts/optimize-media.mjs)
+/media-originals/

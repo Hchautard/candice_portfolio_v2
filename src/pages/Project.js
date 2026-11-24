@@ -1,5 +1,6 @@
 import React from "react";
 import vid_project from "../assets/video/vid_project.mp4";
+import vid_project_poster from "../assets/video/vid_project_poster.webp";
 import Video from "../components/Video";
 import NewsGrid from "../components/News/NewsGrid";
 import '../styles/Project.css';
@@ -37,6 +38,7 @@ function Project() {
                 <div className="video-container">
                     <Video
                         src={vid_project}
+                        poster={vid_project_poster}
                     />
                 </div>
             </div>

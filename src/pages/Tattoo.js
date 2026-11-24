@@ -5,19 +5,20 @@ import DocumentTitleSetter from "../utils/title-setter.ts";
 import { CATEGORIES, IMAGE_CATEGORY_MAP } from "../data/tattooCategories";
 import { DONE_IMAGE_MAP, REALISATIONS } from "../data/tattooDone";
 
-const doneImages = require.context('../assets/images/tattoo/done', false, /\.png$/);
+// Images optimisées en WebP via `npm run optimize:media`
+const doneImages = require.context('../assets/images/tattoo/done', false, /\.webp$/);
 
 function getImages() {
-    const images = require.context('../assets/images/tattoo', false, /\.png$/);
+    const images = require.context('../assets/images/tattoo', false, /\.webp$/);
     return images.keys().map(key => ({
         src: images(key),
-        name: key.replace('./', '').replace('.png', '')
+        name: key.replace('./', '').replace('.webp', '')
     }));
 }
 
 function getDoneImage(name) {
     const doneName = DONE_IMAGE_MAP[name];
-    return doneName ? doneImages(`./${doneName}.png`) : undefined;
+    return doneName ? doneImages(`./${doneName}.webp`) : undefined;
 }
 
 function formatImageForCards(rawImages) {
@@ -86,7 +87,7 @@ function Tattoo() {
                             {REALISATIONS.map(({ file, alt }) => (
                                 <li key={file}>
                                     <img
-                                        src={doneImages(`./${file}.png`)}
+                                        src={doneImages(`./${file}.webp`)}
                                         alt={alt}
                                         width="1080"
                                         height="1350"

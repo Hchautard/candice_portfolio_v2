@@ -57,6 +57,23 @@ L'app tourne sur **http://localhost:3000** par défaut.
 | `npm run build`   | Build le site dans `./build/`                  |
 | `npm test`        | Lance les tests E2E Playwright                 |
 | `npm run lint`    | Analyse le code avec ESLint                    |
+| `npm run optimize:media` | Convertit les nouvelles images en WebP optimisé |
+
+### Ajouter des photos
+
+Déposer les PNG / JPG dans le dossier concerné (`src/assets/images/tattoo`, `tattoo/done`, `makeup`, `news`), puis :
+
+```sh
+npm run optimize:media
+```
+
+Chaque image est redimensionnée et remplacée par un `.webp` (quelques centaines de Ko au lieu de plusieurs Mo). L'original haute définition est rangé dans `media-originals/`, ignoré par git. Pour un nouveau fond de page utilisé en CSS, l'ajouter à la liste `only` dans `scripts/optimize-media.mjs`.
+
+Pour une nouvelle vidéo (720p, ~1 Mb/s, lecture progressive) :
+
+```sh
+ffmpeg -i source.mp4 -vf "scale=720:-2" -c:v libx264 -preset slow -crf 28 -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart src/assets/video/vid_project.mp4
+```
 
 ### Tests E2E (Playwright)
 
