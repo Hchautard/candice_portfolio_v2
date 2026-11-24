@@ -8,6 +8,12 @@ body {
   font-family: Coolvetica_Regular, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Sélection de texte aux couleurs du site (au lieu du bleu du navigateur) */
+::selection {
+  background: var(--accent);
+  color: var(--primary);
+}
+
 /* Keyboard focus baseline — dark-background contexts override the colour locally */
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -31,6 +37,8 @@ body {
 /* Paragraphs read left-aligned everywhere (App root centers text by default) */
 p {
   text-align: left;
+  /* Évite un mot seul sur la dernière ligne (navigateurs récents, sans effet ailleurs) */
+  text-wrap: pretty;
 }
 
 /* Offset for fixed header on all pages */
