@@ -25,6 +25,8 @@ L'app tourne sur **http://localhost:3000** par défaut.
 ├── index.html               # Page HTML (balises SEO / partage), point d'entrée de Vite
 ├── vite.config.js           # Build, port 3000, préfixe REACT_APP_ des variables
 ├── public/
+│   ├── draco/               # Décodeur Draco du modèle 3D (copie de three)
+│   ├── hdri/                # Éclairage du modèle 3D
 │   └── models/              # Modèles 3D (.glb)
 ├── src/
 │   ├── assets/
@@ -64,6 +66,7 @@ L'app tourne sur **http://localhost:3000** par défaut.
 | `npm test`        | Lance les tests E2E Playwright                 |
 | `npm run lint`    | Analyse le code avec ESLint                    |
 | `npm run optimize:media` | Convertit les nouvelles images en WebP optimisé |
+| `npm run optimize:3d` | Régénère le modèle 3D et son éclairage allégés |
 
 ### Ajouter des photos
 
@@ -80,6 +83,12 @@ Pour une nouvelle vidéo (720p, ~1 Mb/s, lecture progressive) :
 ```sh
 ffmpeg -i source.mp4 -vf "scale=720:-2" -c:v libx264 -preset slow -crf 28 -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart src/assets/video/vid_project.mp4
 ```
+
+### Modèle 3D de l'accueil
+
+Le modèle (`public/models/tattoo_machine/scene-v3.glb`), son éclairage (`public/hdri/`) et le décodeur Draco (`public/draco/`) sont servis par le site lui-même, sans CDN tiers. `npm run optimize:3d` les produit à partir des sources rangées dans `media-originals/` (voir l'en-tête de `scripts/optimize-3d.mjs`) : rendu identique à l'original, pour 1,9 Mo au lieu de 4,2 Mo.
+
+Le modèle est sous licence CC BY 4.0 : le crédit de son auteur, dans le pied de page, doit rester.
 
 ### Tests E2E (Playwright)
 

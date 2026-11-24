@@ -26,7 +26,8 @@
     "preview": "vite preview",
     "test": "playwright test",
     "lint": "eslint src/ --ext .js,.jsx",
-    "optimize:media": "node scripts/optimize-media.mjs"
+    "optimize:media": "node scripts/optimize-media.mjs",
+    "optimize:3d": "node scripts/optimize-3d.mjs"
   },
   "browserslist": {
     "production": [
@@ -41,10 +42,14 @@
     ]
   },
   "devDependencies": {
+    "@gltf-transform/core": "^4.5.1",
+    "@gltf-transform/extensions": "^4.5.1",
+    "@gltf-transform/functions": "^4.5.1",
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.2.3",
     "@vitejs/plugin-react": "^6.3.0",
     "autoprefixer": "^10.6.2",
+    "draco3dgltf": "^1.5.9",
     "eslint": "^8.57.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
