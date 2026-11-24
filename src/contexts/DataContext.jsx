@@ -29,7 +29,8 @@ export const DataProvider = ({ children }) => {
             }
         };
 
-        fetchData();
+        // Les erreurs sont traitées dans fetchData (état error) : rien à attendre ici
+        void fetchData();
     }, []);
 
     return (

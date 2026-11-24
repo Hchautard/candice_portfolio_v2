@@ -110,7 +110,7 @@ const CardDistribution = ({ cards = [] }) => {
     console.error(`Erreur de chargement pour l'image ${cardId}`);
   };
 
-  const cardItems = cards.length > 0 ? cards : [...Array(20)].map((_, i) => ({ id: i }));
+  const cardItems = cards.length > 0 ? cards : Array.from({ length: 20 }, (_, i) => ({ id: i }));
 
   return (
       <div

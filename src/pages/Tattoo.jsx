@@ -12,9 +12,15 @@ const doneImages = import.meta.glob('../assets/images/tattoo/done/*.webp', { eag
 
 const fileName = (path) => path.split('/').pop().replace(/\.webp$/, '');
 
+// Comparaison binaire des chemins : même ordre que l'ancien require.context de webpack
+// (localeCompare placerait « Cyber1 » avant « Cyber-etoile »)
+const byPath = (a, b) => {
+    if (a === b) return 0;
+    return a < b ? -1 : 1;
+};
+
 function getImages() {
-    // Ordre alphabétique, comme l'ancien require.context de webpack
-    return Object.keys(flashImages).sort().map(path => ({
+    return Object.keys(flashImages).sort(byPath).map(path => ({
         src: flashImages[path],
         name: fileName(path)
     }));
