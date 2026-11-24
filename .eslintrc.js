@@ -21,13 +21,11 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:jest/recommended",
   ],
 
   rules: {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react/no-unknown-property": "off",
-    "jest/no-done-callback": "off",
   },
 };

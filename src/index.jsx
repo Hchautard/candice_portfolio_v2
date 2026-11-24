@@ -8,7 +8,6 @@ import RouteError from './components/RouteError';
 import { createBrowserRouter, RouterProvider, Outlet, ScrollRestoration } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
 import { MotionConfig } from 'motion/react';
-import reportWebVitals from './reportWebVitals';
 
 // Chaque page charge son propre chunk : le bundle initial reste léger
 const Home = lazy(() => import('./pages/Home'));
@@ -86,4 +85,3 @@ root.render(
     </React.StrictMode>
 );
 
-reportWebVitals();

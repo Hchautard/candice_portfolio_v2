@@ -2,7 +2,7 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Candice, tatoueuse indépendante spécialisée en cyber-sigilism, gothique et dark fantasy. Découvrez mon portfolio tattoo et makeup artistique — L'Anomalie." />
@@ -13,9 +13,9 @@
     <meta property="og:description" content="Candice, tatoueuse indépendante spécialisée en cyber-sigilism, gothique et dark fantasy. Découvrez mon portfolio tattoo et makeup artistique." />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="L'Anomalie" />
-    <!-- Les réseaux attendent une URL absolue : renseigner "homepage" (URL du site) dans package.json
-         pour que %PUBLIC_URL% devienne https://… au build -->
-    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg" />
+    <!-- Les réseaux attendent une URL absolue : définir REACT_APP_SITE_URL (https://…) au build,
+         %SITE_URL% est remplacé par vite.config.js -->
+    <meta property="og:image" content="%SITE_URL%/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Trois tatouages de Candice et le logo L'Anomalie Tattoo studio" />
@@ -24,14 +24,15 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="L'Anomalie — Portfolio Tattoo & Makeup Artistique" />
     <meta name="twitter:description" content="Candice, tatoueuse indépendante spécialisée en cyber-sigilism, gothique et dark fantasy." />
-    <meta name="twitter:image" content="%PUBLIC_URL%/og-image.jpg" />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.jpg" />
 
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="manifest" href="/manifest.json" />
     <title>L'Anomalie</title>
   </head>
   <body>
     <noscript>Vous devez activer JavaScript pour utiliser cette application.</noscript>
     <div id="root"></div>
+    <script type="module" src="/src/index.jsx"></script>
   </body>
 </html>
