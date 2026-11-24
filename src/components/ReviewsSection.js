@@ -1,62 +1,68 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { useState, useEffect, useRef } from "react";
 import "../styles/Reviews.css";
 import { useData } from '../contexts/DataContext';
 import Spinner from './Spinner';
 
+// Copies de la liste mises bout à bout pour que le défilement en boucle ne laisse jamais de vide
+const COPIES = 4;
+const SPEED = 0.5; // px par frame
+
+const renderStars = (rating) => {
+    return Array.from({ length: 5 }, (_, i) => (
+        <span key={i} aria-hidden="true" className={`star ${i < rating ? 'filled' : ''}`}>
+            ★
+        </span>
+    ));
+};
+
 export default function ReviewsSection() {
     const { reviews, loading, error } = useData();
+    const reduceMotion = useReducedMotion();
+    const [isPausedByUser, setIsPausedByUser] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const wrapperRef = useRef(null);
+    const trackRef = useRef(null);
+    const positionRef = useRef(0);
 
-    const reviewsData = { reviews };
-    const reviewItems = reviewsData.reviews;
-    const [isPaused, setIsPaused] = useState(false);
-    const scrollRef = useRef(null);
-    const animationRef = useRef(null);
-    const scrollPositionRef = useRef(0);
+    // Mouvement réduit demandé : pas de défilement automatique, la rangée se fait défiler à la main
+    const autoScroll = !reduceMotion && reviews.length > 0;
+    const isRunning = autoScroll && isVisible && !isPausedByUser && !isHovered;
 
-    const renderStars = (rating) => {
-        return Array.from({ length: 5 }, (_, i) => (
-            <span key={i} aria-hidden="true" className={`star ${i < rating ? 'filled' : ''}`}>
-                ★
-            </span>
-        ));
-    };
+    // Pas d'animation tant que la section est hors écran
+    useEffect(() => {
+        const wrapper = wrapperRef.current;
+        if (!wrapper || !autoScroll) return;
 
-    const duplicatedReviews = [...reviewItems, ...reviewItems, ...reviewItems, ...reviewItems];
+        const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting));
+        observer.observe(wrapper);
+        return () => observer.disconnect();
+    }, [autoScroll, loading]);
 
     useEffect(() => {
-        const scrollContainer = scrollRef.current;
-        if (!scrollContainer || reviewItems.length === 0) return;
+        const track = trackRef.current;
+        if (!track || !isRunning) return;
 
-        const scrollSpeed = 0.5;
-        const cardWidth = 380 + 32;
-        const resetPoint = reviewItems.length * cardWidth;
+        // Largeur d'une copie de la liste, mesurée : les cartes sont plus étroites sur mobile
+        const loopWidth = track.children[reviews.length].offsetLeft - track.children[0].offsetLeft;
+        let frame;
 
-        const scroll = () => {
-            if (!isPaused && scrollContainer) {
-                scrollPositionRef.current += scrollSpeed;
-
-                if (scrollPositionRef.current >= resetPoint) {
-                    scrollPositionRef.current -= resetPoint;
-                }
-
-                scrollContainer.style.transform = `translateX(-${scrollPositionRef.current}px)`;
-            }
-
-            animationRef.current = requestAnimationFrame(scroll);
+        const step = () => {
+            positionRef.current = (positionRef.current + SPEED) % loopWidth;
+            track.style.transform = `translateX(-${positionRef.current}px)`;
+            frame = requestAnimationFrame(step);
         };
 
-        animationRef.current = requestAnimationFrame(scroll);
-
-        return () => {
-            if (animationRef.current) {
-                cancelAnimationFrame(animationRef.current);
-            }
-        };
-    }, [isPaused, reviewItems.length]);
+        frame = requestAnimationFrame(step);
+        return () => cancelAnimationFrame(frame);
+    }, [isRunning, reviews.length]);
 
     if (loading) return <Spinner />;
-    if (error || reviewItems.length === 0) return null;
+    if (error || reviews.length === 0) return null;
+
+    const copies = autoScroll ? COPIES : 1;
+    const items = Array.from({ length: copies }, (_, copy) => reviews.map((review) => ({ review, copy }))).flat();
 
     return (
         <motion.section
@@ -69,21 +75,25 @@ export default function ReviewsSection() {
             <div className="container-carousel">
                 <h2 className="section-title">Avis Clients</h2>
 
-                <div className="carousel-wrapper">
+                <div className="carousel-wrapper" ref={wrapperRef}>
                     <div
-                        className="carousel-track"
-                        ref={scrollRef}
-                        onMouseEnter={() => setIsPaused(true)}
-                        onMouseLeave={() => setIsPaused(false)}
+                        className={`carousel-track ${autoScroll ? '' : 'carousel-track--manual'}`}
+                        ref={trackRef}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
+                        // Défilement manuel : la rangée doit pouvoir recevoir le focus pour défiler au clavier
+                        {...(autoScroll ? {} : { tabIndex: 0, role: 'region', 'aria-label': 'Avis clients' })}
                     >
-                        {duplicatedReviews.map((review, index) => (
+                        {items.map(({ review, copy }) => (
                             <div
-                                key={`${review.id}-${index}`}
+                                key={`${review.id}-${copy}`}
                                 className="review-card-carousel"
+                                // Les copies ne servent qu'à la boucle visuelle : un lecteur d'écran ne lit chaque avis qu'une fois
+                                aria-hidden={copy > 0 ? 'true' : undefined}
                             >
                                 <div className="review-header">
                                     <div className="client-info">
-                                        <h4 className="client-name">{review.author}</h4>
+                                        <h3 className="client-name">{review.author}</h3>
                                         <div className="rating" role="img" aria-label={`Note : ${review.rating} sur 5`}>
                                             {renderStars(review.rating)}
                                         </div>
@@ -102,7 +112,17 @@ export default function ReviewsSection() {
                 </div>
 
                 <div className="carousel-hint">
-                    <span>← Défilement automatique • Survolez pour mettre en pause →</span>
+                    {autoScroll ? (
+                        <button
+                            type="button"
+                            className="carousel-toggle"
+                            onClick={() => setIsPausedByUser((paused) => !paused)}
+                        >
+                            {isPausedByUser ? 'Reprendre le défilement' : 'Mettre en pause le défilement'}
+                        </button>
+                    ) : (
+                        <span>Faites défiler la rangée pour lire tous les avis</span>
+                    )}
                 </div>
             </div>
         </motion.section>

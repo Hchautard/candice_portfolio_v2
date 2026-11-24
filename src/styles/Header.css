@@ -35,7 +35,8 @@
     }
 }
 
-nav {
+/* Limité à la nav de l'en-tête : un sélecteur « nav » global transformait toute autre nav en menu mobile caché */
+.Header nav {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,6 +48,7 @@ nav {
         right: -100%;
         width: 100%;
         height: 100vh;
+        height: 100dvh; /* barre d'adresse mobile : 100vh déborde sous l'écran */
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
@@ -54,13 +56,18 @@ nav {
         justify-content: flex-start;
         padding-top: 80px;
         align-items: center;
-        transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* Menu fermé : masqué aussi pour le clavier et les lecteurs d'écran
+           (sinon Tab parcourt des liens hors écran). visibility bascule après la sortie. */
+        visibility: hidden;
+        transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s linear 0.4s;
         z-index: 99;
     }
 
     &.menu-open {
         @media (max-width: 768px) {
             right: 0;
+            visibility: visible;
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s;
         }
     }
 
@@ -176,6 +183,15 @@ nav {
         transition: 0.5s;
     }
 
+    /* Page courante (NavLink) */
+    /* Texte foncé conservé : le rouge seul manque de contraste sur la vitre grise au-dessus des fonds sombres */
+    &.active {
+        text-decoration: underline;
+        text-decoration-color: var(--accent);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 6px;
+    }
+
     @media (max-width: 768px) {
         font-size: 1.6rem;
         color: #fff;
@@ -221,6 +237,16 @@ nav {
 
         &:active {
             transform: translateY(0);
+        }
+
+        &.active {
+            color: var(--accent-light);
+            text-decoration: none;
+            border-color: rgba(255, 255, 255, 0.3);
+
+            &::after {
+                width: 80%;
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import { useData } from '../contexts/DataContext';
 import DocumentTitleSetter from '../utils/title-setter.ts';

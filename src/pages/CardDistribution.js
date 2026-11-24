@@ -1,64 +1,83 @@
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import '../styles/CardDistribution.css';
+
+// Espace entre deux cartes (la taille des cartes, elle, est mesurée : elle change selon l'écran)
+const GAP_X = 60;
+const GAP_Y = 36;
+const MAX_PER_ROW = 4;
+
+const prefersReducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+// Largeur utile du conteneur : les cartes en position absolue partent du bord intérieur (hors padding)
+const contentWidth = (el) => {
+  const style = getComputedStyle(el);
+  return el.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight);
+};
 
 const CardDistribution = ({ cards = [] }) => {
   const cardsRef = useRef([]);
   const containerRef = useRef(null);
-  const [cardsPerRow, setCardsPerRow] = useState(4);
+  const hasLaidOutRef = useRef(false);
+  const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState('auto');
   const [loadedImages, setLoadedImages] = useState(new Set());
   const [flippedCards, setFlippedCards] = useState(new Set());
 
-  useEffect(() => {
-    // Met à jour le nombre de cartes par ligne selon la largeur du conteneur
-    const updateCardsPerRow = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const cardWidth = window.innerWidth <= 768 ? 280 : 330;
-        const newCardsPerRow = Math.min(4, Math.max(1, Math.floor(containerWidth / cardWidth)));
-        setCardsPerRow(newCardsPerRow);
-      }
-    };
+  // Largeur mesurée avant le premier affichage, puis suivie à chaque redimensionnement
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-    updateCardsPerRow();
-    window.addEventListener("resize", updateCardsPerRow);
-    return () => window.removeEventListener("resize", updateCardsPerRow);
+    setContainerWidth(contentWidth(container));
+    const observer = new ResizeObserver(() => setContainerWidth(contentWidth(container)));
+    observer.observe(container);
+    return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    let maxHeight = 0;
-    const isMobile = window.innerWidth <= 768;
-    const cardSpacingX = isMobile ? 380 : 380;
-    const cardSpacingY = isMobile ? 420 : 420;
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    const firstCard = cardsRef.current.find(Boolean);
+    if (!containerWidth || !container || !firstCard) return;
 
-    const totalWidth = cardsPerRow * cardSpacingX;
-    const containerWidth = containerRef.current?.offsetWidth || 0;
-    const offsetX = Math.max(0, (containerWidth - totalWidth) / 2);
+    const cardWidth = firstCard.offsetWidth;
+    const cardHeight = firstCard.offsetHeight;
+    const spacingX = cardWidth + GAP_X;
+    const spacingY = cardHeight + GAP_Y;
+
+    // n cartes occupent (n - 1) espacements + une largeur de carte : aucune ne dépasse du conteneur
+    const perRow = Math.min(MAX_PER_ROW, Math.max(1, Math.floor((containerWidth - cardWidth) / spacingX) + 1));
+    const rowWidth = (perRow - 1) * spacingX + cardWidth;
+    const offsetX = Math.max(0, (containerWidth - rowWidth) / 2);
+
+    const isFirstLayout = !hasLaidOutRef.current;
+    hasLaidOutRef.current = true;
+    const reduceMotion = prefersReducedMotion();
+    const containerTop = container.getBoundingClientRect().top;
+    let maxBottom = 0;
 
     cardsRef.current.forEach((card, index) => {
       if (!card) return;
 
-      const row = Math.floor(index / cardsPerRow);
-      const col = index % cardsPerRow;
+      const x = offsetX + (index % perRow) * spacingX;
+      const y = Math.floor(index / perRow) * spacingY;
+      maxBottom = Math.max(maxBottom, y + cardHeight);
 
-      gsap.to(card, {
-        x: offsetX + col * cardSpacingX,
-        y: row * cardSpacingY,
-        rotation: 0,
-        duration: 0.5 + index * 0.05,
-        ease: "power2.out",
-      });
+      // Au premier placement, seules les cartes visibles sont distribuées depuis le paquet.
+      // Les autres sont posées directement, avant l'affichage : elles ne passent jamais à l'écran,
+      // donc le lazy-loading de leur image fonctionne (sinon les ~40 flashs se chargent d'un coup).
+      const top = containerTop + y;
+      const visible = top < window.innerHeight && top + cardHeight > 0;
 
-      const cardBottom = row * cardSpacingY + card.offsetHeight;
-      if (cardBottom > maxHeight) {
-        maxHeight = cardBottom;
+      if (reduceMotion || (isFirstLayout && !visible)) {
+        gsap.set(card, { x, y, rotation: 0 });
+      } else {
+        gsap.to(card, { x, y, rotation: 0, duration: 0.5 + index * 0.05, ease: "power2.out" });
       }
     });
 
-    setContainerHeight(maxHeight + 50);
-
-  }, [cardsPerRow, cards.length]);
+    setContainerHeight(maxBottom + 50);
+  }, [containerWidth, cards.length]);
 
   const flipCard = (index) => {
     if (!cardsRef.current[index]) return;
@@ -67,7 +86,7 @@ const CardDistribution = ({ cards = [] }) => {
 
     gsap.to(cardsRef.current[index], {
       rotationY: isFlipped ? 0 : 180,
-      duration: 0.5,
+      duration: prefersReducedMotion() ? 0 : 0.5,
       ease: "power2.out",
     });
 
@@ -108,9 +127,7 @@ const CardDistribution = ({ cards = [] }) => {
                 key={card.id || i}
                 ref={(el) => (cardsRef.current[i] = el)}
                 className="absolute rounded-lg shadow-lg cursor-pointer perspective-500 transform-style-preserve-3d
-                     w-80 h-96
-                     md:w-80 md:h-96
-                     sm:w-64 sm:h-80"
+                     w-64 h-80 md:w-80 md:h-96"
                 onClick={() => flipCard(i)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {

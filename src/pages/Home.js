@@ -1,5 +1,5 @@
 import "../styles/Home.css";
-import {motion} from "framer-motion";
+import {motion} from "motion/react";
 import {Suspense, lazy} from "react";
 import {Link} from "react-router-dom";
 import NewsSection from "../components/NewsSection";

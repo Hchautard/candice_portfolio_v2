@@ -4,8 +4,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Header from './components/Header';
 import Spinner from './components/Spinner';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import RouteError from './components/RouteError';
+import { createBrowserRouter, RouterProvider, Outlet, ScrollRestoration } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
+import { MotionConfig } from 'motion/react';
 import reportWebVitals from './reportWebVitals';
 
 // Chaque page charge son propre chunk : le bundle initial reste léger
@@ -15,11 +17,14 @@ const Makeup = lazy(() => import('./pages/Makeup'));
 const Tattoo = lazy(() => import('./pages/Tattoo'));
 const Project = lazy(() => import('./pages/Project'));
 const NewsDetail = lazy(() => import('./pages/NewsDetail'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function Layout() {
   return (
       <>
         <Header />
+        {/* Nouvelle page : en haut. Retour arrière : position précédente restaurée. */}
+        <ScrollRestoration />
         <Suspense fallback={<Spinner fullScreen />}>
           <Outlet />
         </Suspense>
@@ -31,7 +36,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
-    errorElement: <div>Page not found</div>,
+    errorElement: <RouteError />,
     children: [
       {
         index: true,
@@ -61,6 +66,10 @@ const router = createBrowserRouter([
         path: 'news/:id',
         element: <NewsDetail />,
       },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
   },
 ]);
@@ -68,9 +77,12 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-      <DataProvider>
-        <RouterProvider router={router} />
-      </DataProvider>
+      {/* Respecte « réduire les animations » du système pour toutes les animations framer-motion */}
+      <MotionConfig reducedMotion="user">
+        <DataProvider>
+          <RouterProvider router={router} />
+        </DataProvider>
+      </MotionConfig>
     </React.StrictMode>
 );
 

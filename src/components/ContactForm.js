@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import '../styles/ContactForm.css';
-import emailjs from 'emailjs-com';
+import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
 import * as z from 'zod';
 import { toast, ToastContainer } from 'react-toastify';
 import { contactFormDefaultSchema } from "./ContactFormDefaultSchema";
@@ -23,8 +23,23 @@ function FieldError({ id, error }) {
     return <span id={id} className="field-error">{error}</span>;
 }
 
+const MAX_FILES = 5;
+const MAX_FILE_SIZE = 10 * 1024 * 1024;
+// Ordre d'affichage : le focus va sur le premier champ en erreur
+const FIELD_ORDER = ['name', 'email', 'phone', 'birthdate', 'subject', 'message', 'size', 'placement', 'description', 'files'];
+const SEND_ERROR = "L'envoi a échoué. Réessayez dans quelques minutes, ou écrivez-moi sur Instagram (@l__anomalie).";
+
+// Date du jour en heure locale (toISOString donne la date UTC, donc la veille entre minuit et 1-2 h)
+const todayLocal = () => new Date().toLocaleDateString('en-CA');
+
+const formatSize = (bytes) => (bytes < 1024 * 1024
+    ? `${Math.max(1, Math.round(bytes / 1024))} Ko`
+    : `${(bytes / (1024 * 1024)).toFixed(1).replace('.', ',')} Mo`);
+
 function ContactForm() {
     const [activeTab, setActiveTab] = useState('default');
+    // Champ piège invisible : un humain le laisse vide, beaucoup de robots le remplissent
+    const honeypotRef = useRef(null);
 
     const initialDefaultFormData = {
         name: '',
@@ -81,28 +96,25 @@ function ContactForm() {
         }
     };
 
-    const handleFileChange = async (e) => {
+    const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
+        const notImages = files.filter(file => !file.type.startsWith('image/'));
+        const oversized = files.filter(file => file.size > MAX_FILE_SIZE);
 
-        if (files.length > 5) {
-            setStatus({
-                submitted: false,
-                submitting: false,
-                info: { error: true, msg: "Vous ne pouvez télécharger que 5 fichiers maximum." }
-            });
-            e.target.value = '';
-            return;
+        let error;
+        if (files.length > MAX_FILES) {
+            error = `${MAX_FILES} images maximum (vous en avez choisi ${files.length}).`;
+        } else if (notImages.length > 0) {
+            error = `Seules les images sont acceptées : ${notImages.map(file => file.name).join(', ')}.`;
+        } else if (oversized.length > 0) {
+            error = `Chaque image doit faire moins de 10 Mo : ${oversized.map(file => file.name).join(', ')}.`;
         }
 
-        const maxSize = 10 * 1024 * 1024;
-        const oversizedFiles = files.filter(file => file.size > maxSize);
-        if (oversizedFiles.length > 0) {
-            setStatus({
-                submitted: false,
-                submitting: false,
-                info: { error: true, msg: "Chaque fichier doit faire moins de 10MB." }
-            });
+        if (error) {
+            // Le champ est vidé : l'ancienne sélection ne doit pas partir à l'insu de l'utilisateur
             e.target.value = '';
+            setFormData({ ...formData, files: [] });
+            setFieldErrors(prev => ({ ...prev, files: error }));
             return;
         }
 
@@ -147,34 +159,53 @@ function ContactForm() {
         });
 
         const results = await Promise.all(uploadPromises);
-        return results.filter(result => result !== null);
+        const failed = files.filter((file, i) => results[i] === null).map(file => file.name);
+        if (failed.length > 0) {
+            // Pas d'envoi partiel : la demande partirait sans ces images sans que personne ne le sache
+            throw new Error(failed.length > 1
+                ? `Impossible d'envoyer les images ${failed.join(', ')}. Réessayez, ou retirez-les de la sélection.`
+                : `Impossible d'envoyer l'image ${failed[0]}. Réessayez, ou retirez-la de la sélection.`);
+        }
+        return results;
+    };
+
+    const resetAfterSuccess = () => {
+        toast.success("Votre message a été envoyé, merci !");
+        setStatus({
+            submitted: true,
+            submitting: false,
+            info: { error: false, msg: "Message envoyé ! Je vous réponds dès que possible." }
+        });
+        setFormData(activeTab === 'default' ? initialDefaultFormData : initialTattooFormData);
+        const fileInput = document.getElementById('files');
+        if (fileInput) fileInput.value = '';
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setStatus(prevStatus => ({ ...prevStatus, submitting: true }));
+        setStatus({ submitted: false, submitting: true, info: { error: false, msg: 'Envoi en cours…' } });
         setFieldErrors({});
 
         try {
             const schema = activeTab === 'default' ? contactFormDefaultSchema : contactFormTattooSchema;
             schema.parse(formData);
 
-            let emailData = { ...formData };
+            // Robot détecté : on affiche un succès sans rien envoyer
+            if (honeypotRef.current?.value) {
+                resetAfterSuccess();
+                return;
+            }
 
-            if (activeTab === 'tattoo' && formData.files && formData.files.length > 0) {
+            // Les objets File ne passent pas dans le mail (sérialisés en {}) : seules les URL partent
+            const { files, ...emailData } = formData;
+
+            if (activeTab === 'tattoo' && files && files.length > 0) {
                 setStatus(prevStatus => ({
                     ...prevStatus,
-                    info: { error: false, msg: "Upload des images en cours..." }
+                    info: { error: false, msg: files.length > 1 ? 'Envoi des images…' : "Envoi de l'image…" }
                 }));
 
-                toast.info("Upload des images en cours...");
-
-                const uploadedFiles = await uploadFilesToCloudinary(formData.files);
-
-                if (uploadedFiles.length === 0) {
-                    toast.error("Échec de l'upload des images. Veuillez réessayer.");
-                    throw new Error("Échec de l'upload des images. Veuillez réessayer.");
-                }
+                const uploadedFiles = await uploadFilesToCloudinary(files);
 
                 emailData.imageUrls = uploadedFiles.map(f => f.url).join('\n');
                 emailData.imagesList = uploadedFiles.map((f, i) =>
@@ -191,35 +222,25 @@ function ContactForm() {
 
             setStatus(prevStatus => ({
                 ...prevStatus,
-                info: { error: false, msg: "Envoi du message..." }
+                info: { error: false, msg: 'Envoi du message…' }
             }));
 
             const templateId = activeTab === 'default'
                 ? process.env.REACT_APP_EMAILJS_DEFAULT_TEMPLATE_ID
                 : process.env.REACT_APP_EMAILJS_TATTOO_TEMPLATE_ID;
 
-            const result = await emailjs.send(
+            await emailjs.send(
                 process.env.REACT_APP_EMAILJS_SERVICE_ID,
                 templateId,
                 emailData,
-                process.env.REACT_APP_EMAILJS_PUBLIC_KEY
+                {
+                    publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
+                    // Anti double envoi / rafale : 20 s minimum entre deux messages
+                    limitRate: { id: 'contact-form', throttle: 20000 },
+                }
             );
 
-            if (result.status === 200) {
-                toast.success("Votre message a été envoyé avec succès !");
-                setStatus({
-                    submitted: true,
-                    submitting: false,
-                    info: { error: false, msg: "Message envoyé avec succès!" }
-                });
-
-                setFormData(activeTab === 'default' ? initialDefaultFormData : initialTattooFormData);
-
-                const fileInput = document.getElementById('files');
-                if (fileInput) fileInput.value = '';
-            } else {
-                throw new Error("Une erreur s'est produite lors de l'envoi du message.");
-            }
+            resetAfterSuccess();
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const errors = {};
@@ -235,13 +256,24 @@ function ContactForm() {
                     submitting: false,
                     info: { error: false, msg: null }
                 });
-            } else {
-                setStatus({
-                    submitted: false,
-                    submitting: false,
-                    info: { error: true, msg: error.message }
-                });
+                const first = FIELD_ORDER.find(field => errors[field]);
+                if (first) document.getElementById(first)?.focus();
+                return;
             }
+
+            // EmailJS rejette avec { status, text } (pas une Error) : message lisible plutôt qu'un cadre vide
+            let msg = SEND_ERROR;
+            if (error instanceof EmailJSResponseStatus) {
+                console.error('EmailJS :', error.status, error.text);
+                if (error.status === 429) msg = "Un message vient de partir. Patientez quelques secondes avant d'en envoyer un autre.";
+            } else if (error?.message) {
+                msg = error.message;
+            }
+            setStatus({
+                submitted: false,
+                submitting: false,
+                info: { error: true, msg }
+            });
         }
     };
 
@@ -264,7 +296,7 @@ function ContactForm() {
                 {/* Intro Part */}
                 <div className="glass-card text-intro">
                     <h2 className="tracking-tight font-extrabold text-center md:text-left">
-                        Un projet ? Un flash ? Contactez moi !
+                        Un projet ? Un flash ? Contactez-moi !
                     </h2>
                     <p className="mb-4 md:mb-8 text-left">
                         Vous avez une idée de tatouage ? <br/> Besoin d&apos;informations sur mes disponibilités ? <br/>
@@ -290,45 +322,42 @@ function ContactForm() {
                 {/* Form Part */}
                 <div className="container-form">
                     {/* Tab buttons */}
-                    <div className="flex justify-start w-full gap-4 items-baseline" role="tablist" aria-label="Type de formulaire">
+                    <fieldset
+                        className="form-type-switch flex justify-start w-full gap-4 items-baseline"
+                        aria-label="Type de demande"
+                        aria-describedby="form-type-help"
+                    >
                         <div className="icon-info">
                             <InfoIcon/>
-                            <div className="info-text">
+                            <div className="info-text" id="form-type-help">
                                 Choisissez le type de formulaire adapté à votre demande.
                             </div>
                         </div>
 
                         <button
                             type="button"
-                            role="tab"
-                            aria-selected={activeTab === 'default'}
+                            aria-pressed={activeTab === 'default'}
                             onClick={(e) => changeTab(e, 'default')}
                             className={`tab ${activeTab === 'default' ? 'active' : ''}`}
                         >
-                            Défaut
+                            Question
                         </button>
                         <button
                             type="button"
-                            role="tab"
-                            aria-selected={activeTab === 'tattoo'}
+                            aria-pressed={activeTab === 'tattoo'}
                             onClick={(e) => changeTab(e, 'tattoo')}
                             className={`tab ${activeTab === 'tattoo' ? 'active' : ''}`}
                         >
-                            Tatouage
+                            Projet tatouage
                         </button>
-                    </div>
+                    </fieldset>
 
-                    <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 form">
-                        {status.info.error && (
-                            <div role="alert" className="col-span-1 md:col-span-2 form-status form-status-error mb-4 text-center p-3 rounded">
-                                {status.info.msg}
-                            </div>
-                        )}
-                        {status.submitted && !status.info.error && (
-                            <div role="status" className="col-span-1 md:col-span-2 form-status form-status-success mb-4 text-center p-3 rounded">
-                                {status.info.msg}
-                            </div>
-                        )}
+                    <form onSubmit={handleSubmit} noValidate className="grid grid-cols-1 md:grid-cols-2 gap-4 form">
+                        {/* Piège à robots : hors écran, ignoré au clavier et par les lecteurs d'écran */}
+                        <div className="hp-field" aria-hidden="true">
+                            <label htmlFor="website">Ne pas remplir ce champ</label>
+                            <input ref={honeypotRef} type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
+                        </div>
 
                         {/* Champs communs */}
                         <div className="col-span-1 form-field">
@@ -338,6 +367,7 @@ function ContactForm() {
                             <input
                                 type="text"
                                 id="name"
+                                autoComplete="name"
                                 value={formData.name}
                                 onChange={handleChange}
                                 className={`w-full${fieldErrors.name ? ' input-error' : ''}`}
@@ -355,6 +385,7 @@ function ContactForm() {
                             <input
                                 type="email"
                                 id="email"
+                                autoComplete="email"
                                 value={formData.email}
                                 onChange={handleChange}
                                 className={`w-full${fieldErrors.email ? ' input-error' : ''}`}
@@ -370,6 +401,7 @@ function ContactForm() {
                             <input
                                 type="tel"
                                 id="phone"
+                                autoComplete="tel"
                                 value={formData.phone}
                                 onChange={handleChange}
                                 className={`w-full${fieldErrors.phone ? ' input-error' : ''}`}
@@ -387,6 +419,7 @@ function ContactForm() {
                             <input
                                 type="date"
                                 id="birthdate"
+                                autoComplete="bday"
                                 value={formData.birthdate}
                                 onChange={handleChange}
                                 className={`w-full${fieldErrors.birthdate ? ' input-error' : ''}`}
@@ -425,7 +458,7 @@ function ContactForm() {
                                         value={formData.message}
                                         onChange={handleChange}
                                         className={`block p-2.5 w-full${fieldErrors.message ? ' input-error' : ''}`}
-                                        placeholder="Laisser un commentaire..."
+                                        placeholder="Votre question, vos disponibilités…"
                                         aria-invalid={fieldErrors.message ? true : undefined}
                                         aria-describedby={fieldErrors.message ? 'message-error' : undefined}
                                     ></textarea>
@@ -505,8 +538,7 @@ function ContactForm() {
                                         value={formData.description}
                                         onChange={handleChange}
                                         className={`block p-2.5 w-full${fieldErrors.description ? ' input-error' : ''}`}
-                                        placeholder="Décrivez votre projet de tatouage..."
-                                        required
+                                        placeholder="Décrivez votre projet de tatouage…"
                                         aria-invalid={fieldErrors.description ? true : undefined}
                                         aria-describedby={fieldErrors.description ? 'description-error' : undefined}
                                     ></textarea>
@@ -515,16 +547,19 @@ function ContactForm() {
 
                                 <div className="col-span-1 md:col-span-2 form-field">
                                     <label htmlFor="files" className="block">
-                                        Images de référence ou du tatouage à recouvrir (max 5)
+                                        Images de référence ou du tatouage à recouvrir <span className="optional-label">(5 max, 10 Mo chacune)</span>
                                     </label>
                                     <input
                                         type="file"
                                         id="files"
                                         onChange={handleFileChange}
-                                        className="w-full"
+                                        className={`w-full${fieldErrors.files ? ' input-error' : ''}`}
                                         multiple
                                         accept="image/*"
+                                        aria-invalid={fieldErrors.files ? true : undefined}
+                                        aria-describedby={fieldErrors.files ? 'files-error' : undefined}
                                     />
+                                    <FieldError id="files-error" error={fieldErrors.files} />
                                     {formData.files && formData.files.length > 0 && (
                                         <div className="file-preview">
                                             <p className="file-count">
@@ -533,7 +568,7 @@ function ContactForm() {
                                             <ul className="file-list">
                                                 {Array.from(formData.files).map((file, index) => (
                                                     <li key={index}>
-                                                        {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                                                        {file.name} ({formatSize(file.size)})
                                                     </li>
                                                 ))}
                                             </ul>
@@ -551,10 +586,22 @@ function ContactForm() {
                                         value={formData.appointmentPreferredDate}
                                         onChange={handleChange}
                                         className="w-full"
-                                        min={new Date().toISOString().split('T')[0]}
+                                        min={todayLocal()}
                                     />
                                 </div>
                             </>
+                        )}
+
+                        {/* Retours d'envoi à côté du bouton, là où se trouve l'utilisateur */}
+                        {status.info.error && (
+                            <div role="alert" className="col-span-1 md:col-span-2 form-status form-status-error text-center p-3 rounded">
+                                {status.info.msg}
+                            </div>
+                        )}
+                        {status.submitted && !status.info.error && (
+                            <output className="col-span-1 md:col-span-2 form-status form-status-success text-center p-3 rounded">
+                                {status.info.msg}
+                            </output>
                         )}
 
                         <div className="col-span-1 md:col-span-2 flex justify-between items-center flex-wrap gap-2">
@@ -566,9 +613,11 @@ function ContactForm() {
                                 className="px-5 rounded"
                                 disabled={status.submitting}
                             >
-                                {status.submitting ? 'Envoi en cours...' : 'Envoyer'}
+                                {status.submitting ? status.info.msg : 'Envoyer'}
                             </button>
                         </div>
+                        {/* Progression annoncée aux lecteurs d'écran (le nouveau texte du bouton n'est pas lu) */}
+                        <output className="sr-only">{status.submitting ? status.info.msg : ''}</output>
                     </form>
                 </div>
             </div>

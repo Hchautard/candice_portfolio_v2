@@ -3,14 +3,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Repli sans-serif proche pendant le chargement (font-display: swap), au lieu du Times par défaut */
 * {
-  font-family: Coolvetica_Regular;
+  font-family: Coolvetica_Regular, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* Keyboard focus baseline — dark-background contexts override the colour locally */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+/* Mouvement réduit demandé par le système : animations et transitions CSS quasi instantanées.
+   framer-motion suit le même réglage (MotionConfig reducedMotion="user" dans index.js),
+   GSAP est géré au cas par cas (CardDistribution). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Paragraphs read left-aligned everywhere (App root centers text by default) */
@@ -61,16 +76,16 @@ p {
   --xxxxxlarge: 240px;
 }
 
-/* Define font faces */
+/* Define font faces — WOFF2 (2x plus léger que les TTF/OTF d'origine, gardés dans assets/fonts) */
 @font-face {
   font-family: 'Alice_Wonderland';
-  src: url('../src/assets/fonts/alice_in_wonderland/Alice_in_Wonderland_3.ttf') format('truetype');
+  src: url('../src/assets/fonts/alice_in_wonderland/Alice_in_Wonderland_3.woff2') format('woff2');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Alice_Wonderland_2';
-  src: url('../src/assets/fonts/alice_in_wonderland_2/Alice_in_Wonderland.ttf') format('truetype');
+  src: url('../src/assets/fonts/alice_in_wonderland_2/Alice_in_Wonderland.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -78,13 +93,13 @@ p {
 
 @font-face {
   font-family: 'Coolvetica_Regular';
-  src: url('../src/assets/fonts/coolvetica/Coolvetica_Rg.otf') format('opentype');
+  src: url('../src/assets/fonts/coolvetica/Coolvetica_Rg.woff2') format('woff2');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Coolvetica_Regular_Italic';
-  src: url('../src/assets/fonts/coolvetica/Coolvetica_Rg_It.otf') format('opentype');
+  src: url('../src/assets/fonts/coolvetica/Coolvetica_Rg_It.woff2') format('woff2');
   font-display: swap;
 }
 
