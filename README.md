@@ -91,6 +91,8 @@ npx playwright test --ui # Mode interactif
 
 Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise celui déjà lancé sur le port 3000. Les tests ne dépendent pas de Supabase : sans `.env`, le site s'affiche simplement sans actualités ni avis (c'est le cas en CI).
 
+`tests/contact.spec.ts` remplit et envoie le formulaire (question, demande tatouage avec image, erreurs, « Adopter ce flash ») : les appels à EmailJS et Cloudinary sont interceptés, aucun message ni image ne part. Le serveur lancé par Playwright reçoit des clés factices (`playwright.config.ts`).
+
 ---
 
 ## Configuration

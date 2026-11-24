@@ -45,5 +45,16 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
+    /* Clés EmailJS et Cloudinary factices (prioritaires sur le .env pour Vite) : le formulaire peut aller
+       jusqu'à l'envoi, que tests/contact.spec.ts intercepte. Un serveur réutilisé garde ses vraies clés,
+       les envois restent interceptés. */
+    env: {
+      REACT_APP_EMAILJS_SERVICE_ID: 'service_test',
+      REACT_APP_EMAILJS_DEFAULT_TEMPLATE_ID: 'template_question',
+      REACT_APP_EMAILJS_TATTOO_TEMPLATE_ID: 'template_tattoo',
+      REACT_APP_EMAILJS_PUBLIC_KEY: 'public_key_test',
+      REACT_APP_CLOUDINARY_CLOUD_NAME: 'demo',
+      REACT_APP_CLOUDINARY_UPLOAD_PRESET: 'preset_test',
+    },
   },
 });
