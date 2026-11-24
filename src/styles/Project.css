@@ -62,17 +62,19 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    gap: 3rem;
     margin: 5svh auto 2svh;
-    padding: 4rem;
-    color: white;
+    padding: 3.5rem 4rem;
+    color: var(--primary);
     width: 70%;
-    height: 80svh;
+    min-height: 80svh;
 
-    /* Glassmorphism effect */
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(5px);
+    /* Panneau sombre sur la soie noire : le gris clair délavait la page */
+    background: rgba(var(--secondary-rgba), 0.6);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(var(--primary-rgba), 0.12);
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
 
     @media (max-width: 768px) {
         width: 90%;
@@ -86,24 +88,24 @@
     .project-text {
         margin-bottom: 20px;
         margin-top: 20px;
-        font-size: calc(var(--xlarge) - 5px);
-        color: var(--secondary);
-        line-height: 1.0;
-        letter-spacing: -1px;
+        font-size: calc(var(--large) - 2px);
+        color: var(--primary);
+        line-height: 1.4;
+        max-width: 34rem;
 
         span {
             transition: color 0.3s ease-in-out;
-            color: var(--secondary);
+            color: var(--primary);
             font-family: 'Alice_Wonderland_2', serif;
 
             &:hover {
-                color: var(--accent);
+                color: var(--accent-light);
                 transition: color 0.3s ease-in-out;
             }
         }
 
         @media (max-width: 768px) {
-            font-size: calc(var(--medium-large) + 4px);
+            font-size: var(--medium-large);
         }
     }
 }
@@ -114,9 +116,8 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 80svh;
     position: relative;
-    padding: 0 20px;
+    padding: 0;
     box-sizing: border-box;
 
     @media (max-width: 768px) {
@@ -127,11 +128,11 @@
 }
 
 .project-content-container {
-    width: 35svw;
+    width: 100%;
 
     h1 {
         font-family: "Alice_Wonderland_2", serif;
-        color: var(--secondary);
+        color: var(--primary);
         font-size: calc(var(--xxlarge) + 4px);
         line-height: 1.0;
         text-align: left;
@@ -146,16 +147,17 @@
     }
 }
 
+/* La vidéo de Candice porte la page : pleine hauteur du panneau sur bureau */
 .video-container {
     display: flex;
     justify-content: center;
+    flex-shrink: 0;
 
     .video-figure {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: var(--small);
-        width: 60%;
         margin: 0;
 
         @media (max-width: 768px) {
@@ -164,12 +166,16 @@
     }
 
     video {
-        width: 100%;
-        transform: scale(1);
-        transition: transform 0.3s ease-in-out;
+        display: block;
+        width: auto;
+        max-width: 100%;
+        max-height: 64svh;
+        border-radius: 8px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
 
-        &:hover {
-            transform: scale(1.05);
+        @media (max-width: 768px) {
+            width: 100%;
+            max-height: none;
         }
     }
 }
@@ -178,14 +184,18 @@
     background: none;
     border: none;
     padding: var(--small);
-    color: var(--secondary);
+    color: var(--primary);
     font-size: 1.05rem;
     text-decoration: underline;
     text-underline-offset: 4px;
     cursor: pointer;
 
     &:hover {
-        color: var(--accent);
+        color: var(--accent-light);
+    }
+
+    &:focus-visible {
+        outline-color: var(--primary);
     }
 }
 
@@ -198,7 +208,7 @@
     border-radius: 10px;
     background: var(--primary);
     color: var(--secondary);
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 
     &::backdrop {
         background: rgba(var(--secondary-rgba), 0.75);

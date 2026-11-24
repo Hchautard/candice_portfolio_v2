@@ -1,7 +1,6 @@
 .Contact {
     position: relative;
     width: 100%;
-    padding-top: 5%;
     background-image: url(../assets/images/old_phone.webp);
     background-size: cover;
     background-position: center;
@@ -17,7 +16,8 @@
         background-position: left center;
         background-repeat: no-repeat;
         min-height: 100vh;
-        padding: 5%;
+        /* Haut : place pour le bouton du menu (fixe), comme les autres pages */
+        padding: max(calc(5vh + 20px), 80px) 5% 5%;
         overflow-y: auto;
         overflow-x: hidden;
     }

@@ -11,26 +11,80 @@
   transform: rotateY(180deg);
 }
 
+/* Bouton de retournement : toute la surface de la carte, transparent */
+.flash-card-flip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
 /* Cards sit on the darkened armour background — the accent outline would vanish */
-#card-distribution-container [role="button"]:focus-visible {
+.flash-card-flip:focus-visible {
   outline: 2px solid var(--accent-light);
   outline-offset: 4px;
+}
+
+/* Lien « Adopter ce flash » au dos de la carte. La carte est retournée de 180° :
+   le lien l'est aussi (lisible) et avance d'1 px vers l'écran pour passer devant le bouton. */
+.flash-card-adopt {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12%;
+  width: fit-content;
+  max-width: calc(100% - 1.5rem);
+  margin: 0 auto;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--primary);
+  font-family: 'Alice_Wonderland_2', serif;
+  font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  transform: rotateY(180deg) translateZ(1px);
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #96150e;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+  }
 }
 
 .odd-face {
   background: rgba(10, 5, 5, 0.85);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 .odd-face-content {
+  /* Taille suivant la largeur de la carte (134 à 320 px) : « Disponible ! » tient sur une ligne */
   font-size: var(--xlarge);
   color: var(--accent-light);
   font-family: 'Alice_Wonderland_2';
   font-weight: bold;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   text-align: center;
+  text-wrap: balance;
   padding: 1rem;
+}
+
+@media (max-width: 1279px) {
+  .odd-face-content {
+    font-size: clamp(1.25rem, 6vw, 2rem);
+  }
 }
 
 @media (max-width: 768px) {
@@ -38,7 +92,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 2rem;
+    /* Marge réduite : deux colonnes de cartes tiennent sur un téléphone */
+    padding: 0.5rem 0;
     width: 100%;
     flex-wrap: wrap;
   }

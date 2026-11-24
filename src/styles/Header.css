@@ -1,18 +1,19 @@
 .Header {
-    height: 5vh;
+    height: max(5vh, 44px);
     top: 10px;
     display: flex;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
     position: fixed;
-    width: 500px;
+    width: auto;
+    padding: 0 0.5rem;
 
     /* Glassmorphism effect */
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(5px);
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 
     /* Version mobile */
     @media (max-width: 768px) {
@@ -247,6 +248,61 @@
             &::after {
                 width: 80%;
             }
+        }
+    }
+}
+/* Lien Instagram : pictogramme seul dans la barre bureau, pictogramme + pseudo dans le menu mobile */
+.header-instagram {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 40px;
+    min-height: 40px;
+    margin-left: 0.25rem;
+    border-radius: 8px;
+    color: var(--secondary);
+    text-decoration: none;
+    transition: color 0.2s ease, background-color 0.2s ease;
+
+    &:hover {
+        color: var(--accent);
+        background: rgba(255, 255, 255, 0.35);
+    }
+
+    /* Bureau : le pseudo reste lu par les lecteurs d'écran */
+    .header-instagram-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+
+    @media (max-width: 768px) {
+        margin: 0.5rem 0 0;
+        padding: 0.75rem 1.5rem;
+        min-width: 200px;
+        color: var(--primary);
+        font-size: 1.1rem;
+        border: 1px solid rgba(var(--primary-rgba), 0.35);
+
+        &:hover {
+            color: var(--accent-light);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        &:focus-visible {
+            outline-color: #fff;
+        }
+
+        .header-instagram-label {
+            position: static;
+            width: auto;
+            height: auto;
+            overflow: visible;
+            clip: auto;
         }
     }
 }

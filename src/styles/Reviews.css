@@ -21,8 +21,8 @@
     position: relative;
     width: 100%;
     overflow: visible;
-    margin: 2rem 0;
-    padding: 2rem 2rem;
+    margin: 1rem 0 0;
+    padding: 1rem 2rem;
     mask-image: linear-gradient(
             to right,
             transparent 0%,
@@ -61,29 +61,16 @@
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
-}
-
-.review-card-carousel::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--secondary));
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-}
-
-.review-card-carousel:hover::before {
-    transform: scaleX(1);
+    /* Hauteur commune (avis le plus long) : la date se cale en bas de chaque carte */
+    display: flex;
+    flex-direction: column;
 }
 
 .review-card-carousel:hover {
     border-color: var(--accent);
-    box-shadow: 0 0 30px var(--accent);
-    background: rgba(255, 255, 255, 0.18);
-    transform: scale(1.05) translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateY(-4px);
     z-index: 10;
 }
 
@@ -121,14 +108,15 @@
 
 .star.filled {
     color: var(--accent);
-    text-shadow: 0 0 10px var(--accent);
 }
 
+/* Style du tatouage : pastille à contour, pour ne pas se confondre avec les catégories d'actualité (pleines) */
 .tattoo-style {
     display: inline-block;
-    background: var(--accent);
-    color: var(--primary);
-    padding: 0.3rem 0.8rem;
+    background: rgba(255, 255, 255, 0.55);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: calc(0.3rem - 1px) 0.8rem;
     border-radius: 15px;
     font-size: var(--medium);
     font-family: "Alice_Wonderland_2", serif;
@@ -139,35 +127,31 @@
 /* ===== CAROUSEL HINT ===== */
 .carousel-hint {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 0.75rem;
 }
 
 .carousel-hint span {
     color: var(--secondary);
     font-size: var(--medium);
     font-family: "Alice_Wonderland_2", serif;
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
 }
 
 /* Pause / reprise du défilement : utilisable au toucher et au clavier (le survol seul ne suffit pas) */
 .carousel-toggle {
-    background: none;
-    border: none;
-    padding: var(--small) var(--medium);
+    min-height: 40px;
+    padding: 0.4rem 1.1rem;
+    border: 1px solid rgba(var(--secondary-rgba), 0.45);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.45);
     color: var(--secondary);
     font-family: "Alice_Wonderland_2", serif;
-    font-size: var(--medium-large);
-    text-decoration: underline;
-    text-underline-offset: 4px;
+    font-size: var(--medium);
     cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
 
     &:hover {
         color: var(--accent);
+        border-color: var(--accent);
     }
 }
 
@@ -195,6 +179,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-top: auto;
 }
 
 .review-date {
@@ -255,7 +240,7 @@
 
 .review-scroll-card:hover {
     border-color: var(--secondary);
-    box-shadow: 0 0 25px var(--secondary);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
     background: rgba(255, 255, 255, 0.15);
     transform: translateY(-5px);
 }
@@ -345,7 +330,6 @@
     text-align: center;
     margin-bottom: 3rem;
     color: var(--secondary);
-    text-shadow: 0 0 30px rgba(233, 69, 96, 0.3);
 }
 
 @media (max-width: 768px) {

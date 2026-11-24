@@ -32,26 +32,9 @@
     z-index: 0;
 }
 
-.news-card-shop::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-    z-index: 2;
-}
-
-.news-card-shop:hover::after {
-    transform: scaleX(1);
-}
-
 .news-card-shop:hover {
     border-color: var(--accent);
-    box-shadow: 0 0 25px var(--accent);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
     transform: translateY(-5px);
 }
 
@@ -143,7 +126,6 @@
 .news-arrow-shop:hover {
     background: var(--secondary);
     transform: translateX(5px);
-    box-shadow: 0 0 15px var(--accent);
 }
 
 /* ===== VARIANTES PETITES CARTES ===== */
