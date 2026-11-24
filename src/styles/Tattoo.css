@@ -137,9 +137,8 @@
     font-family: 'Alice_Wonderland_2', cursive;
     font-size: var(--xxlarge);
     font-weight: normal;
-    color: var(--accent-light);
+    color: var(--primary);
     text-align: center;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
     margin: 0 0 var(--xlarge);
 }
 
