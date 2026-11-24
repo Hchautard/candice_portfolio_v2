@@ -620,3 +620,11 @@ input[type="checkbox"] {
     height: 1px;
     overflow: hidden;
 }
+
+/* Groupe des boutons de type : fieldset sans le cadre par défaut */
+.form-type-switch {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+}

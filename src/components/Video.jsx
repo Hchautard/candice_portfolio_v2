@@ -9,10 +9,6 @@ const Video = ({ src, poster, transcript = [] }) => {
     const dialogRef = useRef(null);
     const titleId = useId();
 
-    const closeOnBackdrop = (event) => {
-        if (event.target === event.currentTarget) event.currentTarget.close();
-    };
-
     return (
         <figure className="video-figure">
             <video controls width="100%" preload="metadata" poster={poster} playsInline>
@@ -24,8 +20,9 @@ const Video = ({ src, poster, transcript = [] }) => {
                     <button type="button" className="video-transcript-open" onClick={() => dialogRef.current?.showModal()}>
                         Lire la transcription
                     </button>
-                    {/* Le clic sur le fond referme ; au clavier, Échap fait de même nativement */}
-                    <dialog ref={dialogRef} className="video-transcript" aria-labelledby={titleId} onClick={closeOnBackdrop}>
+                    {/* closedby="any" : le clic sur le fond referme, géré par le navigateur (Chrome 134+, Firefox 141+).
+                        Partout : Échap et le bouton Fermer. */}
+                    <dialog ref={dialogRef} className="video-transcript" aria-labelledby={titleId} closedby="any">
                         <div className="video-transcript-content">
                             <div className="video-transcript-header">
                                 <h2 id={titleId}>Transcription de la vidéo</h2>
