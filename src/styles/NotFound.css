@@ -1,0 +1,68 @@
+.not-found {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(5vh + 40px) 1rem 2rem;
+    background-image: url(../assets/images/black_silk.webp);
+    background-size: cover;
+    background-position: center;
+}
+
+.not-found-card {
+    max-width: 520px;
+    width: 100%;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    color: var(--primary);
+    background: rgba(var(--secondary-rgba), 0.6);
+    border: 1px solid rgba(var(--primary-rgba), 0.2);
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    h1 {
+        font-family: "Alice_Wonderland_2", serif;
+        font-size: var(--xlarge);
+        margin: 0 0 1rem;
+    }
+
+    p {
+        text-align: center;
+        margin: 0;
+    }
+}
+
+.not-found-code {
+    font-family: "Alice_Wonderland_2", serif;
+    font-size: var(--xxxlarge);
+    line-height: 1;
+    color: var(--accent-light);
+}
+
+.not-found-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 1.5rem;
+    margin-top: 2rem;
+
+    a {
+        font-family: "Alice_Wonderland_2", serif;
+        font-size: var(--medium-large);
+        color: var(--accent-light);
+        text-decoration: underline;
+        text-underline-offset: 5px;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--primary);
+        }
+
+        /* Fond sombre : le contour rouge par défaut serait invisible */
+        &:focus-visible {
+            outline-color: var(--primary);
+        }
+    }
+}

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Header from './components/Header';
 import Spinner from './components/Spinner';
+import RouteError from './components/RouteError';
 import { createBrowserRouter, RouterProvider, Outlet, ScrollRestoration } from 'react-router-dom';
 import { DataProvider } from './contexts/DataContext';
 import { MotionConfig } from 'framer-motion';
@@ -16,6 +17,7 @@ const Makeup = lazy(() => import('./pages/Makeup'));
 const Tattoo = lazy(() => import('./pages/Tattoo'));
 const Project = lazy(() => import('./pages/Project'));
 const NewsDetail = lazy(() => import('./pages/NewsDetail'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function Layout() {
   return (
@@ -34,7 +36,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
-    errorElement: <div>Page not found</div>,
+    errorElement: <RouteError />,
     children: [
       {
         index: true,
@@ -63,6 +65,10 @@ const router = createBrowserRouter([
       {
         path: 'news/:id',
         element: <NewsDetail />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
       },
     ],
   },

@@ -1,10 +1,12 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "L'Anomalie",
+  "name": "L'Anomalie — Tattoo & Makeup",
+  "description": "Portfolio de Candice, tatoueuse à Montpellier : cyber-sigilism, gothique et dark fantasy.",
+  "lang": "fr",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "256x256",
       "type": "image/x-icon"
     },
     {
@@ -20,6 +22,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#080808",
+  "background_color": "#f1e2ba"
 }

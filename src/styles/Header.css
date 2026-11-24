@@ -35,7 +35,8 @@
     }
 }
 
-nav {
+/* Limité à la nav de l'en-tête : un sélecteur « nav » global transformait toute autre nav en menu mobile caché */
+.Header nav {
     display: flex;
     justify-content: center;
     align-items: center;
