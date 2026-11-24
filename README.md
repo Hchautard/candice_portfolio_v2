@@ -2,7 +2,7 @@
 
 Portfolio de Candice, tatoueuse indépendante basée à Saint-Rémy-de-Provence, spécialisée dans les styles **cyber-sigilism**, **gothique** et **dark fantasy**.
 
-Construit avec **React**, **Three.js**, **Framer Motion** et **Supabase**.
+Construit avec **React**, **Three.js**, **Motion** et **Supabase**.
 
 ---
 
@@ -10,6 +10,7 @@ Construit avec **React**, **Three.js**, **Framer Motion** et **Supabase**.
 
 ```sh
 npm install
+cp .env.example .env   # puis remplir les clés (voir « Configuration »)
 npm start
 ```
 
@@ -37,9 +38,11 @@ L'app tourne sur **http://localhost:3000** par défaut.
 │   │   └── NewsSection.js   # Section actualités animée
 │   ├── contexts/
 │   │   └── DataContext.js   # Chargement centralisé Supabase (news, avis)
-│   ├── pages/               # Pages principales (Home, Tattoo, Makeup, Contact, Project)
+│   ├── data/                # Contenus en JSON/JS (looks makeup, flashs, transcription vidéo)
+│   ├── pages/               # Pages (Home, Tattoo, Makeup, Contact, Project, NewsDetail, NotFound)
 │   ├── services/
 │   │   └── database/        # Requêtes Supabase (reviews, news)
+│   ├── index.js             # Point d'entrée : routes (chargées à la demande) et mise en page
 │   ├── styles/              # CSS par page/composant
 │   └── utils/
 │       └── supabase.ts      # Client Supabase
@@ -87,6 +90,28 @@ Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise cel
 
 ---
 
+## Configuration
+
+Les clés sont lues dans `.env` (ignoré par git). Le modèle `.env.example` liste les variables utilisées par le code :
+
+| Variables                                  | Service    | Sert à                                        |
+| :----------------------------------------- | :--------- | :-------------------------------------------- |
+| `REACT_APP_EMAILJS_*` (4)                  | EmailJS    | Envoyer le formulaire de contact              |
+| `REACT_APP_CLOUDINARY_*` (2)               | Cloudinary | Héberger les images jointes à une demande     |
+| `REACT_APP_SUPABASE_*` (2)                 | Supabase   | Lire les actualités et les avis               |
+
+Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y mettre que des clés publiques. Sans `.env`, le site fonctionne sans actualités, sans avis et sans envoi de formulaire.
+
+---
+
+## Mise en ligne
+
+- `public/_redirects` renvoie toutes les URL vers `index.html` (format Netlify) : le routage se fait côté navigateur, et les adresses inconnues affichent la page 404 du site.
+- Les variables de `.env` doivent aussi être définies chez l'hébergeur, puisqu'elles sont lues au moment du build.
+- Pour que l'aperçu des liens partagés (`og:image`, `public/og-image.jpg`) fonctionne sur les réseaux sociaux, renseigner l'URL du site dans le champ `"homepage"` de `package.json` (par exemple `"homepage": "https://mon-domaine.fr"`) : les réseaux exigent une adresse absolue.
+
+---
+
 ## Pages principales
 
 | Route        | Description                                       |
@@ -96,6 +121,7 @@ Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise cel
 | `/makeup`    | Galerie makeup en bento slider                    |
 | `/project`   | Présentation du futur salon L'Anomalie            |
 | `/contact`   | Formulaire de contact (général ou demande tattoo) |
+| `/news/:id`  | Détail d'une actualité                            |
 
 ---
 
@@ -103,7 +129,7 @@ Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise cel
 
 - [React 19](https://react.dev) — framework principal
 - [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) + [Three.js](https://threejs.org) — modèle 3D
-- [Framer Motion](https://www.framer.com/motion/) — animations de page
+- [Motion](https://motion.dev) (ex-Framer Motion) — animations de page
 - [GSAP](https://gsap.com) — animation de distribution des cartes
 - [Supabase](https://supabase.com) — base de données (avis clients, actualités)
 - [EmailJS](https://www.emailjs.com) — envoi du formulaire de contact sans backend

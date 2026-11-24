@@ -40,3 +40,6 @@ node_modules/
 
 # Originaux haute définition des médias (voir scripts/optimize-media.mjs)
 /media-originals/
+
+# IDE (JetBrains)
+/.idea/
