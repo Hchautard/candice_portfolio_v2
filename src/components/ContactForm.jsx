@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import '../styles/ContactForm.css';
 import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
 import * as z from 'zod';
@@ -32,12 +33,18 @@ const SEND_ERROR = "L'envoi a échoué. Réessayez dans quelques minutes, ou éc
 // Date du jour en heure locale (toISOString donne la date UTC, donc la veille entre minuit et 1-2 h)
 const todayLocal = () => new Date().toLocaleDateString('en-CA');
 
+// Nom de flash reçu du lien « Adopter ce flash » (?flash=…) : texte court, sans caractères de contrôle
+const cleanFlashName = (value) => [...(value || '')].filter((char) => char >= ' ').join('').trim().slice(0, 80);
+
 const formatSize = (bytes) => (bytes < 1024 * 1024
     ? `${Math.max(1, Math.round(bytes / 1024))} Ko`
     : `${(bytes / (1024 * 1024)).toFixed(1).replace('.', ',')} Mo`);
 
 function ContactForm() {
-    const [activeTab, setActiveTab] = useState('default');
+    const [searchParams] = useSearchParams();
+    const adoptedFlash = cleanFlashName(searchParams.get('flash'));
+    // Venue d'une carte flash : formulaire tatouage ouvert, description préremplie
+    const [activeTab, setActiveTab] = useState(adoptedFlash ? 'tattoo' : 'default');
     // Champ piège invisible : un humain le laisse vide, beaucoup de robots le remplissent
     const honeypotRef = useRef(null);
 
@@ -64,7 +71,9 @@ function ContactForm() {
         appointmentPreferredDate: '',
     };
 
-    const [formData, setFormData] = useState(initialDefaultFormData);
+    const [formData, setFormData] = useState(() => (adoptedFlash
+        ? { ...initialTattooFormData, description: `Je souhaite adopter le flash « ${adoptedFlash} ».` }
+        : initialDefaultFormData));
     const [fieldErrors, setFieldErrors] = useState({});
 
     const [status, setStatus] = useState({
