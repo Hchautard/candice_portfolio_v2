@@ -611,3 +611,12 @@ input[type="checkbox"] {
     background: rgba(29, 92, 51, 0.08);
     border: 1px solid rgba(29, 92, 51, 0.35);
 }
+
+/* Champ piège anti-robots : hors écran (pas display:none, que certains robots ignorent) */
+.hp-field {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
