@@ -322,9 +322,8 @@ function ContactForm() {
                 {/* Form Part */}
                 <div className="container-form">
                     {/* Tab buttons */}
-                    <div
-                        className="flex justify-start w-full gap-4 items-baseline"
-                        role="group"
+                    <fieldset
+                        className="form-type-switch flex justify-start w-full gap-4 items-baseline"
                         aria-label="Type de demande"
                         aria-describedby="form-type-help"
                     >
@@ -351,7 +350,7 @@ function ContactForm() {
                         >
                             Projet tatouage
                         </button>
-                    </div>
+                    </fieldset>
 
                     <form onSubmit={handleSubmit} noValidate className="grid grid-cols-1 md:grid-cols-2 gap-4 form">
                         {/* Piège à robots : hors écran, ignoré au clavier et par les lecteurs d'écran */}
@@ -600,9 +599,9 @@ function ContactForm() {
                             </div>
                         )}
                         {status.submitted && !status.info.error && (
-                            <div role="status" className="col-span-1 md:col-span-2 form-status form-status-success text-center p-3 rounded">
+                            <output className="col-span-1 md:col-span-2 form-status form-status-success text-center p-3 rounded">
                                 {status.info.msg}
-                            </div>
+                            </output>
                         )}
 
                         <div className="col-span-1 md:col-span-2 flex justify-between items-center flex-wrap gap-2">
@@ -618,7 +617,7 @@ function ContactForm() {
                             </button>
                         </div>
                         {/* Progression annoncée aux lecteurs d'écran (le nouveau texte du bouton n'est pas lu) */}
-                        <p className="sr-only" role="status">{status.submitting ? status.info.msg : ''}</p>
+                        <output className="sr-only">{status.submitting ? status.info.msg : ''}</output>
                     </form>
                 </div>
             </div>

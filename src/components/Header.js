@@ -61,7 +61,7 @@ export default function Header() {
 
             const focusables = [burgerRef.current, ...navRef.current.querySelectorAll('a')];
             const first = focusables[0];
-            const last = focusables[focusables.length - 1];
+            const last = focusables.at(-1);
             const inside = focusables.includes(document.activeElement);
 
             if (event.shiftKey && (document.activeElement === first || !inside)) {

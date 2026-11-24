@@ -12,7 +12,7 @@ const prefersReducedMotion = () => window.matchMedia?.("(prefers-reduced-motion:
 // Largeur utile du conteneur : les cartes en position absolue partent du bord intérieur (hors padding)
 const contentWidth = (el) => {
   const style = getComputedStyle(el);
-  return el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+  return el.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight);
 };
 
 const CardDistribution = ({ cards = [] }) => {
