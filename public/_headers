@@ -1,0 +1,18 @@
+# En-têtes HTTP du site publié (format Netlify, également lu par Cloudflare Pages)
+
+# Sécurité, sur toutes les adresses :
+# - nosniff : le navigateur respecte le type annoncé d'un fichier, sans le deviner
+# - referrer : les sites liés (Instagram…) voient le domaine d'origine, pas l'adresse complète
+# - DENY : le site ne peut pas être affiché dans un cadre (iframe) d'un autre site, contre le clickjacking
+# - permissions : caméra, micro, position et paiement coupés, le site n'en a pas besoin
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+# Fichiers du build : leur nom contient l'empreinte de leur contenu (Home-DVXNCZl4.js) et change
+# dès qu'ils changent. Le navigateur peut donc les garder un an sans jamais les redemander :
+# images, polices, scripts et vidéo ne sont plus revalidés à chaque visite.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
