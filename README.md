@@ -121,8 +121,10 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
 
 ## Mise en ligne
 
-- `public/_redirects` renvoie toutes les URL vers `index.html` (format Netlify) : le routage se fait côté navigateur, et les adresses inconnues affichent la page 404 du site.
-- `public/_headers` (même format) ajoute les en-têtes de sécurité et met en cache pour un an les fichiers de `build/assets/`, dont le nom change à chaque modification. Sa politique de sécurité (CSP) liste les seuls services externes permis (Supabase, EmailJS, Cloudinary) : pour en ajouter un (police en ligne, vidéo YouTube, statistiques…), y ajouter son adresse, sinon le navigateur le bloque. `npm run test:build` vérifie chaque page du build avec cette politique, en CI aussi.
+- Le site est un « Static Site » Render, décrit par `render.yaml` (Render ne lit pas les fichiers `_redirects` et `_headers` de Netlify) :
+  - toutes les URL servent `index.html` : le routage se fait côté navigateur, et les adresses inconnues affichent la page 404 du site ;
+  - en-têtes de sécurité sur toutes les adresses, et cache d'un an pour les fichiers de `build/assets/`, dont le nom change à chaque modification.
+- Rattacher `render.yaml` au site, une seule fois : dans Render, **New → Blueprint**, puis ce dépôt. Render l'applique au site dont le nom est celui du champ `name` ; avec un autre nom, il créerait un second site. Vérifier la liste des changements avant **Deploy Blueprint**. Ensuite, chaque modification de `render.yaml` arrivée sur `main` est appliquée seule ; les variables d'environnement du tableau de bord sont conservées.
 - Les variables de `.env` doivent aussi être définies chez l'hébergeur, puisqu'elles sont lues au moment du build.
 - Pour que l'aperçu des liens partagés (`og:image`, `public/og-image.jpg`) fonctionne sur les réseaux sociaux, définir `REACT_APP_SITE_URL` (par exemple `https://mon-domaine.fr`) chez l'hébergeur : les réseaux exigent une adresse absolue, `vite.config.js` l'insère dans `index.html` au build.
 - Commande de build `npm run build`, dossier publié `build/` (inchangés depuis Create React App).

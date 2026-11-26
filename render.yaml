@@ -1,0 +1,45 @@
+# Configuration du site sur Render (« Blueprint »), appliquée à chaque modification poussée.
+# Render ne lit pas les fichiers _headers et _redirects de Netlify : réécriture et en-têtes sont ici.
+# Rattachement une seule fois dans Render : New → Blueprint, puis ce dépôt (voir README, « Mise en ligne »).
+# Les variables d'environnement définies dans le tableau de bord de Render sont conservées.
+services:
+  - type: web
+    runtime: static
+    # Identique au nom du site dans le tableau de bord : c'est ce qui rattache ce fichier au site
+    # existant. Avec un autre nom, Render créerait un second site.
+    name: candice_portfolio_v2
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./build
+
+    # Routage côté navigateur : toute adresse sert index.html, et les adresses inconnues affichent
+    # la page 404 du site. Render sert d'abord les fichiers qui existent (/assets/…, /favicon.ico).
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+    headers:
+      # Sécurité, sur toutes les adresses :
+      # - nosniff : le navigateur respecte le type annoncé d'un fichier, sans le deviner
+      # - referrer : les sites liés (Instagram…) voient le domaine d'origine, pas l'adresse complète
+      # - DENY : le site ne peut pas être affiché dans un cadre (iframe) d'un autre site, contre le clickjacking
+      # - permissions : caméra, micro, position et paiement coupés, le site n'en a pas besoin
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: Permissions-Policy
+        value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+      # Fichiers du build : leur nom contient l'empreinte de leur contenu (Home-DVXNCZl4.js) et change
+      # dès qu'ils changent. Le navigateur peut donc les garder un an sans jamais les redemander :
+      # images, polices, scripts et vidéo ne sont plus revalidés à chaque visite.
+      - path: /assets/*
+        name: Cache-Control
+        value: "public, max-age=31536000, immutable"

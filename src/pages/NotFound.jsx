@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import DocumentTitleSetter from '../utils/title-setter.ts';
 import '../styles/NotFound.css';
 
-// Adresse inconnue. Le serveur répond 200 à toutes les URL (fallback SPA dans _redirects) :
+// Adresse inconnue. Le serveur répond 200 à toutes les URL (réécriture dans render.yaml) :
 // noindex évite que les moteurs de recherche indexent ces fausses pages.
 export default function NotFound() {
     DocumentTitleSetter('Page introuvable');
