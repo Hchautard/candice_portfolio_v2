@@ -41,12 +41,11 @@ p {
   text-wrap: pretty;
 }
 
-/* Offset for fixed header on all pages */
+/* Offset for fixed header on all pages (la page Makeup le gère dans son carrousel, Makeup.css) */
 .Home,
 .Tattoo,
 .project-page,
 .Contact,
-.makeup-container,
 .news-detail {
   padding-top: calc(5vh + 20px);
 }
@@ -57,7 +56,6 @@ p {
   .Tattoo,
   .project-page,
   .Contact,
-  .makeup-container,
   .news-detail {
     padding-top: max(calc(5vh + 20px), 80px);
   }
@@ -94,6 +92,10 @@ p {
   --xxxlarge: 100px;
   --xxxxlarge: 160px;
   --xxxxxlarge: 240px;
+
+  /* Courbes d'animation : entrées et sorties, déplacements à l'écran */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 /* Define font faces — WOFF2 (2x plus léger que les TTF/OTF d'origine, gardés dans assets/fonts) */

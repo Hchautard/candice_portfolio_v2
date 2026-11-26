@@ -21,7 +21,7 @@ test.describe('responsive images on a standard desktop screen', () => {
 
     test('makeup photos use a reduced version', async ({ page }) => {
         await page.goto('/makeup');
-        const photo = page.locator('.bento-cell img').first();
+        const photo = page.locator('.look-card img').first();
 
         await expect.poll(() => photo.evaluate((img: HTMLImageElement) => img.currentSrc)).toMatch(/\/w(640|960)\//);
     });
