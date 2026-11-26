@@ -1,0 +1,76 @@
+# Configuration du site sur Render (« Blueprint »), appliquée à chaque modification poussée.
+# Render ne lit pas les fichiers _headers et _redirects de Netlify : réécriture et en-têtes sont ici.
+# Rattachement une seule fois dans Render : New → Blueprint, puis ce dépôt (voir README, « Mise en ligne »).
+# Les variables d'environnement définies dans le tableau de bord de Render sont conservées.
+services:
+  - type: web
+    runtime: static
+    # Identique au nom du site dans le tableau de bord : c'est ce qui rattache ce fichier au site
+    # existant (adresse Render : lanomalie-v2.onrender.com). Avec un autre nom, Render créerait un
+    # second site.
+    name: lanomalie-v2
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./build
+
+    # Routage côté navigateur : toute adresse sert index.html, et les adresses inconnues affichent
+    # la page 404 du site. Render sert d'abord les fichiers qui existent (/assets/…, /favicon.ico).
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+    headers:
+      # Sécurité, sur toutes les adresses :
+      # - nosniff : le navigateur respecte le type annoncé d'un fichier, sans le deviner
+      # - referrer : les sites liés (Instagram…) voient le domaine d'origine, pas l'adresse complète
+      # - DENY : le site ne peut pas être affiché dans un cadre (iframe) d'un autre site, contre le clickjacking
+      # - permissions : caméra, micro, position et paiement coupés, le site n'en a pas besoin
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: Permissions-Policy
+        value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+      # CSP (Content-Security-Policy) : la liste des sources que le navigateur accepte. Un script glissé dans
+      # la page par une faille ne pourrait ni s'exécuter (aucun script en ligne n'est permis), ni envoyer
+      # des données ailleurs que vers les services ci-dessous.
+      # - script : les fichiers du site ; wasm-unsafe-eval pour le décodeur Draco du modèle 3D (WebAssembly)
+      # - worker : ce décodeur tourne dans un worker créé en mémoire (blob:)
+      # - style : les feuilles du site seulement ; les styles posés par React, Motion et GSAP restent permis
+      # - img, font : data: pour les petites images et les polices de slick-carousel intégrées au CSS ;
+      #   Supabase et Cloudinary pour l'image facultative d'une actualité (une autre adresse serait bloquée)
+      # - connect : Supabase (actualités, avis), EmailJS (envoi du formulaire), Cloudinary (images jointes)
+      # - object, base, form, frame-ancestors : pas de plugin, pas de <base> détournée, formulaires vers
+      #   le site seulement, pas d'affichage dans le cadre d'un autre site (comme DENY)
+      # Nouveau service externe : ajouter son adresse ici, sinon le navigateur le bloque.
+      # `npm run test:build` vérifie les pages du build avec cette politique (tests/build/csp.spec.ts).
+      # « >- » : une directive par ligne pour la lecture, envoyées sur une seule ligne séparées d'espaces.
+      - path: /*
+        name: Content-Security-Policy
+        value: >-
+          default-src 'self';
+          script-src 'self' 'wasm-unsafe-eval';
+          worker-src 'self' blob:;
+          style-src 'self';
+          img-src 'self' data: https://*.supabase.co https://res.cloudinary.com;
+          font-src 'self' data:;
+          media-src 'self';
+          connect-src 'self' https://*.supabase.co https://api.emailjs.com https://api.cloudinary.com;
+          object-src 'none';
+          base-uri 'self';
+          form-action 'self';
+          frame-ancestors 'none'
+
+      # Fichiers du build : leur nom contient l'empreinte de leur contenu (Home-DVXNCZl4.js) et change
+      # dès qu'ils changent. Le navigateur peut donc les garder un an sans jamais les redemander :
+      # images, polices, scripts et vidéo ne sont plus revalidés à chaque visite.
+      - path: /assets/*
+        name: Cache-Control
+        value: "public, max-age=31536000, immutable"

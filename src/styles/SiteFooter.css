@@ -98,6 +98,30 @@
     border-top: 1px solid rgba(var(--primary-rgba), 0.1);
     color: var(--accent-light);
     font-size: 0.875rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+
+    p {
+        margin: 0;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-color: rgba(var(--primary-rgba), 0.3);
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--primary);
+        }
+
+        &:focus-visible {
+            outline-color: var(--primary);
+        }
+    }
 }
 
 @media (max-width: 768px) {

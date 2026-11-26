@@ -32,7 +32,19 @@ export default function SiteFooter() {
                     </ul>
                 </div>
             </div>
-            <p className="site-footer-legal">© {new Date().getFullYear()} L&apos;Anomalie · Candice</p>
+            <div className="site-footer-legal">
+                <p>© {new Date().getFullYear()} L&apos;Anomalie · Candice</p>
+                {/* Crédit exigé par la licence CC BY 4.0 du modèle 3D de l'accueil (allégé, donc « adapté ») */}
+                <p>
+                    Modèle 3D adapté de{' '}
+                    <a href="https://sketchfab.com/3d-models/tattoo-machine-1a9ea4720b114946a8660d55d8bd1584" target="_blank" rel="noopener noreferrer">
+                        «&nbsp;Tattoo machine&nbsp;»
+                    </a>{' '}
+                    par{' '}
+                    <a href="https://sketchfab.com/sayshong" target="_blank" rel="noopener noreferrer">sayshong</a>,{' '}
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener noreferrer">CC&nbsp;BY&nbsp;4.0</a>
+                </p>
+            </div>
         </footer>
     );
 }

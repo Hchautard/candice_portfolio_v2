@@ -8,6 +8,8 @@ Construit avec **React** et **Vite**, **Three.js**, **Motion** et **Supabase**.
 
 ## Démarrage rapide
 
+Node **22** (version fixée dans `.nvmrc`, `nvm use` la sélectionne) ; Vite demande au minimum Node 20.19.
+
 ```sh
 npm install
 cp .env.example .env   # puis remplir les clés (voir « Configuration »)
@@ -25,6 +27,8 @@ L'app tourne sur **http://localhost:3000** par défaut.
 ├── index.html               # Page HTML (balises SEO / partage), point d'entrée de Vite
 ├── vite.config.js           # Build, port 3000, préfixe REACT_APP_ des variables
 ├── public/
+│   ├── draco/               # Décodeur Draco du modèle 3D (copie de three)
+│   ├── hdri/                # Éclairage du modèle 3D
 │   └── models/              # Modèles 3D (.glb)
 ├── src/
 │   ├── assets/
@@ -62,8 +66,10 @@ L'app tourne sur **http://localhost:3000** par défaut.
 | `npm run build`   | Build le site dans `./build/`                  |
 | `npm run preview` | Sert le build en local sur `localhost:4173`    |
 | `npm test`        | Lance les tests E2E Playwright                 |
+| `npm run test:build` | Teste le site construit (politique de sécurité) |
 | `npm run lint`    | Analyse le code avec ESLint                    |
 | `npm run optimize:media` | Convertit les nouvelles images en WebP optimisé |
+| `npm run optimize:3d` | Régénère le modèle 3D et son éclairage allégés |
 
 ### Ajouter des photos
 
@@ -81,12 +87,19 @@ Pour une nouvelle vidéo (720p, ~1 Mb/s, lecture progressive) :
 ffmpeg -i source.mp4 -vf "scale=720:-2" -c:v libx264 -preset slow -crf 28 -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart src/assets/video/vid_project.mp4
 ```
 
+### Modèle 3D de l'accueil
+
+Le modèle (`public/models/tattoo_machine/scene-v3.glb`), son éclairage (`public/hdri/`) et le décodeur Draco (`public/draco/`) sont servis par le site lui-même, sans CDN tiers. `npm run optimize:3d` les produit à partir des sources rangées dans `media-originals/` (voir l'en-tête de `scripts/optimize-3d.mjs`) : rendu identique à l'original, pour 1,9 Mo au lieu de 4,2 Mo.
+
+Le modèle est sous licence CC BY 4.0 : le crédit de son auteur, dans le pied de page, doit rester.
+
 ### Tests E2E (Playwright)
 
 ```sh
 npx playwright install   # À faire une seule fois
 npx playwright test      # Lance tous les tests
 npx playwright test --ui # Mode interactif
+npm run test:build       # Site construit, avec la politique de sécurité de render.yaml
 ```
 
 Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise celui déjà lancé sur le port 3000. Les tests ne dépendent pas de Supabase : sans `.env`, le site s'affiche simplement sans actualités ni avis (c'est le cas en CI).
@@ -110,10 +123,15 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
 
 ## Mise en ligne
 
-- `public/_redirects` renvoie toutes les URL vers `index.html` (format Netlify) : le routage se fait côté navigateur, et les adresses inconnues affichent la page 404 du site.
+- Le site est un « Static Site » Render, décrit par `render.yaml` (Render ne lit pas les fichiers `_redirects` et `_headers` de Netlify) :
+  - toutes les URL servent `index.html` : le routage se fait côté navigateur, et les adresses inconnues affichent la page 404 du site ;
+  - en-têtes de sécurité sur toutes les adresses, et cache d'un an pour les fichiers de `build/assets/`, dont le nom change à chaque modification ;
+  - politique de sécurité (CSP) : elle liste les seuls services externes permis (Supabase, EmailJS, Cloudinary). Pour en ajouter un (police en ligne, vidéo YouTube, statistiques…), y ajouter son adresse, sinon le navigateur le bloque. `npm run test:build` vérifie chaque page du build avec cette politique, en CI aussi.
+- Rattacher `render.yaml` au site, une seule fois : dans Render, **New → Blueprint**, puis ce dépôt. Render l'applique au site dont le nom est celui du champ `name` ; avec un autre nom, il créerait un second site. Vérifier la liste des changements avant **Deploy Blueprint**. Ensuite, chaque modification de `render.yaml` arrivée sur `main` est appliquée seule ; les variables d'environnement du tableau de bord sont conservées.
 - Les variables de `.env` doivent aussi être définies chez l'hébergeur, puisqu'elles sont lues au moment du build.
 - Pour que l'aperçu des liens partagés (`og:image`, `public/og-image.jpg`) fonctionne sur les réseaux sociaux, définir `REACT_APP_SITE_URL` (par exemple `https://mon-domaine.fr`) chez l'hébergeur : les réseaux exigent une adresse absolue, `vite.config.js` l'insère dans `index.html` au build.
 - Commande de build `npm run build`, dossier publié `build/` (inchangés depuis Create React App).
+- Version de Node : `.nvmrc` (22), lu par Render et par la CI, sauf si une variable `NODE_VERSION` est définie dans le tableau de bord de Render (elle passe avant). Avec un Node plus ancien que 20.19, le build Vite échoue.
 
 ---
 
