@@ -8,6 +8,8 @@ Construit avec **React** et **Vite**, **Three.js**, **Motion** et **Supabase**.
 
 ## Démarrage rapide
 
+Node **22** (version fixée dans `.nvmrc`, `nvm use` la sélectionne) ; Vite demande au minimum Node 20.19.
+
 ```sh
 npm install
 cp .env.example .env   # puis remplir les clés (voir « Configuration »)
@@ -129,6 +131,7 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
 - Les variables de `.env` doivent aussi être définies chez l'hébergeur, puisqu'elles sont lues au moment du build.
 - Pour que l'aperçu des liens partagés (`og:image`, `public/og-image.jpg`) fonctionne sur les réseaux sociaux, définir `REACT_APP_SITE_URL` (par exemple `https://mon-domaine.fr`) chez l'hébergeur : les réseaux exigent une adresse absolue, `vite.config.js` l'insère dans `index.html` au build.
 - Commande de build `npm run build`, dossier publié `build/` (inchangés depuis Create React App).
+- Version de Node : `.nvmrc` (22), lu par Render et par la CI, sauf si une variable `NODE_VERSION` est définie dans le tableau de bord de Render (elle passe avant). Avec un Node plus ancien que 20.19, le build Vite échoue.
 
 ---
 
