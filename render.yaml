@@ -6,8 +6,9 @@ services:
   - type: web
     runtime: static
     # Identique au nom du site dans le tableau de bord : c'est ce qui rattache ce fichier au site
-    # existant. Avec un autre nom, Render créerait un second site.
-    name: candice_portfolio_v2
+    # existant (adresse Render : lanomalie-v2.onrender.com). Avec un autre nom, Render créerait un
+    # second site.
+    name: lanomalie-v2
     buildCommand: npm ci && npm run build
     staticPublishPath: ./build
 
