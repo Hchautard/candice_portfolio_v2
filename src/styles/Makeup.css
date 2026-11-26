@@ -185,10 +185,6 @@
     gap: 12px;
 }
 
-.look-ring__open {
-    margin-left: 8px;
-}
-
 .look-ring__counter {
     margin: 0;
     min-width: 5.5ch;
@@ -220,6 +216,7 @@
 }
 
 .look-ring__open {
+    margin-left: 8px;
     padding: 10px 22px;
     border-radius: 999px;
     font-size: 0.95rem;

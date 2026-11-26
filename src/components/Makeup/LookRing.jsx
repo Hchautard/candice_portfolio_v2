@@ -58,12 +58,11 @@ export default function LookRing({ looks, onOpen }) {
     const [loaded, setLoaded] = useState(() => new Set(nearby(0, count)));
 
     const sectionRef = useRef(null);
+    const viewportRef = useRef(null);
     const cardRefs = useRef([]);
     const visibleRef = useRef([]);
     const activeRef = useRef(0);
     const turnRef = useRef(null);
-    const dragRef = useRef(null);
-    const draggedRef = useRef(false);
     // Doigt ou bouton de souris appuyé : le visiteur tient le défilement, le cylindre attend
     const pressedRef = useRef(false);
     // Sens du dernier défilement (1 : vers les looks suivants, -1 : vers les précédents)
@@ -137,8 +136,10 @@ export default function LookRing({ looks, onOpen }) {
             if (pressedRef.current || turnRef.current?.isActive()) return;
             const pos = positionFromScroll();
             if (Math.abs(pos - Math.round(pos)) < 0.01) return;
-            const direction = directionRef.current;
-            turnTo(direction > 0 ? Math.ceil(pos) : direction < 0 ? Math.floor(pos) : Math.round(pos));
+            let target = Math.round(pos);
+            if (directionRef.current > 0) target = Math.ceil(pos);
+            else if (directionRef.current < 0) target = Math.floor(pos);
+            turnTo(target);
         };
         const scheduleSettle = () => {
             clearTimeout(settleTimer);
@@ -207,6 +208,7 @@ export default function LookRing({ looks, onOpen }) {
         else turnTo(index);
     };
 
+    // Clavier, sur le look de face (seule carte atteignable avec Tab) : ← → Début Fin
     const onKeyDown = (event) => {
         const targets = { ArrowLeft: activeRef.current - 1, ArrowRight: activeRef.current + 1, Home: 0, End: count - 1 };
         if (!(event.key in targets)) return;
@@ -214,46 +216,62 @@ export default function LookRing({ looks, onOpen }) {
         turnTo(targets[event.key], { focus: true });
     };
 
-    // Glisser horizontalement fait défiler la page : la rotation et l'arrêt sur un look restent
-    // ceux du défilement. Une largeur de carte glissée = un look. Le geste vertical reste au
-    // navigateur (touch-action: pan-y dans Makeup.css).
-    const onPointerDown = (event) => {
-        if (!event.isPrimary || event.button !== 0) return;
-        dragRef.current = { x: event.clientX, y: event.clientY, scroll: window.scrollY, dragging: false };
-        draggedRef.current = false;
-    };
+    // Glisser horizontalement sur le cylindre fait défiler la page : la rotation et l'arrêt sur
+    // un look restent ceux du défilement. Une largeur de carte glissée = un look. Le geste
+    // vertical reste au navigateur (touch-action: pan-y dans Makeup.css). Au clavier, les
+    // flèches et les touches des cartes font la même chose.
+    useEffect(() => {
+        const viewport = viewportRef.current;
+        let drag = null;
+        // Après un glisser, le relâchement n'est pas un clic sur une carte
+        let dragged = false;
 
-    const onPointerMove = (event) => {
-        const drag = dragRef.current;
-        if (!drag || count < 2) return;
-        const dx = event.clientX - drag.x;
-
-        if (!drag.dragging) {
-            if (Math.abs(dx) < DRAG_THRESHOLD) return;
-            if (Math.abs(event.clientY - drag.y) > Math.abs(dx)) {
-                dragRef.current = null;
-                return;
+        const onPointerDown = (event) => {
+            if (!event.isPrimary || event.button !== 0) return;
+            drag = { x: event.clientX, y: event.clientY, scroll: window.scrollY, dragging: false };
+            dragged = false;
+        };
+        const onPointerMove = (event) => {
+            if (!drag || count < 2) return;
+            const dx = event.clientX - drag.x;
+            if (!drag.dragging) {
+                if (Math.abs(dx) < DRAG_THRESHOLD) return;
+                if (Math.abs(event.clientY - drag.y) > Math.abs(dx)) {
+                    drag = null;
+                    return;
+                }
+                drag.dragging = true;
+                dragged = true;
+                viewport.setPointerCapture(event.pointerId);
             }
-            drag.dragging = true;
-            draggedRef.current = true;
-            event.currentTarget.setPointerCapture(event.pointerId);
-        }
+            const cardWidth = cardRefs.current[activeRef.current]?.offsetWidth || 300;
+            window.scrollTo(0, drag.scroll - (dx / cardWidth) * geometry().perLook);
+        };
+        const onPointerEnd = () => {
+            drag = null;
+        };
+        const onClick = (event) => {
+            if (!dragged) return;
+            dragged = false;
+            event.preventDefault();
+            event.stopPropagation();
+        };
+        const onDragStart = (event) => event.preventDefault();
 
-        const cardWidth = cardRefs.current[activeRef.current]?.offsetWidth || 300;
-        window.scrollTo(0, drag.scroll - (dx / cardWidth) * geometry().perLook);
-    };
-
-    const onPointerEnd = () => {
-        dragRef.current = null;
-    };
-
-    // Après un glisser, le relâchement n'est pas un clic sur la carte
-    const onClickCapture = (event) => {
-        if (!draggedRef.current) return;
-        draggedRef.current = false;
-        event.preventDefault();
-        event.stopPropagation();
-    };
+        const listeners = [
+            ['pointerdown', onPointerDown],
+            ['pointermove', onPointerMove],
+            ['pointerup', onPointerEnd],
+            ['pointercancel', onPointerEnd],
+            ['dragstart', onDragStart],
+        ];
+        listeners.forEach(([type, listener]) => viewport.addEventListener(type, listener));
+        viewport.addEventListener('click', onClick, { capture: true });
+        return () => {
+            listeners.forEach(([type, listener]) => viewport.removeEventListener(type, listener));
+            viewport.removeEventListener('click', onClick, { capture: true });
+        };
+    }, [count, geometry]);
 
     const current = looks[active];
 
@@ -266,16 +284,7 @@ export default function LookRing({ looks, onOpen }) {
             aria-label="Looks maquillage"
         >
             <div className="look-ring__stage">
-                <div
-                    className="look-ring__viewport"
-                    onPointerDown={onPointerDown}
-                    onPointerMove={onPointerMove}
-                    onPointerUp={onPointerEnd}
-                    onPointerCancel={onPointerEnd}
-                    onClickCapture={onClickCapture}
-                    onDragStart={(event) => event.preventDefault()}
-                    onKeyDown={onKeyDown}
-                >
+                <div ref={viewportRef} className="look-ring__viewport">
                     <div className="look-ring__cylinder">
                         {looks.map((look, i) => {
                             const cover = look.photos[0];
@@ -291,6 +300,7 @@ export default function LookRing({ looks, onOpen }) {
                                         ? `${fullTitle(look)} : ${photosLabel(look).toLowerCase()}`
                                         : `Afficher le look ${fullTitle(look)}`}
                                     onClick={() => onCardClick(i)}
+                                    onKeyDown={onKeyDown}
                                 >
                                     {loaded.has(i) && (
                                         <LazyImage

@@ -15,6 +15,12 @@ function photoSizes({ width, height }) {
     return `min(${(PHOTO_HEIGHT_VH * ratio).toFixed(1)}vh, ${Math.round(PHOTO_MAX_HEIGHT * ratio)}px, calc(100vw - 72px))`;
 }
 
+/** « Maquillage Magic Garden : La princesse, photo 1 sur 2 » */
+function photoAlt(look, index) {
+    const alt = `Maquillage ${fullTitle(look)}`;
+    return look.photos.length > 1 ? `${alt}, photo ${index + 1} sur ${look.photos.length}` : alt;
+}
+
 LookDialog.propTypes = {
     look: lookShape,
     onClose: PropTypes.func.isRequired,
@@ -33,14 +39,21 @@ export default function LookDialog({ look, onClose }) {
         if (!look && dialog.open) dialog.close();
     }, [look]);
 
+    // Clic sur le fond, à côté de la fenêtre : raccourci à la souris, Échap et le bouton Fermer
+    // font de même au clavier. La fenêtre n'a pas de marge intérieure : seul le fond la touche.
+    useEffect(() => {
+        const dialog = dialogRef.current;
+        const onBackdropClick = (event) => event.target === dialog && dialog.close();
+        dialog.addEventListener('click', onBackdropClick);
+        return () => dialog.removeEventListener('click', onBackdropClick);
+    }, []);
+
     return (
         <dialog
             ref={dialogRef}
             className="look-dialog"
             aria-labelledby={titleId}
             onClose={onClose}
-            // Clic sur le fond (la fenêtre n'a pas de marge intérieure : seul le fond la touche)
-            onClick={(event) => event.target === event.currentTarget && event.currentTarget.close()}
         >
             {shown && (
                 <div className="look-dialog__inner">
@@ -71,7 +84,7 @@ export default function LookDialog({ look, onClose }) {
                                     sizes={photo.srcSet && photoSizes(photo)}
                                     width={photo.width}
                                     height={photo.height}
-                                    alt={`Maquillage ${fullTitle(shown)}${shown.photos.length > 1 ? `, photo ${i + 1} sur ${shown.photos.length}` : ''}`}
+                                    alt={photoAlt(shown, i)}
                                     decoding="async"
                                 />
                             </li>

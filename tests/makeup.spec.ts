@@ -10,6 +10,13 @@ const LOOK_COUNT = 23;
 const activeTitle = (page: Page) => page.locator('.look-title[data-active] .look-title__name');
 const counter = (page: Page) => page.locator('.look-ring__counter');
 
+// Défilement d'un look à l'autre : hauteur de la section moins l'écran, répartie entre les looks
+// (la section commence en haut de la page : le look n est de face à n × ce défilement)
+const scrollPerLook = (page: Page) => page.evaluate((count) => {
+    const section = document.querySelector('.look-ring') as HTMLElement;
+    return (section.offsetHeight - innerHeight) / (count - 1);
+}, LOOK_COUNT);
+
 test.describe('makeup carousel', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/makeup');
@@ -50,11 +57,7 @@ test.describe('makeup carousel', () => {
     });
 
     test('scrolling turns to the next look and stops on it', async ({ page }) => {
-        // Défilement d'un look : hauteur de la section moins l'écran, répartie entre les looks
-        const perLook = await page.evaluate((count) => {
-            const section = document.querySelector('.look-ring') as HTMLElement;
-            return (section.offsetHeight - innerHeight) / (count - 1);
-        }, LOOK_COUNT);
+        const perLook = await scrollPerLook(page);
 
         await page.locator('.look-ring__viewport').hover();
         await page.mouse.wheel(0, perLook * 0.6);
@@ -85,10 +88,11 @@ test.describe('makeup carousel', () => {
         await expect(activeTitle(page)).toHaveText("L'enivrante");
         await expect(page.getByRole('dialog')).toBeHidden();
 
-        // Clic à la souris, une fois la rotation finie (locator.click ferait d'abord défiler la
-        // page vers la place d'origine de la carte dans WebKit : elle est dans une scène collante)
-        await expect(counter(page)).toHaveText(/02/);
-        await page.waitForTimeout(600);
+        // Clic à la souris, une fois la rotation finie, la page calée sur le look (locator.click
+        // ferait d'abord défiler la page vers la place d'origine de la carte dans WebKit : elle
+        // est dans une scène collante)
+        const perLook = await scrollPerLook(page);
+        await expect.poll(() => page.evaluate(() => scrollY)).toBeCloseTo(perLook, -1);
         const card = (await page.locator('.look-card[data-active]').boundingBox())!;
         await page.mouse.click(card.x + card.width / 2, card.y + card.height / 2);
         await expect(page.getByRole('dialog', { name: "L'enivrante" })).toBeVisible();
