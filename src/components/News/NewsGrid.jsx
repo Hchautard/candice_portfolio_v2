@@ -1,5 +1,6 @@
 import {useData} from "../../contexts/DataContext";
 import NewsCard from "./NewsCard";
+import { formatDate } from "../../utils/dates";
 import "../../styles/NewsGrid.css";
 
 export default function NewsGrid() {
@@ -8,9 +9,8 @@ export default function NewsGrid() {
     if (loading) return <div className="news-status">Chargement des actualités…</div>;
     if (error) return <div className="news-status">Les actualités sont indisponibles pour le moment.</div>;
 
-    const newsList = [...news]
-        .sort((a, b) => new Date(b.date_event) - new Date(a.date_event))
-        .slice(0, 3);
+    // Déjà triées de la plus récente à la plus ancienne (services/database/news.js)
+    const newsList = news.slice(0, 3);
 
     if (newsList.length === 0) return null;
 
@@ -26,7 +26,7 @@ export default function NewsGrid() {
                             id={item.id}
                             title={item.title}
                             description={item.description}
-                            date={new Date(item.date_event).toLocaleDateString('fr-FR')}
+                            date={formatDate(item.date_event)}
                             category={item.category}
                             location={item.location}
                             showDetails

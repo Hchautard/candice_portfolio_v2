@@ -12,6 +12,8 @@ const CATEGORY_BACKGROUNDS = {
 
 export default function NewsCard({ id, title, description, date, category, location, image, showDetails }) {
     const backgroundImage = CATEGORY_BACKGROUNDS[category] || creation;
+    // Date et lieu indépendants : le lieu reste affiché quand la date manque
+    const meta = [date, location].filter(Boolean).join(' | ');
 
     return (
         <Link
@@ -28,9 +30,7 @@ export default function NewsCard({ id, title, description, date, category, locat
                 {category && showDetails && (
                     <div className="news-category-shop">{category}</div>
                 )}
-                <span className="news-date-shop">
-                    {date}{date && location && <>&nbsp;|&nbsp;{location}</>}
-                </span>
+                {meta && <span className="news-date-shop">{meta}</span>}
             </div>
             {image && (
                 <img className="news-card-image" src={image} alt="" />

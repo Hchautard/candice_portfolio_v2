@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import "../styles/Reviews.css";
 import { useData } from '../contexts/DataContext';
 import Spinner from './Spinner';
+import { formatDate } from '../utils/dates';
 
 // Copies de la liste mises bout à bout pour que le défilement en boucle ne laisse jamais de vide
 const COPIES = 4;
@@ -103,7 +104,7 @@ export default function ReviewsSection() {
                                 <p className="review-comment">{review.comment}</p>
                                 <div className="review-footer">
                                     <span className="review-date">
-                                        {new Date(review.created_at).toLocaleDateString('fr-FR')}
+                                        {formatDate(review.created_at)}
                                     </span>
                                 </div>
                             </div>

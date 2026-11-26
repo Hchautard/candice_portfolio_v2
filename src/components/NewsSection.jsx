@@ -2,12 +2,13 @@ import {useNavigate} from "react-router-dom";
 import {motion} from "motion/react";
 import "../styles/News.css";
 import { useData } from '../contexts/DataContext';
+import { formatDate } from '../utils/dates';
 
 export default function NewsSection() {
     const { news, loading, error } = useData();
 
-    // Limit to the 3 most recent news items
-    const newsList = [...news].sort((a, b) => new Date(b.date_event) - new Date(a.date_event)).slice(0, 3);
+    // Les 3 plus récentes (déjà triées dans services/database/news.js)
+    const newsList = news.slice(0, 3);
     const navigate = useNavigate();
 
     const handleNewsClick = (newsItem) => {
@@ -54,7 +55,7 @@ export default function NewsSection() {
                             <h3 className="news-title">{news.title}</h3>
                             <p className="news-description">{news.description}</p>
                             <div className="news-footer">
-                                <span className="news-date">{news.date_event ? new Date(news.date_event).toLocaleDateString('fr-FR') : ''}</span>
+                                <span className="news-date">{formatDate(news.date_event)}</span>
                                 <span className="news-arrow">→</span>
                             </div>
                         </motion.div>
