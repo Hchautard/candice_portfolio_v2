@@ -68,7 +68,7 @@ L'app tourne sur **http://localhost:3000** par défaut.
 | `npm run build`   | Build le site dans `./build/`                  |
 | `npm run preview` | Sert le build en local sur `localhost:4173`    |
 | `npm test`        | Lance les tests E2E Playwright                 |
-| `npm run test:build` | Teste le site construit (politique de sécurité) |
+| `npm run test:build` | Teste le site construit (politique de sécurité, sitemap) |
 | `npm run lint`    | Analyse le code avec ESLint                    |
 | `npm run optimize:media` | Convertit les nouvelles images en WebP optimisé |
 | `npm run optimize:3d` | Régénère le modèle 3D et son éclairage allégés |
@@ -103,7 +103,7 @@ Le modèle est sous licence CC BY 4.0 : le crédit de son auteur, dans le pied d
 npx playwright install   # À faire une seule fois
 npx playwright test      # Lance tous les tests
 npx playwright test --ui # Mode interactif
-npm run test:build       # Site construit, avec la politique de sécurité de render.yaml
+npm run test:build       # Site construit : politique de sécurité de render.yaml, sitemap
 ```
 
 Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise celui déjà lancé sur le port 3000. Les tests ne contactent jamais la vraie base : `playwright.config.ts` pointe Supabase vers une adresse factice du serveur de dev, et `tests/news.spec.ts` y répond avec des actualités et des avis de test (tri, page détail, Markdown, panne). Ailleurs, personne ne répond et le site affiche « actualités indisponibles », comme pendant une panne.
@@ -141,6 +141,7 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
   - `sitemap.xml` et la ligne `Sitemap:` de `robots.txt`, générés au build par `scripts/seo-plugin.mjs`, avec la fiche « salon de tatouage » (schema.org, JSON-LD) insérée dans `index.html`.
 
   Sans elle, le build réussit mais avertit : pas de sitemap ni de lien canonique. Une fois le site en ligne, déclarer `https://mon-domaine.fr/sitemap.xml` dans Google Search Console.
+- Le sitemap liste les pages fixes et les actualités (`/news/:id`), lues dans Supabase au moment du build avec les mêmes clés que le site. Une actualité ajoutée ou supprimée dans Supabase n'y change qu'au déploiement suivant : dans Render, **Manual Deploy → Deploy latest commit**. Si Supabase ne répond pas pendant le build, le site est quand même publié, avec un sitemap sans actualités (avertissement dans le journal du build).
 - Commande de build `npm run build`, dossier publié `build/` (inchangés depuis Create React App).
 - Version de Node : `.nvmrc` (22), lu par Render et par la CI, sauf si une variable `NODE_VERSION` est définie dans le tableau de bord de Render (elle passe avant). Avec un Node plus ancien que 20.19, le build Vite échoue.
 
