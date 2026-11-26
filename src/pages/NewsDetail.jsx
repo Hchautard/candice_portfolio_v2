@@ -22,7 +22,7 @@ export default function NewsDetail() {
 
     const item = news.find(n => String(n.id) === String(id));
 
-    DocumentTitleSetter(item?.title || 'Actualité');
+    DocumentTitleSetter(item?.title?.trim() || 'Actualité', { description: item?.description?.trim() });
 
     useEffect(() => {
         if (!loading && !item) {

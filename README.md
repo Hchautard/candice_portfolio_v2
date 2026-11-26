@@ -26,6 +26,7 @@ L'app tourne sur **http://localhost:3000** par défaut.
 /
 ├── index.html               # Page HTML (balises SEO / partage), point d'entrée de Vite
 ├── vite.config.js           # Build, port 3000, préfixe REACT_APP_ des variables
+├── scripts/                 # Optimisation des médias, plugin SEO (sitemap, robots.txt, JSON-LD)
 ├── public/
 │   ├── draco/               # Décodeur Draco du modèle 3D (copie de three)
 │   ├── hdri/                # Éclairage du modèle 3D
@@ -51,7 +52,8 @@ L'app tourne sur **http://localhost:3000** par défaut.
 │   ├── index.jsx            # Point d'entrée : routes (chargées à la demande) et mise en page
 │   ├── styles/              # CSS par page/composant
 │   └── utils/
-│       └── supabase.ts      # Client Supabase
+│       ├── supabase.ts      # Client Supabase
+│       └── title-setter.ts  # Titre d'onglet, description et lien canonique de chaque page
 └── tests/                   # Tests E2E Playwright
 ```
 
@@ -117,7 +119,7 @@ Les clés sont lues dans `.env` (ignoré par git). Le modèle `.env.example` lis
 | `REACT_APP_EMAILJS_*` (4)                  | EmailJS    | Envoyer le formulaire de contact              |
 | `REACT_APP_CLOUDINARY_*` (2)               | Cloudinary | Héberger les images jointes à une demande     |
 | `REACT_APP_SUPABASE_*` (2)                 | Supabase   | Lire les actualités et les avis               |
-| `REACT_APP_SITE_URL`                       | —          | URL publique du site, pour l'image de partage |
+| `REACT_APP_SITE_URL`                       | —          | URL publique : image de partage, liens canoniques, sitemap |
 
 Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y mettre que des clés publiques. Sans `.env`, le site fonctionne sans actualités, sans avis et sans envoi de formulaire.
 
@@ -131,7 +133,12 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
   - politique de sécurité (CSP) : elle liste les seuls services externes permis (Supabase, EmailJS, Cloudinary). Pour en ajouter un (police en ligne, vidéo YouTube, statistiques…), y ajouter son adresse, sinon le navigateur le bloque. `npm run test:build` vérifie chaque page du build avec cette politique, en CI aussi.
 - Rattacher `render.yaml` au site, une seule fois : dans Render, **New → Blueprint**, puis ce dépôt. Render l'applique au site dont le nom est celui du champ `name` ; avec un autre nom, il créerait un second site. Vérifier la liste des changements avant **Deploy Blueprint**. Ensuite, chaque modification de `render.yaml` arrivée sur `main` est appliquée seule ; les variables d'environnement du tableau de bord sont conservées.
 - Les variables de `.env` doivent aussi être définies chez l'hébergeur, puisqu'elles sont lues au moment du build.
-- Pour que l'aperçu des liens partagés (`og:image`, `public/og-image.jpg`) fonctionne sur les réseaux sociaux, définir `REACT_APP_SITE_URL` (par exemple `https://mon-domaine.fr`) chez l'hébergeur : les réseaux exigent une adresse absolue, `vite.config.js` l'insère dans `index.html` au build.
+- Définir `REACT_APP_SITE_URL` (par exemple `https://mon-domaine.fr`) chez l'hébergeur. Elle sert à tout ce qui exige une adresse absolue :
+  - l'aperçu des liens partagés sur les réseaux (`og:image`, `public/og-image.jpg`) ;
+  - le lien canonique de chaque page (`src/utils/title-setter.ts`), qui évite que `/home` et `/` comptent comme deux pages ;
+  - `sitemap.xml` et la ligne `Sitemap:` de `robots.txt`, générés au build par `scripts/seo-plugin.mjs`, avec la fiche « salon de tatouage » (schema.org, JSON-LD) insérée dans `index.html`.
+
+  Sans elle, le build réussit mais avertit : pas de sitemap ni de lien canonique. Une fois le site en ligne, déclarer `https://mon-domaine.fr/sitemap.xml` dans Google Search Console.
 - Commande de build `npm run build`, dossier publié `build/` (inchangés depuis Create React App).
 - Version de Node : `.nvmrc` (22), lu par Render et par la CI, sauf si une variable `NODE_VERSION` est définie dans le tableau de bord de Render (elle passe avant). Avec un Node plus ancien que 20.19, le build Vite échoue.
 

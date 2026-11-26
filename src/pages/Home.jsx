@@ -13,7 +13,8 @@ import { INSTAGRAM } from "../data/social";
 const TattooMachine3D = lazy(() => import("../components/TattooMachine3D"));
 
 function Home() {
-  DocumentTitleSetter("Accueil");
+  // Description : celle de index.html. /home affiche la même page : son adresse de référence est /
+  DocumentTitleSetter("Accueil", { canonicalPath: "/" });
 
   const isMobile = window.innerWidth < 768;
 

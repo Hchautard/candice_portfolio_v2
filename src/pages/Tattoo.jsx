@@ -48,7 +48,9 @@ function formatImageForCards(rawImages) {
 function Tattoo() {
     const [activeCategory, setActiveCategory] = useState('tous');
 
-    DocumentTitleSetter("Tattoo");
+    DocumentTitleSetter("Tattoo", {
+        description: "Flashs à adopter et réalisations de Candice, tatoueuse à Montpellier : cyber-sigilism, gothique et dark fantasy, adaptés à votre morphologie.",
+    });
 
     const allImages = useMemo(() => formatImageForCards(getImages()), []);
 
