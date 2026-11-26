@@ -11,6 +11,10 @@ const GAP_NARROW = 16;
 const NARROW_WIDTH = 640;
 const MAX_PER_ROW = 4;
 
+// Largeur affichée d'une carte, reprise de ses classes Tailwind plus bas (w-[calc(50%-10px)] sm:w-56
+// lg:w-64 xl:w-80) : le navigateur en déduit quelle version de la photo télécharger (srcset)
+const CARD_SIZES = "(max-width: 639px) calc(50vw - 26px), (max-width: 1023px) 224px, (max-width: 1279px) 256px, 320px";
+
 const prefersReducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
 // Largeur utile du conteneur : les cartes en position absolue partent du bord intérieur (hors padding)
@@ -161,6 +165,8 @@ const CardDistribution = ({ cards = [] }) => {
                       )}
                       <img
                           src={card.imageSrc}
+                          srcSet={card.imageSrcSet}
+                          sizes={card.imageSrcSet && CARD_SIZES}
                           alt=""
                           className={`w-full h-full object-cover rounded-lg transition-opacity duration-300 ${
                               loadedImages.has(card.id) ? 'opacity-100' : 'opacity-0'
@@ -189,6 +195,8 @@ const CardDistribution = ({ cards = [] }) => {
                 {card.backImage ? (
                     <img
                         src={card.backImage}
+                        srcSet={card.backImageSrcSet}
+                        sizes={card.backImageSrcSet && CARD_SIZES}
                         alt=""
                         className="w-full h-full object-cover rounded-lg"
                         loading="lazy"

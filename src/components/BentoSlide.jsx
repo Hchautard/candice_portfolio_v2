@@ -27,6 +27,20 @@ function useWindowSize() {
     return windowSize;
 }
 
+// Largeur affichée d'une photo, pour choisir sa version (srcset). Les cellules prennent toute la
+// hauteur de la grille (90vh moins ses marges) et recadrent la photo (cover) : elle s'affiche à la
+// plus grande de la largeur de cellule et de hauteur × proportions. Mêmes paliers que plus bas :
+// 1 colonne sous 640 px (marges 12 px), 2 sous 1024 px puis 3 (marges 20 px, écarts 16 px).
+function photoSizes(aspectRatio) {
+    if (!aspectRatio) return undefined;
+    const fromHeight = (padding) => `calc(${aspectRatio.toFixed(3)} * (90vh - ${2 * padding}px))`;
+    return [
+        `(max-width: 639px) max(calc(100vw - 24px), ${fromHeight(12)})`,
+        `(max-width: 1023px) max(calc(50vw - 28px), ${fromHeight(20)})`,
+        `max(calc(33.33vw - 24px), ${fromHeight(20)})`,
+    ].join(", ");
+}
+
 export default function BentoSlide({ items }) {
     const { width } = useWindowSize();
 
@@ -101,6 +115,8 @@ function BentoCard({ item, isMobile }) {
         >
             <LazyImage
                 src={item.imageSrc}
+                srcSet={item.imageSrcSet}
+                sizes={item.imageSrcSet && photoSizes(item.aspectRatio)}
                 srcSmall={item.imageSrcSmall}
                 alt={item.title}
                 style={{

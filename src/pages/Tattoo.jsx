@@ -5,11 +5,19 @@ import DocumentTitleSetter from "../utils/title-setter.ts";
 import { CATEGORIES, IMAGE_CATEGORY_MAP } from "../data/tattooCategories";
 import { DONE_IMAGE_MAP, REALISATIONS } from "../data/tattooDone";
 import { INSTAGRAM } from "../data/social";
+import { srcSetBuilder } from "../utils/responsive-images";
 
-// Images optimisées en WebP via `npm run optimize:media`.
+// Images optimisées en WebP via `npm run optimize:media`, avec leurs versions réduites (w400/…).
 // import.meta.glob (Vite) liste les fichiers au build : chemin → URL de l'image
 const flashImages = import.meta.glob('../assets/images/tattoo/*.webp', { eager: true, import: 'default' });
 const doneImages = import.meta.glob('../assets/images/tattoo/done/*.webp', { eager: true, import: 'default' });
+const srcSetOf = srcSetBuilder({
+    ...import.meta.glob('../assets/images/tattoo/w*/*.webp', { eager: true, import: 'default' }),
+    ...import.meta.glob('../assets/images/tattoo/done/w*/*.webp', { eager: true, import: 'default' }),
+});
+
+// Les réalisations font la largeur d'une carte flash (320 px au plus, cf. .realisations-grid)
+const REALISATION_SIZES = "(max-width: 359px) calc(100vw - 32px), 320px";
 
 const fileName = (path) => path.split('/').pop().replace(/\.webp$/, '');
 
@@ -23,26 +31,29 @@ const byPath = (a, b) => {
 function getImages() {
     return Object.keys(flashImages).sort(byPath).map(path => ({
         src: flashImages[path],
+        srcSet: srcSetOf(path, flashImages[path]),
         name: fileName(path)
     }));
 }
 
-const doneImage = (file) => doneImages[`../assets/images/tattoo/done/${file}.webp`];
-
-function getDoneImage(name) {
-    const doneName = DONE_IMAGE_MAP[name];
-    return doneName ? doneImage(doneName) : undefined;
-}
+const donePath = (file) => `../assets/images/tattoo/done/${file}.webp`;
+const doneImage = (file) => doneImages[donePath(file)];
+const doneSrcSet = (file) => srcSetOf(donePath(file), doneImage(file));
 
 function formatImageForCards(rawImages) {
-    return rawImages.map((img, i) => ({
-        id: i + 1,
-        imageSrc: img.src,
-        name: img.name,
-        category: IMAGE_CATEGORY_MAP[img.name] || 'tous',
-        backImage: getDoneImage(img.name),
-        backContent: "Disponible !"
-    }));
+    return rawImages.map((img, i) => {
+        const doneName = DONE_IMAGE_MAP[img.name];
+        return {
+            id: i + 1,
+            imageSrc: img.src,
+            imageSrcSet: img.srcSet,
+            name: img.name,
+            category: IMAGE_CATEGORY_MAP[img.name] || 'tous',
+            backImage: doneName ? doneImage(doneName) : undefined,
+            backImageSrcSet: doneName ? doneSrcSet(doneName) : undefined,
+            backContent: "Disponible !"
+        };
+    });
 }
 
 function Tattoo() {
@@ -115,6 +126,8 @@ function Tattoo() {
                                 <li key={file}>
                                     <img
                                         src={doneImage(file)}
+                                        srcSet={doneSrcSet(file)}
+                                        sizes={REALISATION_SIZES}
                                         alt={alt}
                                         width="1080"
                                         height="1350"
