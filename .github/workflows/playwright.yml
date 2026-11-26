@@ -27,9 +27,9 @@ jobs:
     # Sans secrets Supabase, le site s'affiche sans actualités ni avis : les tests n'en dépendent pas.
     - name: Run Playwright tests
       run: npx playwright test
-    # Site construit, avec la politique de sécurité (CSP) de render.yaml : playwright.build.config.ts.
+    # Site construit : politique de sécurité (CSP) de render.yaml et sitemap, playwright.build.config.ts.
     # Lancé même si l'étape précédente échoue, pour voir les deux résultats.
-    - name: Test the production build (CSP)
+    - name: Test the production build (CSP, sitemap)
       if: ${{ !cancelled() }}
       run: npm run test:build
     - uses: actions/upload-artifact@v4

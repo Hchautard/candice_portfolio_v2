@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// Tests du site construit, tel qu'il sera publié (`npm run test:build`) : pour l'instant la politique
-// de sécurité (CSP) de render.yaml. Le serveur de dev ne s'y prête pas, il ajoute ses propres
+// Tests du site construit, tel qu'il sera publié (`npm run test:build`) : la politique de sécurité
+// (CSP) de render.yaml et le sitemap. Le serveur de dev ne s'y prête pas, il ajoute ses propres
 // scripts en ligne à la page.
 const PORT = 4174;
 
