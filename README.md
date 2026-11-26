@@ -104,6 +104,8 @@ npm run test:build       # Site construit, avec la politique de sécurité de re
 
 Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise celui déjà lancé sur le port 3000. Les tests ne contactent jamais la vraie base : `playwright.config.ts` pointe Supabase vers une adresse factice du serveur de dev, et `tests/news.spec.ts` y répond avec des actualités et des avis de test (tri, page détail, Markdown, panne). Ailleurs, personne ne répond et le site affiche « actualités indisponibles », comme pendant une panne.
 
+`tests/contact.spec.ts` remplit et envoie le formulaire (question, demande tatouage avec image, erreurs, « Adopter ce flash ») : les appels à EmailJS et Cloudinary sont interceptés, aucun message ni image ne part. Le serveur lancé par Playwright reçoit des clés factices (`playwright.config.ts`).
+
 ---
 
 ## Configuration
