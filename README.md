@@ -102,7 +102,7 @@ npx playwright test --ui # Mode interactif
 npm run test:build       # Site construit, avec la politique de sécurité de render.yaml
 ```
 
-Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise celui déjà lancé sur le port 3000. Les tests ne dépendent pas de Supabase : sans `.env`, le site s'affiche simplement sans actualités ni avis (c'est le cas en CI).
+Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise celui déjà lancé sur le port 3000. Les tests ne contactent jamais la vraie base : `playwright.config.ts` pointe Supabase vers une adresse factice du serveur de dev, et `tests/news.spec.ts` y répond avec des actualités et des avis de test (tri, page détail, Markdown, panne). Ailleurs, personne ne répond et le site affiche « actualités indisponibles », comme pendant une panne.
 
 ---
 

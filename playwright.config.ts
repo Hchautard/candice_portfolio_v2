@@ -2,6 +2,14 @@ import { defineConfig, devices } from '@playwright/test';
 
 const PORT = 3000;
 
+// Base Supabase factice, sur le serveur de dev lui-même : aucune requête ne sort de la machine.
+// tests/news.spec.ts répond à sa place avec des actualités et des avis de test. Ailleurs, personne
+// ne répond : le site se comporte comme pendant une panne (« actualités indisponibles »).
+// Défini ici, dans process.env, pour passer avant un éventuel .env local (Vite donne la priorité
+// à process.env) ; le serveur lancé par Playwright en hérite.
+process.env.REACT_APP_SUPABASE_URL = `http://localhost:${PORT}/supabase-test`;
+process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY = 'sb_publishable_test';
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
