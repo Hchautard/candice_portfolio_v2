@@ -1,12 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // Tests du site construit, tel qu'il sera publié (`npm run test:build`) : pour l'instant la politique
-// de sécurité (CSP) de public/_headers. Le serveur de dev ne s'y prête pas, il ajoute ses propres
+// de sécurité (CSP) de render.yaml. Le serveur de dev ne s'y prête pas, il ajoute ses propres
 // scripts en ligne à la page.
 const PORT = 4174;
 
 // Services factices inscrits dans le build. Les tests interceptent ces adresses, mais le navigateur
-// applique la CSP avant : un service oublié dans public/_headers fait échouer le test.
+// applique la CSP avant : un service oublié dans render.yaml fait échouer le test.
 // Ces valeurs passent avant celles d'un .env local (Vite donne la priorité à process.env).
 Object.assign(process.env, {
   REACT_APP_SUPABASE_URL: 'https://csp-test.supabase.co',
@@ -53,7 +53,7 @@ export default defineConfig({
   ],
 
   // Build neuf à chaque lancement (quelques secondes), dans build-test/ : build/ garde les vraies clés.
-  // Servi avec les en-têtes de _headers, comme chez l'hébergeur. Jamais de serveur réutilisé,
+  // Servi avec les en-têtes de render.yaml, comme chez Render. Jamais de serveur réutilisé,
   // il pourrait servir un ancien build.
   webServer: {
     command: `npx vite build --outDir build-test && node scripts/preview-headers.mjs build-test ${PORT}`,

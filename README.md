@@ -97,7 +97,7 @@ Le modèle est sous licence CC BY 4.0 : le crédit de son auteur, dans le pied d
 npx playwright install   # À faire une seule fois
 npx playwright test      # Lance tous les tests
 npx playwright test --ui # Mode interactif
-npm run test:build       # Site construit, avec la politique de sécurité de public/_headers
+npm run test:build       # Site construit, avec la politique de sécurité de render.yaml
 ```
 
 Playwright démarre lui-même le serveur de dev (`npm start`), ou réutilise celui déjà lancé sur le port 3000. Les tests ne dépendent pas de Supabase : sans `.env`, le site s'affiche simplement sans actualités ni avis (c'est le cas en CI).
@@ -123,7 +123,8 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
 
 - Le site est un « Static Site » Render, décrit par `render.yaml` (Render ne lit pas les fichiers `_redirects` et `_headers` de Netlify) :
   - toutes les URL servent `index.html` : le routage se fait côté navigateur, et les adresses inconnues affichent la page 404 du site ;
-  - en-têtes de sécurité sur toutes les adresses, et cache d'un an pour les fichiers de `build/assets/`, dont le nom change à chaque modification.
+  - en-têtes de sécurité sur toutes les adresses, et cache d'un an pour les fichiers de `build/assets/`, dont le nom change à chaque modification ;
+  - politique de sécurité (CSP) : elle liste les seuls services externes permis (Supabase, EmailJS, Cloudinary). Pour en ajouter un (police en ligne, vidéo YouTube, statistiques…), y ajouter son adresse, sinon le navigateur le bloque. `npm run test:build` vérifie chaque page du build avec cette politique, en CI aussi.
 - Rattacher `render.yaml` au site, une seule fois : dans Render, **New → Blueprint**, puis ce dépôt. Render l'applique au site dont le nom est celui du champ `name` ; avec un autre nom, il créerait un second site. Vérifier la liste des changements avant **Deploy Blueprint**. Ensuite, chaque modification de `render.yaml` arrivée sur `main` est appliquée seule ; les variables d'environnement du tableau de bord sont conservées.
 - Les variables de `.env` doivent aussi être définies chez l'hébergeur, puisqu'elles sont lues au moment du build.
 - Pour que l'aperçu des liens partagés (`og:image`, `public/og-image.jpg`) fonctionne sur les réseaux sociaux, définir `REACT_APP_SITE_URL` (par exemple `https://mon-domaine.fr`) chez l'hébergeur : les réseaux exigent une adresse absolue, `vite.config.js` l'insère dans `index.html` au build.

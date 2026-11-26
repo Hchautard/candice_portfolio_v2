@@ -1,8 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
 
-// Politique de sécurité (CSP) de public/_headers, sur le site construit (playwright.build.config.ts).
-// Le build est servi avec les en-têtes de _headers (scripts/preview-headers.mjs), comme chez
-// l'hébergeur : le navigateur bloque tout ce que la politique ne permet pas, et le signale.
+// Politique de sécurité (CSP) de render.yaml, sur le site construit (playwright.build.config.ts).
+// Le build est servi avec les en-têtes de render.yaml (scripts/preview-headers.mjs), comme chez
+// Render : le navigateur bloque tout ce que la politique ne permet pas, et le signale.
 
 const NEWS = [
     { id: 1, title: 'Convention de Montpellier', description: 'Trois jours de flash day.', content: '## Programme\n\nDes flashs **à prix doux**.', category: 'Événement', location: 'Montpellier', date_event: '2026-10-12', created_at: '2026-09-01T10:00:00Z' },
@@ -70,7 +70,7 @@ test.describe('content security policy', () => {
             const blocked = await watchPolicy(page);
 
             const response = await page.goto(path);
-            // Garde-fou : la page a bien reçu la politique (et les autres en-têtes de _headers)
+            // Garde-fou : la page a bien reçu la politique (et les autres en-têtes de render.yaml)
             expect(response!.headers()['content-security-policy']).toContain("default-src 'self'");
             expect(response!.headers()['x-frame-options']).toBe('DENY');
             await expect(page.getByRole('heading', { level: 1 })).toContainText(heading);

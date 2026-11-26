@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 // Version « unstyled » + feuille du paquet : sinon react-toastify injecte une balise <style>,
-// que la CSP (public/_headers) bloque. Importée avant ContactForm.css, qui peut la surcharger.
+// que la CSP (render.yaml) bloque. Importée avant ContactForm.css, qui peut la surcharger.
 import 'react-toastify/ReactToastify.css';
 import '../styles/ContactForm.css';
 import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
