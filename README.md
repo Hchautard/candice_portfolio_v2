@@ -96,7 +96,7 @@ Une photo makeup n'apparaît sur le site qu'une fois rattachée à un look dans 
 - `focus` (facultatif) : point de la couverture à garder visible au recadrage, par exemple `"72% 50%"` quand le visage est à droite d'une photo en largeur.
 - L'ordre du fichier est celui du carrousel.
 
-Le volet drag, sous les looks, est décrit dans `src/data/drag.js` : les miroirs de loge (`DRAG_MEDIA`) restent vides, avec « Photo à venir » ou « Vidéo à venir », tant qu'ils n'ont pas de `src`. Pour publier une photo, la déposer dans `src/assets/images/makeup/drag/` et lancer `npm run optimize:media` ; pour une vidéo, la préparer comme celle du salon (commande `ffmpeg` ci-dessous) dans `src/assets/video/`. Puis l'importer dans `drag.js` et la passer en `src` du miroir voulu. Les propositions (`DRAG_INITIATIVES`) se modifient au même endroit.
+Le volet drag, sous les looks, est décrit dans `src/data/drag.js` : les miroirs de loge (`DRAG_MEDIA`) restent vides, avec « Photo à venir » ou « Vidéo à venir », tant qu'ils n'ont pas de `src`. Pour publier une photo, la déposer dans `src/assets/images/makeup/drag/` et lancer `npm run optimize:media` ; pour une vidéo, la préparer comme celle du salon (commande `ffmpeg` ci-dessous) dans `src/assets/video/`. Puis l'importer dans `drag.js` et la passer en `src` du miroir voulu, avec ses sous-titres (`.vtt`, en `captions`) pour une vidéo. Les propositions (`DRAG_INITIATIVES`) se modifient au même endroit.
 
 Pour une nouvelle vidéo (720p, ~1 Mb/s, lecture progressive) :
 

@@ -4,6 +4,8 @@
 // Pour en publier une : déposer le fichier dans src/assets/images/makeup/drag/ (photo, puis
 // npm run optimize:media) ou src/assets/video/ (vidéo), l'importer ici et le passer en `src`.
 // kind : 'photo' ou 'video' ; label : ce que montre le média (texte alternatif d'une photo).
+// Une vidéo vient avec ses sous-titres : fichier .vtt importé ici et passé en `captions` (et
+// `poster`, l'image affichée avant la lecture).
 export const DRAG_MEDIA = [
     { id: 'look', kind: 'photo', label: 'Un look drag complet' },
     { id: 'avant-apres', kind: 'photo', label: 'Avant, après' },

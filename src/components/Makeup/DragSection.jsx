@@ -50,7 +50,12 @@ export default function DragSection() {
 /** Photo ou vidéo publiée, sinon l'annonce de ce qui viendra dans ce miroir */
 function DragMedia({ media }) {
     if (media.src && media.kind === 'video') {
-        return <video className="drag-mirror__media" src={media.src} poster={media.poster} controls preload="none" aria-label={media.label} />;
+        return (
+            <video className="drag-mirror__media" src={media.src} poster={media.poster} controls preload="none" aria-label={media.label}>
+                {/* Sous-titres (.vtt) : les paroles et les sons pour qui ne peut pas les entendre */}
+                <track kind="captions" src={media.captions} srcLang="fr" label="Français" default />
+            </video>
+        );
     }
     if (media.src) {
         return <img className="drag-mirror__media" src={media.src} alt={media.label} loading="lazy" decoding="async" />;
@@ -69,5 +74,6 @@ DragMedia.propTypes = {
         label: PropTypes.string.isRequired,
         src: PropTypes.string,
         poster: PropTypes.string,
+        captions: PropTypes.string,
     }).isRequired,
 };
