@@ -75,7 +75,7 @@ L'app tourne sur **http://localhost:3000** par défaut.
 
 ### Ajouter des photos
 
-Déposer les PNG / JPG dans le dossier concerné (`src/assets/images/tattoo`, `tattoo/done`, `makeup`, `news`), puis :
+Déposer les PNG / JPG dans le dossier concerné (`src/assets/images/tattoo`, `tattoo/done`, `makeup`), puis :
 
 ```sh
 npm run optimize:media
@@ -96,6 +96,20 @@ ffmpeg -i source.mp4 -vf "scale=720:-2" -c:v libx264 -preset slow -crf 28 -pix_f
 Le modèle (`public/models/tattoo_machine/scene-v3.glb`), son éclairage (`public/hdri/`) et le décodeur Draco (`public/draco/`) sont servis par le site lui-même, sans CDN tiers. `npm run optimize:3d` les produit à partir des sources rangées dans `media-originals/` (voir l'en-tête de `scripts/optimize-3d.mjs`) : rendu identique à l'original, pour 1,9 Mo au lieu de 4,2 Mo.
 
 Le modèle est sous licence CC BY 4.0 : le crédit de son auteur, dans le pied de page, doit rester.
+
+### Actualités
+
+Elles s'écrivent dans Supabase (table `news`) et s'affichent en bas de la page Le salon, de la plus récente à la plus ancienne : les six premières, puis un bouton pour les autres. Chacune a sa page (`/news/:id`), suivie de trois autres actualités.
+
+| Colonne       | Contenu                                                                                          |
+| :------------ | :----------------------------------------------------------------------------------------------- |
+| `title`       | Titre                                                                                            |
+| `description` | Résumé d'une ou deux phrases, affiché dans la liste                                              |
+| `content`     | Texte de la page, en Markdown : `**gras**`, `## Intertitre`, `- ` pour une liste. Un retour à la ligne reste un retour à la ligne |
+| `category`    | `Événement`, `Création` ou `Illustration`                                                        |
+| `date_event`  | Date de l'événement ou de la nouveauté. Vide tant qu'elle n'est pas fixée : un événement affiche alors « Date à venir » |
+| `location`    | Lieu (facultatif)                                                                                |
+| `image`       | Photo (facultatif) : son adresse publique sur Supabase Storage ou Cloudinary. Une autre adresse est bloquée par la politique de sécurité (`render.yaml`). Sans photo, l'actualité s'affiche en texte seul |
 
 ### Tests E2E (Playwright)
 

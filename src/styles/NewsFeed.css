@@ -1,0 +1,223 @@
+/* Liste des actualités (Le salon) et « Autres actualités » (page d'une actualité), sur fond sombre.
+   Une ligne par actualité, comme un programme : la date en tampon à gauche, le texte à droite. */
+
+.news-feed {
+    width: 100%;
+    color: var(--primary);
+    text-align: left;
+    /* Arrivée par #actualites : le titre ne passe pas sous le menu fixe */
+    scroll-margin-top: calc(5vh + 80px);
+}
+
+.news-feed__header {
+    margin-bottom: 1.75rem;
+}
+
+.news-feed__title {
+    margin: 0;
+    font-family: "Alice_Wonderland_2", cursive;
+    font-size: clamp(2.5rem, 6vw, var(--xxlarge));
+    font-weight: normal;
+    line-height: 1;
+    color: var(--primary);
+}
+
+.news-feed__lead {
+    margin: 0.75rem 0 0;
+    max-width: 60ch;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    color: rgba(var(--primary-rgba), 0.75);
+}
+
+.news-feed__status {
+    margin: 0;
+    padding: 1.5rem 0;
+    color: rgba(var(--primary-rgba), 0.75);
+}
+
+.news-feed__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgba(var(--primary-rgba), 0.18);
+}
+
+.news-feed__more {
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid rgba(var(--primary-rgba), 0.45);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--primary);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.news-feed__more:focus-visible {
+    outline-color: var(--primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .news-feed__more:hover {
+        border-color: var(--primary);
+        background-color: rgba(var(--primary-rgba), 0.08);
+    }
+}
+
+/* ===== Une actualité ===== */
+.news-entry {
+    position: relative;
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+    column-gap: 1.75rem;
+    align-items: start;
+    padding: 1.75rem 1rem;
+    border-bottom: 1px solid rgba(var(--primary-rgba), 0.18);
+    transition: background-color 200ms ease;
+}
+
+.news-entry__category {
+    margin: 0 0 0.3rem;
+    font-size: 0.875rem;
+    color: var(--accent-light);
+}
+
+.news-entry__title {
+    margin: 0;
+    font-family: "Alice_Wonderland_2", cursive;
+    font-size: var(--large);
+    font-weight: normal;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.news-entry__link {
+    font-family: "Alice_Wonderland_2", cursive;
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 200ms ease;
+}
+
+/* Toute la ligne est cliquable ; le lien reste le seul élément interactif */
+.news-entry__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+
+/* Le contour de focus entoure la ligne entière, pas seulement le titre */
+@supports selector(:has(*)) {
+    .news-entry__link:focus-visible {
+        outline: none;
+    }
+
+    .news-entry:has(.news-entry__link:focus-visible) {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .news-entry:hover {
+        background-color: rgba(var(--accent-rgba), 0.22);
+    }
+
+    .news-entry:hover .news-entry__link {
+        text-decoration-color: currentColor;
+    }
+}
+
+.news-entry__text {
+    margin: 0.5rem 0 0;
+    max-width: 40rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(var(--primary-rgba), 0.78);
+}
+
+.news-entry__place {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.7rem 0 0;
+    font-size: 0.875rem;
+    color: var(--accent-light);
+}
+
+.news-entry__place svg {
+    flex: none;
+}
+
+.news-entry__image {
+    width: 11rem;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* ===== Tampon de date ===== */
+.news-stamp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding-top: 0.15rem;
+    text-align: center;
+    color: var(--primary);
+}
+
+.news-stamp__day {
+    font-family: "Alice_Wonderland_2", cursive;
+    font-size: 3.25rem;
+    line-height: 0.9;
+}
+
+.news-stamp__month {
+    margin-top: 0.4rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    color: var(--accent-light);
+}
+
+.news-stamp--soon {
+    font-family: "Alice_Wonderland_2", cursive;
+    font-size: 1.15rem;
+    line-height: 1.15;
+    text-align: center;
+    color: var(--accent-light);
+}
+
+@media (max-width: 600px) {
+    .news-entry {
+        grid-template-columns: 3.75rem minmax(0, 1fr);
+        column-gap: 1rem;
+        padding: 1.4rem 0.25rem;
+    }
+
+    .news-entry__title {
+        font-size: 1.5rem;
+    }
+
+    .news-entry__image {
+        grid-column: 2;
+        width: 100%;
+        margin-top: 0.9rem;
+    }
+
+    .news-stamp__day {
+        font-size: 2.5rem;
+    }
+
+    .news-stamp__month {
+        font-size: 0.8rem;
+    }
+
+    .news-stamp--soon {
+        font-size: 1rem;
+    }
+}

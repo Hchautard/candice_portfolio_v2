@@ -19,6 +19,7 @@
     "react-router-dom": "^7.18.5",
     "react-slick": "^0.31.0",
     "react-toastify": "^11.0.5",
+    "remark-breaks": "^4.0.0",
     "slick-carousel": "^1.8.1",
     "three": "^0.174.0",
     "zod": "^4.6.7"

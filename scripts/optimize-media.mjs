@@ -32,8 +32,6 @@ const GROUPS = [
     { dir: 'src/assets/images/tattoo/done', width: 1080, height: 1350, quality: 78, variants: [400, 560, 800] },
     // cellules bento pleine hauteur, de ~500 à ~1300 px selon l'écran et les proportions
     { dir: 'src/assets/images/makeup', width: 1600, height: 2000, quality: 80, variants: [640, 960, 1280] },
-    // couverture 700×320 + fonds de cartes CSS (background-image : pas de srcset possible)
-    { dir: 'src/assets/images/news', width: 1600, height: 1600, quality: 75 },
     {
         // Fonds de page (background-size: cover). Ajouter ici tout nouveau fond utilisé en CSS.
         dir: 'src/assets/images',
