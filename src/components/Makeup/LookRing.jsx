@@ -48,9 +48,11 @@ const pad = (n) => String(n).padStart(2, '0');
 LookRing.propTypes = {
     looks: PropTypes.arrayOf(lookShape).isRequired,
     onOpen: PropTypes.func.isRequired,
+    // Sous les flèches (page Makeup : raccourci vers le volet drag)
+    children: PropTypes.node,
 };
 
-export default function LookRing({ looks, onOpen }) {
+export default function LookRing({ looks, onOpen, children }) {
     const count = looks.length;
     const step = 360 / count;
 
@@ -355,6 +357,7 @@ export default function LookRing({ looks, onOpen }) {
                             {photosLabel(current)}
                         </button>
                     </div>
+                    {children}
                 </div>
             </div>
         </section>

@@ -433,3 +433,197 @@ html:has(.look-dialog[open]) {
     max-height: min(72svh, 900px);
     border-radius: 10px;
 }
+
+/* Raccourci sous les flèches du cylindre (Makeup.jsx) */
+.makeup-skip {
+    font-size: 0.9rem;
+    color: rgba(var(--primary-rgba), 0.75);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .makeup-skip:hover {
+        color: var(--primary);
+    }
+}
+
+.makeup-skip:focus-visible {
+    outline-color: var(--primary);
+}
+
+/* ---------- Volet drag (components/Makeup/DragSection.jsx) ---------- */
+
+.drag {
+    scroll-margin-top: var(--header-space);
+    padding: clamp(64px, 10vh, 120px) 20px;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(var(--accent-rgba), 0.35), transparent 60%),
+        var(--secondary);
+    color: var(--primary);
+}
+
+.drag__intro {
+    max-width: 720px;
+    margin: 0 auto clamp(40px, 6vh, 72px);
+    text-align: center;
+}
+
+.drag__title {
+    margin: 0 0 16px;
+    font-family: 'Alice_Wonderland_2', serif;
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    font-weight: normal;
+    line-height: 0.9;
+    color: var(--primary);
+}
+
+.drag__lead {
+    max-width: 52ch;
+    margin: 0 auto;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.6;
+    text-align: center;
+    color: rgba(var(--primary-rgba), 0.85);
+}
+
+/* Photos et vidéos dans des miroirs de loge, cerclés d'ampoules */
+.drag__mirrors {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 3vw, 40px);
+    max-width: 1100px;
+    margin: 0 auto clamp(48px, 8vh, 96px);
+    padding: 0;
+    list-style: none;
+}
+
+.drag-mirror {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    padding: 22px;
+    border-radius: 18px;
+    background: #2a0c0a;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(var(--primary-rgba), 0.12);
+}
+
+/* Ampoules régulièrement espacées : une par case du motif, répété sur tout le tour */
+.drag-mirror::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 12px solid transparent;
+    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='52'%3E%3Cg fill='%23ffd9a0'%3E%3Ccircle cx='6' cy='6' r='4.5'/%3E%3Ccircle cx='26' cy='6' r='4.5'/%3E%3Ccircle cx='46' cy='6' r='4.5'/%3E%3Ccircle cx='6' cy='26' r='4.5'/%3E%3Ccircle cx='46' cy='26' r='4.5'/%3E%3Ccircle cx='6' cy='46' r='4.5'/%3E%3Ccircle cx='26' cy='46' r='4.5'/%3E%3Ccircle cx='46' cy='46' r='4.5'/%3E%3C/g%3E%3C/svg%3E") 12 round;
+    filter: drop-shadow(0 0 4px rgba(255, 200, 120, 0.85));
+    pointer-events: none;
+}
+
+.drag-mirror__glass {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 6px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02) 40%, rgba(255, 255, 255, 0.08) 60%, rgba(255, 255, 255, 0.01)),
+        #120606;
+}
+
+.drag-mirror__media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.drag-mirror__soon {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 16px;
+    text-align: center;
+}
+
+.drag-mirror__label {
+    font-family: 'Alice_Wonderland_2', serif;
+    font-size: clamp(1.4rem, 2vw, 1.9rem);
+    line-height: 1.1;
+    color: var(--primary);
+}
+
+.drag-mirror__status {
+    font-size: 0.9rem;
+    color: #ffd9a0;
+}
+
+/* Ce que Candice propose autour du drag */
+.drag__initiatives {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(24px, 3vw, 48px);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+}
+
+.drag-initiative {
+    padding-top: 18px;
+    border-top: 1px solid rgba(var(--primary-rgba), 0.3);
+}
+
+.drag-initiative__title {
+    margin: 0 0 10px;
+    font-family: 'Alice_Wonderland_2', serif;
+    font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+    font-weight: normal;
+    line-height: 1.05;
+    color: var(--primary);
+}
+
+.drag-initiative__text {
+    margin: 0 0 14px;
+    line-height: 1.6;
+    color: rgba(var(--primary-rgba), 0.82);
+}
+
+.drag-initiative__action {
+    color: #ffd9a0;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-decoration-thickness 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .drag-initiative__action:hover {
+        text-decoration-thickness: 2px;
+    }
+}
+
+.drag-initiative__action:focus-visible {
+    outline-color: var(--primary);
+}
+
+/* Téléphone : les miroirs défilent côte à côte, les propositions l'une sous l'autre */
+@media (max-width: 767px) {
+    .drag__mirrors {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 70%;
+        margin-inline: -20px;
+        padding: 0 15% 8px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+    }
+
+    .drag-mirror {
+        scroll-snap-align: center;
+    }
+
+    .drag__initiatives {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

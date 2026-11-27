@@ -159,3 +159,30 @@ test.describe('makeup looks without motion', () => {
         await expect(page.getByRole('dialog', { name: 'Pearl' }).getByRole('img')).toHaveCount(2);
     });
 });
+
+test.describe('drag section', () => {
+    // Volet drag sous les looks (src/data/drag.js) : miroirs de loge en attendant les photos et
+    // vidéos, puis ce que Candice propose autour du drag
+    test('mirrors announce the coming photos and video, then three proposals', async ({ page }) => {
+        await page.goto('/makeup');
+        const drag = page.getByRole('region', { name: 'Drag' });
+
+        await expect(drag.locator('.drag-mirror__status')).toHaveText(['Photo à venir', 'Photo à venir', 'Vidéo à venir']);
+        await expect(drag.getByRole('heading', { level: 3 })).toHaveText([
+            'Cours de maquillage drag',
+            'Coiffes et accessoires de scène',
+            'Collaborations à Montpellier',
+        ]);
+        await expect(drag.getByRole('link', { name: 'Demander les prochaines dates' })).toHaveAttribute('href', '/contact');
+        await expect(drag.getByRole('link', { name: /Me parler de votre pièce/ })).toHaveAttribute('href', 'https://ig.me/m/l__anomalie');
+        await expect(drag.getByRole('link', { name: /Me parler de votre pièce/ })).toHaveAttribute('target', '_blank');
+    });
+
+    test('the shortcut under the cylinder leads to the drag section', async ({ page }) => {
+        await page.goto('/makeup');
+        await page.getByRole('link', { name: 'Aller au volet drag' }).click();
+
+        await expect(page).toHaveURL(/#drag$/);
+        await expect(page.getByRole('heading', { level: 2, name: 'Drag' })).toBeInViewport();
+    });
+});

@@ -5,6 +5,7 @@ import DocumentTitleSetter from "../utils/title-setter.ts";
 import LookRing from '../components/Makeup/LookRing';
 import LookGrid from '../components/Makeup/LookGrid';
 import LookDialog from '../components/Makeup/LookDialog';
+import DragSection from '../components/Makeup/DragSection';
 // Looks dans l'ordre d'affichage, un par carte. photos : fichiers de assets/images/makeup, sans
 // extension, la première sert de couverture. series (facultatif) : collection, affichée au-dessus
 // du titre. focus (facultatif) : point de la couverture gardé quand la carte la recadre.
@@ -62,7 +63,7 @@ const LOOKS = buildLooks();
 
 function Makeup() {
   DocumentTitleSetter("Makeup", {
-    description: "Maquillage artistique par Candice à Montpellier : looks fantastiques, effets spéciaux (zombie, hématome, clown), glam et défilés.",
+    description: "Maquillage artistique par Candice à Montpellier : looks fantastiques, effets spéciaux (zombie, hématome, clown), glam, défilés et drag.",
   });
 
   // « Réduire les animations » demandé par le système : grille fixe au lieu du cylindre qui tourne
@@ -74,8 +75,14 @@ function Makeup() {
       <div className="makeup-container">
         <h1 className="sr-only">Portfolio Makeup & Maquillage Artistique — L&apos;Anomalie</h1>
         {LOOKS.length > 0
-            ? <Gallery looks={LOOKS} onOpen={setOpenLook} />
+            ? (
+                <Gallery looks={LOOKS} onOpen={setOpenLook}>
+                  {/* Le cylindre occupe une dizaine d'écrans de défilement : raccourci vers le drag */}
+                  <a className="makeup-skip" href="#drag">Aller au volet drag</a>
+                </Gallery>
+            )
             : <p className="makeup-empty">Aucun look à afficher pour le moment.</p>}
+        <DragSection />
         <LookDialog look={openLook} onClose={() => setOpenLook(null)} />
       </div>
   );
