@@ -37,11 +37,11 @@ L'app tourne sur **http://localhost:3000** par défaut.
 │   │   ├── images/          # Backgrounds, photos tattoo & makeup
 │   │   └── video/           # Vidéo projet shop
 │   ├── components/          # Composants réutilisables
-│   │   ├── BentoSlider.jsx  # Galerie makeup en grille responsive
 │   │   ├── CardDistribution # Cartes tattoo distribuées avec GSAP
 │   │   ├── ContactForm.js   # Formulaire de contact (défaut + tatouage)
 │   │   ├── Header.js        # Navigation avec menu burger mobile
 │   │   ├── LazyImage.js     # Lazy loading avec blur placeholder
+│   │   ├── Makeup/          # Carrousel en cylindre des looks makeup (GSAP), grille, photos d'un look
 │   │   └── NewsSection.js   # Section actualités animée
 │   ├── contexts/
 │   │   └── DataContext.js   # Chargement centralisé Supabase (news, avis)
@@ -84,6 +84,19 @@ npm run optimize:media
 Chaque image est redimensionnée et remplacée par un `.webp` (quelques centaines de Ko au lieu de plusieurs Mo). L'original haute définition est rangé dans `media-originals/`, ignoré par git. Pour un nouveau fond de page utilisé en CSS, l'ajouter à la liste `only` dans `scripts/optimize-media.mjs`.
 
 Pour les flashs, les réalisations et le makeup, la commande prépare aussi des versions réduites (sous-dossiers `w400/`, `w560/`, `w640/`…) et note la taille de chaque photo dans `src/assets/images/sizes.json`. Le site les propose au navigateur (`srcset`), qui télécharge la plus légère restant nette : sur la page Tattoo, de 20 % (Mac Retina) à 60 % (écran d'ordinateur standard) d'images en moins. Ces dossiers et ce fichier sont à committer avec les photos.
+
+Une photo makeup n'apparaît sur le site qu'une fois rattachée à un look dans `src/data/makeupLooks.json`, une carte du carrousel par look :
+
+```json
+{ "series": "Magic Garden", "title": "La princesse", "photos": ["flora_1", "flora_2"] }
+```
+
+- `photos` : noms des fichiers sans extension, la première sert de couverture à la carte (recadrée au format portrait) ; toutes s'affichent en grand au clic.
+- `series` (facultatif) : collection ou défilé, écrit en petit au-dessus du titre.
+- `focus` (facultatif) : point de la couverture à garder visible au recadrage, par exemple `"72% 50%"` quand le visage est à droite d'une photo en largeur.
+- L'ordre du fichier est celui du carrousel.
+
+Le volet drag, sous les looks, est décrit dans `src/data/drag.js` : les miroirs de loge (`DRAG_MEDIA`) restent vides, avec « Photo à venir » ou « Vidéo à venir », tant qu'ils n'ont pas de `src`. Pour publier une photo, la déposer dans `src/assets/images/makeup/drag/` et lancer `npm run optimize:media` ; pour une vidéo, la préparer comme celle du salon (commande `ffmpeg` ci-dessous) dans `src/assets/video/`. Puis l'importer dans `drag.js` et la passer en `src` du miroir voulu, avec ses sous-titres (`.vtt`, en `captions`) pour une vidéo. Les propositions (`DRAG_INITIATIVES`) se modifient au même endroit.
 
 Pour une nouvelle vidéo (720p, ~1 Mb/s, lecture progressive) :
 
@@ -153,7 +166,7 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
 | :----------- | :------------------------------------------------ |
 | `/`          | Accueil avec modèle 3D de machine à tatouer       |
 | `/tattoo`    | Galerie de flashs avec distribution de cartes     |
-| `/makeup`    | Galerie makeup en bento slider                    |
+| `/makeup`    | Looks makeup sur un cylindre qui tourne au défilement |
 | `/project`   | Présentation du futur salon L'Anomalie            |
 | `/contact`   | Formulaire de contact (général ou demande tattoo) |
 | `/news/:id`  | Détail d'une actualité                            |
