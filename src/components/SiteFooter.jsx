@@ -11,7 +11,7 @@ export default function SiteFooter() {
                 <div className="site-footer-brand">
                     <p className="site-footer-name">L&apos;Anomalie</p>
                     <p className="site-footer-tagline">
-                        Tatouages cyber-sigilism, gothiques et dark fantasy, à Montpellier.
+                        Tatouage, maquillage artistique et créations faites main, à Montpellier.
                     </p>
                 </div>
 
