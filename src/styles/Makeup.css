@@ -1,34 +1,435 @@
+/* Page Makeup : carrousel en cylindre (components/Makeup/LookRing.jsx), grille sans mouvement
+   (LookGrid.jsx) et fenêtre des photos d'un look (LookDialog.jsx). */
+
 .makeup-container {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../assets/images/burgundy_textured_background.webp');
-    background-size: cover;
-    background-position: center;
-    overflow-x: hidden;
-    overflow-y: auto;
+    /* Ni overflow: hidden ni auto ici : la scène du carrousel ne resterait plus collée à l'écran */
+    overflow-x: clip;
     min-height: 100vh;
+    background: var(--secondary);
+    color: var(--primary);
+
+    /* Haut de page sous l'en-tête fixe, comme les autres pages (index.css) */
+    --header-space: calc(5vh + 20px);
 }
 
-.container-makeup {
-    /* Glassmorphism effect */
-    background: rgba(241, 226, 186, 0.2);
-    backdrop-filter: blur(5px);
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    padding: 50px;
-    color: var(--secondary);
-
-    p, h2 {
-        color: var(--secondary);
+@media (max-width: 768px) {
+    .makeup-container {
+        --header-space: max(calc(5vh + 20px), 80px);
     }
 }
 
-nav {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    background: transparent;
+.makeup-empty {
+    padding: var(--header-space) 16px 48px;
+    text-align: center;
 }
 
-.title-makeup {
-    color: var(--secondary);
-    font-size: var(--xxlarge);
+/* ---------- Carrousel en cylindre ---------- */
+
+.look-ring {
+    /* --count : nombre de looks (LookRing.jsx) */
+    /* Défilement pour passer d'un look au suivant */
+    --look-scroll: 40svh;
+    /* Carte au format portrait 3:4, la plus grande qui laisse la place au titre */
+    --card-h: min(58svh, 620px, calc(78vw * 4 / 3));
+    --card-w: calc(var(--card-h) * 3 / 4);
+    --gap: clamp(16px, 3vw, 48px);
+    /* Cartes jointives (avec --gap entre elles) sur un polygone de --count côtés */
+    --angle: calc(360deg / var(--count));
+    --radius: calc((var(--card-w) + var(--gap)) / (2 * tan(var(--angle) / 2)));
+
+    position: relative;
+    height: calc(100svh + (var(--count) - 1) * var(--look-scroll));
+}
+
+.look-ring__stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-top: var(--header-space);
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 50% 45%, rgba(var(--secondary-rgba), 0) 30%, rgba(var(--secondary-rgba), 0.65) 100%),
+        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url('../assets/images/burgundy_textured_background.webp') center / cover;
+}
+
+/* Le visiteur est au centre du cylindre : perspective = rayon */
+.look-ring__viewport {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    perspective: var(--radius);
+    /* Glisser horizontal : le carrousel ; vertical : le défilement du navigateur */
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+}
+
+.look-ring__viewport:active {
+    cursor: grabbing;
+}
+
+/* Centre de l'écran ; chaque carte y est placée en 3D par LookRing.jsx */
+.look-ring__cylinder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-style: preserve-3d;
+}
+
+.look-card {
+    position: absolute;
+    top: calc(var(--card-h) / -2);
+    left: calc(var(--card-w) / -2);
+    width: var(--card-w);
+    height: var(--card-h);
+    padding: 0;
+    border: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(var(--secondary-rgba), 0.6);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    cursor: inherit;
+    /* Masquée tant que LookRing.jsx ne l'a pas placée (transform, visibility) */
+    visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Les looks voisins s'effacent un peu derrière celui qu'on regarde */
+.look-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(var(--secondary-rgba), 0.5);
+    opacity: 1;
+    transition: opacity 250ms var(--ease-out);
+    pointer-events: none;
+}
+
+.look-card[data-active]::after {
+    opacity: 0;
+}
+
+.look-card:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 4px;
+}
+
+.look-card__photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+/* Titre du look, en grand, sous les cartes */
+.look-ring__caption {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: clamp(10px, 2svh, 18px);
+    padding: 0 16px clamp(16px, 4svh, 40px);
+}
+
+/* Tous les titres empilés dans la même case : le passage de l'un à l'autre ne décale rien */
+.look-titles {
+    display: grid;
+    width: min(100%, 1100px);
+}
+
+.look-title {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(0.4em);
+    transition: opacity 250ms var(--ease-out), transform 250ms var(--ease-out);
+}
+
+.look-title[data-active] {
+    opacity: 1;
+    transform: none;
+}
+
+.look-title__series {
+    font-size: clamp(0.75rem, 1.4vw, 0.95rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+.look-title__name {
+    font-family: 'Alice_Wonderland_2', serif;
+    font-size: clamp(2.4rem, 7vw, 6rem);
+    line-height: 1;
+    color: var(--primary);
+    text-shadow: 0 4px 28px rgba(0, 0, 0, 0.75);
+    text-wrap: balance;
+}
+
+.look-ring__controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.look-ring__counter {
+    margin: 0;
+    min-width: 5.5ch;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+    text-align: center;
+    color: rgba(var(--primary-rgba), 0.8);
+}
+
+.look-ring__arrow,
+.look-ring__open {
+    border: 1px solid rgba(var(--primary-rgba), 0.45);
+    background: rgba(var(--secondary-rgba), 0.35);
+    color: var(--primary);
+    transition: background-color 150ms ease, transform 120ms var(--ease-out);
+}
+
+.look-ring__arrow {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+
+.look-ring__arrow[aria-disabled='true'] {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.look-ring__open {
+    margin-left: 8px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .look-ring__arrow:not([aria-disabled='true']):hover,
+    .look-ring__open:hover {
+        background: rgba(var(--primary-rgba), 0.16);
+    }
+}
+
+.look-ring__arrow:not([aria-disabled='true']):active,
+.look-ring__open:active {
+    transform: scale(0.96);
+}
+
+.look-ring__arrow:focus-visible,
+.look-ring__open:focus-visible {
+    outline-color: var(--primary);
+}
+
+/* ---------- Grille sans mouvement ---------- */
+
+.look-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(45%, 240px), 1fr));
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--header-space) 16px 48px;
+    list-style: none;
+}
+
+.look-grid__card {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: center;
+}
+
+.look-grid__card:focus-visible {
+    outline-color: var(--primary);
+}
+
+.look-grid__photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.look-grid__caption {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 10px;
+}
+
+.look-grid__title {
+    font-family: 'Alice_Wonderland_2', serif;
+    font-size: 1.6rem;
+    line-height: 1.1;
+}
+
+/* ---------- Fenêtre des photos d'un look ---------- */
+
+/* La page ne défile pas (ni le carrousel ne tourne) sous la fenêtre */
+html:has(.look-dialog[open]) {
+    overflow: hidden;
+}
+
+.look-dialog {
+    width: min(1100px, calc(100vw - 32px));
+    max-width: none;
+    max-height: calc(100svh - 32px);
+    padding: 0;
+    border: 1px solid rgba(var(--primary-rgba), 0.2);
+    border-radius: 16px;
+    background: #140707;
+    color: var(--primary);
+    opacity: 1;
+    transform: none;
+    transition:
+        opacity 250ms var(--ease-out),
+        transform 250ms var(--ease-out),
+        overlay 250ms var(--ease-out) allow-discrete,
+        display 250ms var(--ease-out) allow-discrete;
+}
+
+.look-dialog:not([open]) {
+    opacity: 0;
+    transform: scale(0.96);
+}
+
+@starting-style {
+    .look-dialog[open] {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+}
+
+.look-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.78);
+    opacity: 0;
+    transition:
+        opacity 250ms var(--ease-out),
+        overlay 250ms var(--ease-out) allow-discrete,
+        display 250ms var(--ease-out) allow-discrete;
+}
+
+.look-dialog[open]::backdrop {
+    opacity: 1;
+}
+
+@starting-style {
+    .look-dialog[open]::backdrop {
+        opacity: 0;
+    }
+}
+
+.look-dialog__inner {
+    display: flex;
+    flex-direction: column;
+    max-height: inherit;
+}
+
+.look-dialog__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 20px 14px;
+}
+
+.look-dialog__series {
+    margin: 0 0 4px;
+    font-size: 0.8rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+}
+
+.look-dialog__title {
+    margin: 0;
+    font-family: 'Alice_Wonderland_2', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1;
+}
+
+.look-dialog__close {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(var(--primary-rgba), 0.35);
+    border-radius: 50%;
+    background: none;
+    color: var(--primary);
+    transition: background-color 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .look-dialog__close:hover {
+        background: rgba(var(--primary-rgba), 0.12);
+    }
+}
+
+.look-dialog__close:focus-visible {
+    outline-color: var(--primary);
+}
+
+/* Photos côte à côte, à faire défiler s'il y en a plusieurs */
+.look-dialog__photos {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 0;
+    margin: 0;
+    padding: 0 20px 20px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    list-style: none;
+}
+
+.look-dialog__photos li {
+    flex: none;
+    scroll-snap-align: center;
+}
+
+/* Centrées quand elles tiennent toutes dans la largeur */
+.look-dialog__photos li:first-child {
+    margin-left: auto;
+}
+
+.look-dialog__photos li:last-child {
+    margin-right: auto;
+}
+
+/* Aussi grandes que possible, proportions gardées (width/height du HTML) */
+.look-dialog__photo {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: calc(100vw - 72px);
+    max-height: min(72svh, 900px);
+    border-radius: 10px;
 }
