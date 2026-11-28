@@ -39,16 +39,35 @@ test.describe('news', () => {
         await mockSupabase(page);
         await page.goto('/');
 
-        const section = page.locator('.news-section');
+        const section = page.getByRole('region', { name: 'Actualités', exact: true });
         await expect(section.getByRole('heading', { level: 3 })).toHaveText(LATEST_THREE);
-        await expect(section.locator('.news-date').first()).toHaveText('12/10/2026');
+        const stamp = section.locator('.news-stamp').first();
+        await expect(stamp).toHaveAttribute('datetime', '2026-10-12');
+        await expect(stamp).toHaveText('12 oct. 2026');
+    });
+
+    test('home leads to the full list when there are older news', async ({ page }) => {
+        await mockSupabase(page);
+        await page.goto('/');
+
+        await page.getByRole('link', { name: 'Toutes les actualités' }).click();
+        await expect(page).toHaveURL(/\/project#actualites$/);
+        await expect(page.getByRole('heading', { name: 'Actualités', level: 2, exact: true })).toBeInViewport();
+    });
+
+    test('home: no link to the full list when every news item is already shown', async ({ page }) => {
+        await mockSupabase(page, { news: NEWS.slice(0, 3) });
+        await page.goto('/');
+
+        await expect(page.locator('.news-entry')).toHaveCount(3);
+        await expect(page.getByRole('link', { name: 'Toutes les actualités' })).toHaveCount(0);
     });
 
     test('a news item opens its own page', async ({ page }) => {
         await mockSupabase(page);
         await page.goto('/');
 
-        await page.getByRole('link', { name: "Lire l'actualité : Convention de Montpellier" }).click();
+        await page.getByRole('link', { name: 'Convention de Montpellier', exact: true }).click();
 
         await expect(page).toHaveURL(/\/news\/1$/);
         await expect(page.getByRole('heading', { level: 1 })).toHaveText('Convention de Montpellier');

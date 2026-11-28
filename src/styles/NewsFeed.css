@@ -1,5 +1,6 @@
-/* Liste des actualités (Le salon) et « Autres actualités » (page d'une actualité), sur fond sombre.
-   Une ligne par actualité, comme un programme : la date en tampon à gauche, le texte à droite. */
+/* Liste des actualités (Le salon), « Autres actualités » (page d'une actualité) et section
+   Actualités de l'accueil. Une ligne par actualité, comme un programme : la date en tampon à
+   gauche, le texte à droite. */
 
 .news-feed {
     width: 100%;
@@ -36,11 +37,24 @@
     color: rgba(var(--primary-rgba), 0.75);
 }
 
+/* Couleurs de la liste : sur fond sombre par défaut, --light sur fond clair (accueil) */
 .news-feed__list {
+    --news-ink: var(--primary);
+    --news-ink-rgba: var(--primary-rgba);
+    --news-mark: var(--accent-light);
+    --news-hover: rgba(var(--accent-rgba), 0.22);
+
     margin: 0;
     padding: 0;
     list-style: none;
-    border-top: 1px solid rgba(var(--primary-rgba), 0.18);
+    border-top: 1px solid rgba(var(--news-ink-rgba), 0.18);
+}
+
+.news-feed__list--light {
+    --news-ink: var(--secondary);
+    --news-ink-rgba: var(--secondary-rgba);
+    --news-mark: var(--accent);
+    --news-hover: rgba(var(--accent-rgba), 0.08);
 }
 
 .news-feed__more {
@@ -74,14 +88,14 @@
     column-gap: 1.75rem;
     align-items: start;
     padding: 1.75rem 1rem;
-    border-bottom: 1px solid rgba(var(--primary-rgba), 0.18);
+    border-bottom: 1px solid rgba(var(--news-ink-rgba), 0.18);
     transition: background-color 200ms ease;
 }
 
 .news-entry__category {
     margin: 0 0 0.3rem;
     font-size: 0.875rem;
-    color: var(--accent-light);
+    color: var(--news-mark);
 }
 
 .news-entry__title {
@@ -95,7 +109,7 @@
 
 .news-entry__link {
     font-family: "Alice_Wonderland_2", cursive;
-    color: var(--primary);
+    color: var(--news-ink);
     text-decoration: underline;
     text-decoration-color: transparent;
     text-decoration-thickness: 1px;
@@ -117,14 +131,14 @@
     }
 
     .news-entry:has(.news-entry__link:focus-visible) {
-        outline: 2px solid var(--primary);
+        outline: 2px solid var(--news-ink);
         outline-offset: 2px;
     }
 }
 
 @media (hover: hover) and (pointer: fine) {
     .news-entry:hover {
-        background-color: rgba(var(--accent-rgba), 0.22);
+        background-color: var(--news-hover);
     }
 
     .news-entry:hover .news-entry__link {
@@ -137,7 +151,7 @@
     max-width: 40rem;
     font-size: 1rem;
     line-height: 1.6;
-    color: rgba(var(--primary-rgba), 0.78);
+    color: rgba(var(--news-ink-rgba), 0.78);
 }
 
 .news-entry__place {
@@ -146,7 +160,7 @@
     gap: 0.4rem;
     margin: 0.7rem 0 0;
     font-size: 0.875rem;
-    color: var(--accent-light);
+    color: var(--news-mark);
 }
 
 .news-entry__place svg {
@@ -168,7 +182,7 @@
     margin: 0;
     padding-top: 0.15rem;
     text-align: center;
-    color: var(--primary);
+    color: var(--news-ink);
 }
 
 .news-stamp__day {
@@ -181,7 +195,7 @@
     margin-top: 0.4rem;
     font-size: 0.875rem;
     white-space: nowrap;
-    color: var(--accent-light);
+    color: var(--news-mark);
 }
 
 .news-stamp--soon {
@@ -189,7 +203,7 @@
     font-size: 1.15rem;
     line-height: 1.15;
     text-align: center;
-    color: var(--accent-light);
+    color: var(--news-mark);
 }
 
 @media (max-width: 600px) {
