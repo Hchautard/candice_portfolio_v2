@@ -3,10 +3,9 @@ import vid_project from "../assets/video/vid_project.mp4";
 import vid_project_poster from "../assets/video/vid_project_poster.webp";
 import Video from "../components/Video";
 import videoTranscript from "../data/projectVideoTranscript.json";
-import NewsGrid from "../components/News/NewsGrid";
+import NewsFeed from "../components/News/NewsFeed";
 import '../styles/Project.css';
 import DocumentTitleSetter from "../utils/title-setter.ts";
-import NewsList from "../components/News/NewsList";
 
 function Project() {
 
@@ -48,9 +47,7 @@ function Project() {
             </div>
 
             <div className="project-news-wrapper">
-                <NewsGrid/>
-                {/* Les 3 plus récentes sont dans la grille : la liste ne montre que les précédentes */}
-                <NewsList skip={3}/>
+                <NewsFeed/>
             </div>
         </div>
     );

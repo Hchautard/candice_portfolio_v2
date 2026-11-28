@@ -1,196 +1,85 @@
-/* ===== SECTION NEWS ===== */
+/* Section Actualités de l'accueil : un panneau clair, comme les avis. Les lignes d'actualité
+   viennent de NewsFeed.css (liste --light). */
 .news-section {
-    padding: 4rem 0;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    margin: 2rem 20px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    overflow: hidden;
     position: relative;
     z-index: 1;
+    margin: 2rem 20px;
+    padding: 4rem 0;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
 }
 
-.section-title {
+.news-section__inner {
+    width: min(100% - 2rem, 960px);
+    margin: 0 auto;
+    text-align: left;
+}
+
+.news-section__title {
+    margin: 0 0 2rem;
     font-family: "Alice_Wonderland_2", cursive;
     font-size: calc(var(--xxlarge) + 0.5rem);
     font-weight: 700;
+    line-height: 1.1;
     text-align: center;
-    margin-bottom: 3rem;
     color: var(--secondary);
 }
 
-.news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
+.news-section__all {
+    display: block;
+    width: fit-content;
+    margin: 2rem auto 0;
+    padding: 0.7rem 1.4rem;
+    border: 1px solid rgba(var(--secondary-rgba), 0.45);
+    border-radius: 999px;
+    font-size: 1rem;
+    color: var(--secondary);
+    text-decoration: none;
+    transition: background-color 150ms ease, border-color 150ms ease;
 }
 
-.news-card {
-    display: grid;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(8px);
-    padding: 2rem;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.news-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.05) 0%,
-            rgba(255, 255, 255, 0.02) 100%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.news-card:hover::after {
-    opacity: 1;
-}
-
-.news-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-5px);
-}
-
-.news-card:focus-visible {
-    outline: 2px solid var(--accent);
+.news-section__all:focus-visible {
+    outline: 2px solid var(--secondary);
     outline-offset: 3px;
-    border-color: var(--accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .news-section__all:hover {
+        border-color: var(--secondary);
+        background-color: rgba(var(--secondary-rgba), 0.06);
+    }
 }
 
 .news-status {
+    margin: 0;
     padding: 2rem;
     text-align: center;
     color: var(--secondary);
     font-size: var(--medium-large);
 }
 
-.news-category {
-    display: inline-block;
-    background: var(--accent);
-    color: var(--primary);
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: var(--medium);
-    font-family: "Alice_Wonderland_2", cursive;
-    margin-bottom: 0.5rem;
-    width: fit-content;
-    height: fit-content;
-}
-
-.news-title {
-    font-family: "Alice_Wonderland_2", cursive;
-    font-size: var(--large);
-    font-weight: 700;
-    color: var(--secondary);
-    line-height: 1.1;
-}
-
-.news-description {
-    /*color: var(--primary, rgba(255, 255, 255, 0.8));*/
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    font-size: var(--medium-large);
-}
-
-.news-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.news-date {
-    /*color: var(--primary, rgba(255, 255, 255, 0.6));*/
-    font-size: var(--medium);
-    font-weight: 500;
-}
-
-.news-arrow {
-    color: var(--accent);
-    font-size: var(--large);
-    font-weight: bold;
-    transition: transform 0.3s ease;
-    font-family: "Alice_Wonderland_2", cursive;
-}
-
-.news-card:hover .news-arrow {
-    transform: translateX(5px);
-}
-
-/* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
     .news-section {
         margin: 1rem 15px;
-        padding: 2rem 0;
+        padding: 2.5rem 0;
         border-radius: 15px;
     }
 
-    .section-title {
+    .news-section__title {
         font-size: calc(var(--xlarge) + 0.5rem);
-        margin-bottom: 2rem;
-    }
-
-    .news-grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        padding: 0 1rem;
-    }
-
-    .news-card {
-        padding: 1.5rem;
-        min-width: auto;
-    }
-
-    .news-title {
-        font-size: var(--medium-large);
-    }
-
-    .news-description {
-        font-size: var(--medium);
+        margin-bottom: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    .news-card {
-        padding: 1rem;
-    }
-
-    .section-title {
-        font-size: var(--xlarge);
-    }
-
     .news-section {
         margin: 1rem 10px;
     }
-}
 
-/* ===== ANIMATIONS ===== */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .news-section__title {
+        font-size: var(--xlarge);
     }
 }

@@ -39,39 +39,137 @@ test.describe('news', () => {
         await mockSupabase(page);
         await page.goto('/');
 
-        const section = page.locator('.news-section');
+        const section = page.getByRole('region', { name: 'Actualités', exact: true });
         await expect(section.getByRole('heading', { level: 3 })).toHaveText(LATEST_THREE);
-        await expect(section.locator('.news-date').first()).toHaveText('12/10/2026');
+        const stamp = section.locator('.news-stamp').first();
+        await expect(stamp).toHaveAttribute('datetime', '2026-10-12');
+        await expect(stamp).toHaveText('12 oct. 2026');
+    });
+
+    test('home leads to the full list when there are older news', async ({ page }) => {
+        await mockSupabase(page);
+        await page.goto('/');
+
+        await page.getByRole('link', { name: 'Toutes les actualités' }).click();
+        await expect(page).toHaveURL(/\/project#actualites$/);
+        await expect(page.getByRole('heading', { name: 'Actualités', level: 2, exact: true })).toBeInViewport();
+    });
+
+    test('home: no link to the full list when every news item is already shown', async ({ page }) => {
+        await mockSupabase(page, { news: NEWS.slice(0, 3) });
+        await page.goto('/');
+
+        await expect(page.locator('.news-entry')).toHaveCount(3);
+        await expect(page.getByRole('link', { name: 'Toutes les actualités' })).toHaveCount(0);
     });
 
     test('a news item opens its own page', async ({ page }) => {
         await mockSupabase(page);
         await page.goto('/');
 
-        await page.getByRole('link', { name: "Lire l'actualité : Convention de Montpellier" }).click();
+        await page.getByRole('link', { name: 'Convention de Montpellier', exact: true }).click();
 
         await expect(page).toHaveURL(/\/news\/1$/);
         await expect(page.getByRole('heading', { level: 1 })).toHaveText('Convention de Montpellier');
-        await expect(page.locator('.news-detail-meta')).toHaveText('12 octobre 2026 | Montpellier');
+        const header = page.locator('.news-detail-header');
+        await expect(header.locator('time')).toHaveAttribute('datetime', '2026-10-12');
+        await expect(header.locator('time')).toHaveText('12 oct. 2026');
+        await expect(header.locator('.news-detail-place')).toHaveText('Lieu : Montpellier');
         // Le contenu est écrit en Markdown
         await expect(page.getByRole('heading', { name: 'Programme' })).toBeVisible();
         await expect(page.locator('.news-detail-body strong')).toHaveText('à prix doux');
         await expect(page).toHaveTitle(/^Convention de Montpellier/);
     });
 
-    test('project page shows the latest news in a grid, then the older ones', async ({ page }) => {
+    test('project page lists every news item, newest first', async ({ page }) => {
         await mockSupabase(page);
         await page.goto('/project');
 
-        await expect(page.locator('.news-grid-shop .news-title-shop')).toHaveText(LATEST_THREE);
-        await expect(page.locator('.news-list-row .news-title-shop')).toHaveText(['Guest à Lyon', 'Ouverture des réservations']);
+        const feed = page.getByRole('region', { name: 'Actualités', exact: true });
+        await expect(feed.getByRole('heading', { level: 3 })).toHaveText([...LATEST_THREE, 'Guest à Lyon', 'Ouverture des réservations']);
+        // Le titre est le lien : c'est lui qu'annonce un lecteur d'écran
+        await feed.getByRole('link', { name: 'Guest à Lyon' }).click();
+        await expect(page).toHaveURL(/\/news\/4$/);
     });
 
-    test('an unknown news id leads back to the project page', async ({ page }) => {
+    test('an event without a date says the date is to come', async ({ page }) => {
+        await mockSupabase(page, {
+            news: [
+                NEWS[0],
+                { id: 6, title: 'Soirée de lancement', description: 'Apéro et concert.', category: 'Événement', location: 'À définir', date_event: null, created_at: '2026-01-01T10:00:00Z' },
+                { id: 7, title: 'Carnet de croquis', description: 'Mes recherches.', category: 'Création', date_event: null, created_at: '2026-01-01T10:00:00Z' },
+            ],
+        });
+        await page.goto('/project');
+
+        const party = page.locator('.news-entry', { hasText: 'Soirée de lancement' });
+        await expect(party.locator('.news-stamp')).toHaveText('Date à venir');
+        // Hors événement, pas de date du tout plutôt qu'une annonce trompeuse
+        await expect(page.locator('.news-entry', { hasText: 'Carnet de croquis' }).locator('.news-stamp')).toHaveText('');
+    });
+
+    test('older news wait behind a button', async ({ page }) => {
+        const many = Array.from({ length: 8 }, (_, i) => ({
+            id: 100 + i,
+            title: `Actualité ${i + 1}`,
+            description: 'Résumé.',
+            category: 'Création',
+            date_event: `2026-0${9 - i}-01`,
+            created_at: '2026-01-01T10:00:00Z',
+        }));
+        await mockSupabase(page, { news: many });
+        await page.goto('/project');
+
+        const titles = page.locator('.news-entry__title');
+        await expect(titles).toHaveCount(6);
+        await page.getByRole('button', { name: 'Afficher les plus anciennes (2)' }).click();
+        await expect(titles).toHaveCount(8);
+        // Au clavier, on reprend sur la première actualité qui vient d'apparaître
+        await expect(page.getByRole('link', { name: 'Actualité 7' })).toBeFocused();
+        await expect(page.getByRole('button', { name: /Afficher les plus anciennes/ })).toHaveCount(0);
+    });
+
+    test('a news photo, when given, shows in the list and on its page', async ({ page }) => {
+        const image = 'https://demo.supabase.co/storage/v1/object/public/news/poz.webp';
+        await page.route(image, (route) => route.fulfill({ status: 200, contentType: 'image/webp', body: '' }));
+        await mockSupabase(page, { news: [{ ...NEWS[1], image }] });
+        await page.goto('/project');
+
+        await expect(page.locator('.news-entry__image')).toHaveAttribute('src', image);
+        await page.getByRole('link', { name: 'Convention de Montpellier' }).click();
+        await expect(page.locator('.news-detail-cover')).toHaveAttribute('src', image);
+    });
+
+    test('news content: loose bold and single line breaks are kept as written', async ({ page }) => {
+        // Saisie à la main dans Supabase : espaces à l'intérieur des **, retours à la ligne simples
+        const content = '- Niveau **Débutant **!\n- Niveau Confirmé\n\nAvec bienveillance et** attention**.\n\nPrix :** 60€ **\n**-15% étudiant**';
+        await mockSupabase(page, { news: [{ ...NEWS[1], content }] });
+        await page.goto('/news/1');
+
+        const body = page.locator('.news-detail-body');
+        await expect(body.locator('li')).toHaveText(['Niveau Débutant !', 'Niveau Confirmé']);
+        await expect(body.locator('strong')).toHaveText(['Débutant', 'attention', '60€', '-15% étudiant']);
+        await expect(body).not.toContainText('**');
+        await expect(body.locator('p').last().locator('br')).toHaveCount(1);
+    });
+
+    test('a news page leads to other news and back to the full list', async ({ page }) => {
+        await mockSupabase(page);
+        await page.goto('/news/2');
+
+        const more = page.getByRole('region', { name: 'Autres actualités' });
+        await expect(more.getByRole('heading', { level: 3 })).toHaveText(['Convention de Montpellier', 'Illustration du mois', 'Guest à Lyon']);
+
+        await page.getByRole('link', { name: 'Toutes les actualités' }).click();
+        await expect(page).toHaveURL(/\/project#actualites$/);
+        await expect(page.getByRole('heading', { name: 'Actualités', level: 2, exact: true })).toBeInViewport();
+    });
+
+    test('an unknown news id leads back to the news list', async ({ page }) => {
         await mockSupabase(page);
         await page.goto('/news/999');
 
-        await expect(page).toHaveURL(/\/project$/);
+        await expect(page).toHaveURL(/\/project#actualites$/);
     });
 
     test('no news: the section is not shown', async ({ page }) => {
