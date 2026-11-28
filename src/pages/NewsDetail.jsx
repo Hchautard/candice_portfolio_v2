@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import remarkBreaks from 'remark-breaks';
 import { useData } from '../contexts/DataContext';
 import DocumentTitleSetter from '../utils/title-setter.ts';
 import { tidyMarkdown } from '../utils/markdown';
@@ -12,10 +11,6 @@ import '../styles/NewsDetail.css';
 
 // Sous l'article, de quoi continuer la lecture
 const OTHERS = 3;
-
-// Un retour à la ligne dans Supabase reste un retour à la ligne sur le site (en Markdown pur,
-// il faut une ligne vide ; « 60 € » puis « -15 % étudiant » se retrouvaient sur la même ligne)
-const REMARK_PLUGINS = [remarkBreaks];
 
 export default function NewsDetail() {
     const { id } = useParams();
@@ -56,7 +51,7 @@ export default function NewsDetail() {
                 {item.image && <img className="news-detail-cover" src={item.image} alt="" />}
 
                 <div className="news-detail-body">
-                    <ReactMarkdown remarkPlugins={REMARK_PLUGINS}>{tidyMarkdown(item.content || item.description || '')}</ReactMarkdown>
+                    <ReactMarkdown>{tidyMarkdown(item.content || item.description || '')}</ReactMarkdown>
                 </div>
             </article>
 
