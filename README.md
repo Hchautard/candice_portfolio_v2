@@ -162,7 +162,7 @@ Toutes les variables `REACT_APP_*` finissent dans le JavaScript public : n'y met
 
 | Route        | Description                                       |
 | :----------- | :------------------------------------------------ |
-| `/`          | Accueil avec modèle 3D de machine à tatouer       |
+| `/`          | Accueil : présentation et triptyque Tattoo, Makeup, Créations (machine à tatouer en 3D sur ordinateur) |
 | `/tattoo`    | Galerie de flashs avec distribution de cartes     |
 | `/makeup`    | Looks makeup sur un cylindre qui tourne au défilement |
 | `/project`   | Présentation du futur salon L'Anomalie            |

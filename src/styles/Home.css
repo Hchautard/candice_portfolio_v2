@@ -23,55 +23,47 @@
 .Home h1 {
     font-family: "Alice_Wonderland_2", serif;
     color: var(--secondary);
-    font-size: calc(var(--xxxlarge) - 10px);
+    font-size: clamp(2.6rem, 3.8vw, 4.4rem);
+    line-height: 1.05;
     text-align: left;
+    margin-bottom: 0.45em;
 }
 
-/* ===== LAYOUT CONTAINERS ===== */
+/* ===== LAYOUT ===== */
+/* Présentation puis triptyque, l'un sous l'autre ; côte à côte sur les grands écrans */
 .banner {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 95vh;
-    width: auto;
-    position: relative;
-    padding: 0 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(32px, 4vw, 56px);
+    align-items: center;
+    max-width: 1500px;
+    min-height: calc(100svh - 5vh - 20px);
+    margin: 0 auto;
+    padding: clamp(24px, 4vh, 48px) 20px 48px;
     box-sizing: border-box;
 }
 
+@media (min-width: 1200px) {
+    .banner {
+        grid-template-columns: minmax(340px, 0.75fr) 1.6fr;
+        padding-inline: 40px;
+    }
+}
+
 .text-container {
-    margin-left: 10%;
+    max-width: 640px;
     text-align: left;
-    width: 50%;
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(5px);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    padding: 50px;
+    padding: clamp(28px, 3vw, 44px);
 }
 
 .text {
-    margin-bottom: 20px;
-    max-width: 85%;
-    font-size: var(--large);
-}
-
-@media screen and (min-width: 768px) and (max-width: 1700px) {
-    .Home h1 {
-        font-size: calc(var(--xxlarge));
-    }
-
-    .text {
-        font-size: calc(var(--medium-large) + 4px);
-    }
-}
-
-.model-container {
-    width: 30%;
-    height: 70vh;
-    margin-bottom: 100px;
-    position: relative;
-    z-index: 1;
+    margin-bottom: 14px;
+    font-size: clamp(1.05rem, 1.25vw, 1.3rem);
+    line-height: 1.55;
 }
 
 /* ===== INTERACTIVE ELEMENTS ===== */
@@ -92,7 +84,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 1rem 1.25rem;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 .content-container .button,
@@ -140,23 +132,123 @@
     border-color: var(--accent);
 }
 
-/* Pages du portfolio : liens discrets, ils sont aussi dans le menu */
-.Home .hero-explore {
-    margin: 1.25rem 0 0;
-    font-size: var(--medium);
+/* ===== TRIPTYQUE (components/Triptych.jsx) ===== */
+/* Trois panneaux en arc brisé, comme un retable : le central (Makeup) plus large et plus haut,
+   les bases alignées. Sous chaque arc, un cartel avec le titre et l'action. */
+/* min-width: 0 : sur téléphone, la rangée défile au lieu d'élargir la page */
+.triptych {
+    width: min(100%, 980px);
+    min-width: 0;
+    justify-self: center;
+}
+
+.triptych__panels {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    align-items: end;
+    gap: clamp(14px, 2vw, 32px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.triptych__link {
+    display: flex;
+    flex-direction: column;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.triptych__link:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 6px;
+}
+
+/* Arc brisé : même masque pour le liseré crème et la photo, étiré à la taille du panneau */
+.triptych__frame,
+.triptych__window {
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 140' preserveAspectRatio='none'%3E%3Cpath d='M0 140V56C0 28 28 14 50 0c22 14 50 28 50 56v84z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+
+.triptych__frame {
+    aspect-ratio: 3 / 4.2;
+    padding: 3px;
+    background: rgba(var(--primary-rgba), 0.75);
+}
+
+.triptych__panel--makeup .triptych__frame {
+    aspect-ratio: 3 / 4.6;
+}
+
+.triptych__window {
+    position: relative;
+    height: 100%;
+    background: #1c0605;
+}
+
+.triptych__photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 400ms var(--ease-out, ease-out), filter 400ms var(--ease-out, ease-out);
+}
+
+/* La machine à tatouer en 3D flotte devant la photo du tatouage, assombrie */
+.triptych__window .model-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.triptych__window:has(.model-container canvas) .triptych__photo {
+    filter: brightness(0.4) saturate(0.7);
+}
+
+.triptych__plaque {
+    margin-top: 14px;
+    padding: 14px 16px 16px;
+    border-radius: 4px;
+    background: rgba(var(--primary-rgba), 0.9);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
     color: var(--secondary);
+    text-align: center;
+}
 
-    a {
-        color: inherit;
-        text-decoration: underline;
-        text-underline-offset: 4px;
-        text-decoration-color: rgba(var(--secondary-rgba), 0.45);
-        transition: color 0.2s ease, text-decoration-color 0.2s ease;
+.triptych__title {
+    margin: 0 0 6px;
+    font-family: "Alice_Wonderland_2", serif;
+    font-size: clamp(1.8rem, 2.4vw, 2.5rem);
+    font-weight: normal;
+    line-height: 1;
+}
 
-        &:hover {
-            color: var(--accent);
-            text-decoration-color: currentColor;
-        }
+.triptych__text {
+    max-width: 30ch;
+    margin: 0 auto 10px;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    text-align: center;
+}
+
+.triptych__action {
+    font-family: "Alice_Wonderland_2", serif;
+    font-size: 1.2rem;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    transition: text-decoration-thickness 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .triptych__link:hover .triptych__photo {
+        transform: scale(1.04);
+    }
+
+    .triptych__link:hover .triptych__action {
+        text-decoration-thickness: 2px;
     }
 }
 
@@ -179,38 +271,14 @@
     .banner {
         min-height: auto;
         padding: 3rem 15px;
-        justify-content: center;
-    }
-
-    .banner-content {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .content-container {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
     }
 
     .text-container {
-        margin-left: 0;
         width: 100%;
         max-width: 100%;
         padding: 2rem 1.5rem;
         text-align: center;
-        margin-bottom: 0;
-    }
-
-    .text {
-        max-width: 100%;
-        margin-bottom: 1.5rem;
-        font-size: var(--medium);
-    }
-
-    .model-container {
-        display: none;
+        box-sizing: border-box;
     }
 
     .cta-buttons {
@@ -228,8 +296,25 @@
         font-size: var(--medium-large);
     }
 
-    .Home .hero-explore {
-        text-align: left;
+    /* Triptyque : les panneaux défilent côte à côte, le suivant dépasse au bord de l'écran */
+    .triptych__panels {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: 72%;
+        margin-inline: -15px;
+        padding: 4px 14% 12px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: 14%;
+    }
+
+    .triptych__panel {
+        scroll-snap-align: center;
+    }
+
+    .Home .triptych__text {
+        text-align: center;
     }
 
     /* Background mobile optimization */
